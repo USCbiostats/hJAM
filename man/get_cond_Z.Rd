@@ -24,3 +24,6 @@ data(betas.Gy)
 data(marginal_Z)
 get_cond_Z(marginal_Z = marginal_Z, Gl = Gl, N.Gx = 1000, ridgeTerm = TRUE)
 }
+\author{
+Lai Jiang
+}
