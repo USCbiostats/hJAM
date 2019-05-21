@@ -7,6 +7,7 @@
 #' @param Gl the reference panel (Gl), such as 1000 Genome
 #' @param N.Gx the sample size of the Gx. It can be a scalar.
 #' @param ridgeTerm ridgeTerm = T when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as True.
+#' @author Lai Jiang
 #'
 #' @examples
 #' data(reference_data)
