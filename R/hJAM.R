@@ -5,16 +5,16 @@
 #' @param N.Gy the sample size of Gy
 #' @param Gl the reference panel (Gl), such as 1000 Genome
 #' @param Z the Z matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)
-#' @param ridgeTerm ridgeTerm = T when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as True.
+#' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE
 #' @author Lai Jiang
 #'
 #' @examples
 #' data(reference_data)
 #' data(betas.Gy)
 #' data(conditional_Z)
-#' hJAM(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = T)
+#' hJAM(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = FALSE)
 
-hJAM = function(betas.Gy, N.Gy, Gl, Z, ridgeTerm = T) {
+hJAM = function(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE) {
 
     # Check the dimension of betas.Gy, Gl and Z
     dim_betas = length(betas.Gy)

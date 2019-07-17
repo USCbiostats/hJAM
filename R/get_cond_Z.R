@@ -4,7 +4,7 @@
 #' @param marginal_Z the marginal effects of SNPs on the exposures (Gx).
 #' @param Gl the reference panel (Gl), such as 1000 Genome
 #' @param N.Gx the sample size of each Gx. It can be a scalar or a vector. If there are multiple X's from different Gx, it should be a vector including the sample size of each Gx. If all alphas are from the same Gx, it could be a scalar.
-#' @param ridgeTerm ridgeTerm = T when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as True.
+#' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
 #' @author Lai Jiang
 #'
 #' @examples
@@ -13,7 +13,7 @@
 #' data(marginal_Z)
 #' get_cond_Z(marginal_Z = marginal_Z, Gl = Gl, N.Gx = 1000, ridgeTerm = TRUE)
 
-get_cond_Z =  function(marginal_Z, Gl, N.Gx, ridgeTerm = T){
+get_cond_Z =  function(marginal_Z, Gl, N.Gx, ridgeTerm = FALSE){
 
   if(ncol(marginal_Z) == "NULL"){
     cat("! Please use get_cond_alpha instead of get_cond_Z.")
