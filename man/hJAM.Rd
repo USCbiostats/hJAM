@@ -4,7 +4,7 @@
 \alias{hJAM}
 \title{Fit hJAM}
 \usage{
-hJAM(betas.Gy, N.Gy, Gl, Z, ridgeTerm = T)
+hJAM(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE)
 }
 \arguments{
 \item{betas.Gy}{the betas in the paper: the marginal effects of SNPs on the phenotype (Gy)}
@@ -15,7 +15,7 @@ hJAM(betas.Gy, N.Gy, Gl, Z, ridgeTerm = T)
 
 \item{Z}{the Z matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)}
 
-\item{ridgeTerm}{ridgeTerm = T when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as True.}
+\item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE}
 }
 \description{
 The hJAM function is to get the results from the hJAM model using input data
@@ -24,7 +24,7 @@ The hJAM function is to get the results from the hJAM model using input data
 data(reference_data)
 data(betas.Gy)
 data(conditional_Z)
-hJAM(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = T)
+hJAM(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = FALSE)
 }
 \author{
 Lai Jiang

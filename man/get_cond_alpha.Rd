@@ -4,7 +4,7 @@
 \alias{get_cond_alpha}
 \title{Compute conditional alphas}
 \usage{
-get_cond_alpha(alphas, Gl, N.Gx, ridgeTerm = T)
+get_cond_alpha(alphas, Gl, N.Gx, ridgeTerm = FALSE)
 }
 \arguments{
 \item{alphas}{the marginal effects of SNPs on one exposure (Gx).}
@@ -13,7 +13,7 @@ get_cond_alpha(alphas, Gl, N.Gx, ridgeTerm = T)
 
 \item{N.Gx}{the sample size of the Gx. It can be a scalar.}
 
-\item{ridgeTerm}{ridgeTerm = T when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as True.}
+\item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE}
 }
 \description{
 The get_cond_alpha function is to compute the conditional alpha vector for each X

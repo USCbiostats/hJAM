@@ -4,7 +4,7 @@
 \alias{get_cond_Z}
 \title{Compute conditional Z matrix}
 \usage{
-get_cond_Z(marginal_Z, Gl, N.Gx, ridgeTerm = T)
+get_cond_Z(marginal_Z, Gl, N.Gx, ridgeTerm = FALSE)
 }
 \arguments{
 \item{marginal_Z}{the marginal effects of SNPs on the exposures (Gx).}
@@ -13,7 +13,7 @@ get_cond_Z(marginal_Z, Gl, N.Gx, ridgeTerm = T)
 
 \item{N.Gx}{the sample size of each Gx. It can be a scalar or a vector. If there are multiple X's from different Gx, it should be a vector including the sample size of each Gx. If all alphas are from the same Gx, it could be a scalar.}
 
-\item{ridgeTerm}{ridgeTerm = T when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as True.}
+\item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.}
 }
 \description{
 The get_condZ function is to get the conditional Z matrix by using marginal Z matrix
