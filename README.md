@@ -45,13 +45,13 @@ After obtained the conditional Z matrix, fit hJAM model with function `hJAM`.
 hJAM(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = T)
 #> $Estimate
 #>         X1         X2 
-#> 0.06600536 0.03975728 
+#> 0.04243959 0.11365449 
 #> 
 #> $StdErr
-#>          X1          X2 
-#> 0.009699963 0.008280250 
+#>         X1         X2 
+#> 0.01855368 0.01949630 
 #> 
 #> $Pvalue
 #>           X1           X2 
-#> 2.263574e-06 1.429418e-04
+#> 3.526250e-02 2.010226e-05
 ```
