@@ -77,7 +77,7 @@ hJAM_sparse = function(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9, trait.va
     se_beta_temp = diag(solve(xTx))
     se.XY = sapply(se_beta_temp, function(x) sqrt(g*est_sigma2/(1+g)*x))
 
-    pvalues.XY = 1 - pnorm(abs(betas.XY/se.XY))
+    pvalues.XY = 2*(1 - pnorm(abs(betas.XY/se.XY)))
 
     return(list(
       Estimate = betas.XY,
