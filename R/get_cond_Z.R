@@ -17,7 +17,7 @@ get_cond_Z =  function(marginal_Z, Gl, N.Gx, ridgeTerm = FALSE){
 
   if(ncol(marginal_Z) == "NULL"){
     cat("! Please use get_cond_alpha instead of get_cond_Z.")
-  }else if(N.Gx != ncol(marginal_Z) & length(N.Gx) != 1){
+  }else if(length(N.Gx) != 1 & length(N.Gx) != ncol(marginal_Z) ){
     cat("! ERROR: The length of the sample size of each Gx is different from the number of X in marginal Z matrix")
   }else if(nrow(marginal_Z) != ncol(Gl)){
     cat("! ERROR: The number of SNPs in marignal Z matrix and the reference panel (Gl) are different.")
