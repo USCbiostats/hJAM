@@ -15,7 +15,7 @@
 #' data(reference_data)
 #' data(betas.Gy)
 #' data(conditional_Z)
-#' hJAM_sparse(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = TRUE)
+#' hJAM(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = TRUE)
 
 hJAM = function(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9, trait.variance = 1, ridgeTerm = FALSE) {
 

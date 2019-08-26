@@ -31,7 +31,7 @@ The hJAM function is to get the results from the hJAM model using input data
 data(reference_data)
 data(betas.Gy)
 data(conditional_Z)
-hJAM_sparse(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = TRUE)
+hJAM(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = TRUE)
 }
 \author{
 Lai Jiang
