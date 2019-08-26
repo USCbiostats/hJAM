@@ -7,7 +7,7 @@
 #' @param Z The Z matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)
 #' @param a_sigma The scale parameter of the prior, default = 1
 #' @param b_sigma The scale parameter of the prior, default = 9
-#' @param trait.variance The variance of the outcome, default = 1
+#' @param trait.variance The variance of the trait (outcome), default = 1
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
 #' @author Lai Jiang
 #'
@@ -17,7 +17,7 @@
 #' data(conditional_Z)
 #' hJAM_sparse(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = TRUE)
 
-hJAM_sparse = function(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9, trait.variance = 1, ridgeTerm = FALSE) {
+hJAM = function(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9, trait.variance = 1, ridgeTerm = FALSE) {
 
   # Check the dimension of betas.Gy, Gl and Z
   dim_betas = length(betas.Gy)
