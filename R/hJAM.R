@@ -79,11 +79,11 @@ hJAM_gprior = function(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9, trait.va
 
     pvalues.XY = 2*(1 - pnorm(abs(betas.XY/se.XY)))
 
-    return(list(
-      Estimate = betas.XY,
-      StdErr = se.XY,
-      Pvalue = pvalues.XY)
-    )
+    res = list(Estimate = betas.XY,
+               StdErr = se.XY,
+               Pvalue = pvalues.XY)
+    class(res) <- "hJAM"
+    return(res)
   }else{
     cat("ERROR: The number of SNPs in betas.Gy, Z matrix and the reference panel (Gl) are different.")
   }
