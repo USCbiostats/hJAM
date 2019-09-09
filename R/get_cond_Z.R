@@ -6,6 +6,7 @@
 #' @param N.Gx the sample size of each Gx. It can be a scalar or a vector. If there are multiple X's from different Gx, it should be a vector including the sample size of each Gx. If all alphas are from the same Gx, it could be a scalar.
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
 #' @author Lai Jiang
+#' @export
 #'
 #' @examples
 #' data(reference_data)
@@ -61,6 +62,7 @@ get_cond_Z =  function(marginal_Z, Gl, N.Gx, ridgeTerm = FALSE){
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE
 #' @author Lai Jiang
 #'
+#' @export
 #' @examples
 #' data(reference_data)
 #' data(betas.Gy)
@@ -99,7 +101,7 @@ get_cond_alpha = function(alphas, Gl, N.Gx, ridgeTerm = FALSE){
   zL = solve(t(L))%*%z
 
   # Get the conditional alpha vectors
-  cond_alphas = summary(lm(zL ~ 0 + L))$coef[ ,1]
+  cond_alphas = summary(stats::lm(zL ~ 0 + L))$coef[ ,1]
 
   return(cond_alphas)
 }

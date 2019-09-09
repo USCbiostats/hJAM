@@ -31,7 +31,8 @@ The hJAM function is to get the results from the hJAM model using input data
 data(reference_data)
 data(betas.Gy)
 data(conditional_Z)
-hJAM_gprior(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z,a_sigma = 1, b_sigma = 9, trait.variance = 1, ridgeTerm = TRUE)
+hJAM_gprior(betas.Gy, Gl, N.Gy = 5000, Z = conditional_Z,a_sigma = 1,
+b_sigma = 9, trait.variance = 1, ridgeTerm = TRUE)
 }
 \author{
 Lai Jiang

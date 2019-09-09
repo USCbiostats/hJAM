@@ -11,11 +11,13 @@
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
 #' @author Lai Jiang
 #'
+#' @export
 #' @examples
 #' data(reference_data)
 #' data(betas.Gy)
 #' data(conditional_Z)
-#' hJAM_gprior(betas.Gy, Gl, N.Gy = 5000, Z = conditional_Z,a_sigma = 1, b_sigma = 9, trait.variance = 1, ridgeTerm = TRUE)
+#' hJAM_gprior(betas.Gy, Gl, N.Gy = 5000, Z = conditional_Z,a_sigma = 1,
+#' b_sigma = 9, trait.variance = 1, ridgeTerm = TRUE)
 
 hJAM_gprior = function(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9, trait.variance = 1, ridgeTerm = FALSE) {
 

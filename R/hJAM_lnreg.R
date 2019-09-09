@@ -9,6 +9,8 @@
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
 #' @author Lai Jiang
 #'
+#' @export
+#' @importFrom stats lm pnorm
 #' @examples
 #' data(reference_data)
 #' data(betas.Gy)
