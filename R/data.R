@@ -1,9 +1,25 @@
-#' Title
+#' Example reference data of hJAM
 #'
-#' desctription of the data set
+#' The simulated data for the examples in hJAM package
 #'
-#' @format A dataframe with babalala
+#' @docType data
 #'
+#' @usage data(Gl)
+#'
+#' @format The \code{Gl} object is a data matrix with 500 individual of 19 simulated genotypes.
 "Gl"
 
-#' look into the stat:::print.lm and the format function: ?format()
+#' Example beta list of hJAM
+#'
+#' The simulated beta list for the examples in hJAM package
+"betas.Gy"
+
+#' Example conditional Z matrix of hJAM
+#'
+#' The conditional Z matrix for the examples in hJAM package
+"conditional_Z"
+
+#' Example marginal Z matrix of hJAM
+#'
+#' The marginal Z matrix for the examples in hJAM package
+"marginal_Z"
