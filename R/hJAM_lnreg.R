@@ -1,5 +1,5 @@
 #hJAM_lnreg
-#' Fit hJAM
+#' Fit hJAM with linear regression
 #' @description The hJAM function is to get the results from the hJAM model using input data
 #'
 #' @param betas.Gy The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)

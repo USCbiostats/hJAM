@@ -1,5 +1,5 @@
 #hJAM_egger
-#' Fit hJAM
+#' Fit hJAM with Egger regression
 #' @description The hJAM_egger function is to get the results from the hJAM model with Egger regression. It is for detecting potential pleiotropy
 #'
 #' @param betas.Gy The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)

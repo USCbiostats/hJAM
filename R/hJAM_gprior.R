@@ -1,4 +1,4 @@
-#' Fit hJAM
+#' Fit hJAM with putting gprior on the parameter (a Bayesian approach)
 #' @description The hJAM function is to get the results from the hJAM model using input data
 #'
 #' @param betas.Gy The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)

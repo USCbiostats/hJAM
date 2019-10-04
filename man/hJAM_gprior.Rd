@@ -2,7 +2,7 @@
 % Please edit documentation in R/hJAM_gprior.R
 \name{hJAM_gprior}
 \alias{hJAM_gprior}
-\title{Fit hJAM}
+\title{Fit hJAM with putting gprior on the parameter (a Bayesian approach)}
 \usage{
 hJAM_gprior(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9,
   trait.variance = 1, ridgeTerm = FALSE)
