@@ -2,6 +2,7 @@
 
 export(get_cond_Z)
 export(get_cond_alpha)
+export(hJAM_egger)
 export(hJAM_gprior)
 export(hJAM_lnreg)
 importFrom(stats,lm)
