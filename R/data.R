@@ -4,8 +4,6 @@
 #'
 #' @docType data
 #'
-#' @usage data(Gl)
-#'
 #' @format The \code{Gl} object is a data matrix with 500 individual of 19 simulated genotypes.
 "Gl"
 

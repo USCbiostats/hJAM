@@ -6,7 +6,7 @@
 \title{Example reference data of hJAM}
 \format{The \code{Gl} object is a data matrix with 500 individual of 19 simulated genotypes.}
 \usage{
-data(Gl)
+Gl
 }
 \description{
 The simulated data for the examples in hJAM package
