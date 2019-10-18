@@ -10,7 +10,7 @@ print.hJAM_lnreg <- function(x, ...) {
   rownames(output) <- substr(rownames(output), 2, nchar(rownames(output)))
 
   print(output)
-  cat("\n\n")
+  cat("--------------------------------------------", "\n\n")
 }
 #' @export
 print.hJAM_gprior <- function(x, ...) {
@@ -24,7 +24,7 @@ print.hJAM_gprior <- function(x, ...) {
   rownames(output) <- substr(rownames(output), 2, nchar(rownames(output)))
 
   print(output)
-  cat("\n\n")
+  cat("--------------------------------------------", "\n\n")
 }
 #' @export
 print.hJAM_egger <- function(x, ...) {
@@ -43,5 +43,5 @@ print.hJAM_egger <- function(x, ...) {
   int_output = cbind(x$Est.Int, x$StdErr.Int, x$Pvalue.Int)
   colnames(int_output) = c("Est.Int", "StdErr.Int", "Pvalue.Int")
   print(int_output)
-  cat("\n\n")
+  cat("--------------------------------------------", "\n\n")
 }
