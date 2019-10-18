@@ -67,14 +67,17 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE) {
     se.int = summary(lm(zL ~ 0 + X))$coef[1,2]
     pvalues.int = summary(lm(zL ~ 0 + X))$coef[1,4]
 
-    return(list(
+    out <- list(
+      Exposure = colnames(Z),
+      numSNP = nrow(X),
       Estimate = betas.XY,
       StdErr = se.XY,
       Pvalue = pvalues.XY,
       Est.Int = betas.int,
       StdErr.Int = se.int,
       Pvalue.Int = pvalues.int)
-    )
+    class(out) <- "hJAM_egger"
+    return(out)
   }else{
     cat("ERROR: The number of SNPs in betas.Gy, Z matrix and the reference panel (Gl) are different.")
   }

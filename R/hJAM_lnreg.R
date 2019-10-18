@@ -64,10 +64,12 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE) {
     pvalues.XY = summary(lm(zL ~ 0 + X))$coef[,4]
 
     out <- list(
+      Exposure = colnames(Z),
+      numSNP = nrow(X),
       Estimate = betas.XY,
       StdErr = se.XY,
       Pvalue = pvalues.XY)
-    class(out) <- "hJAM"
+    class(out) <- "hJAM_lnreg"
     return(out)
   }else{
     cat("ERROR: The number of SNPs in betas.Gy, Z matrix and the reference panel (Gl) are different.")
