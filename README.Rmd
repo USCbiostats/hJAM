@@ -51,6 +51,6 @@ After obtained the conditional Z matrix, fit hJAM model with function ``hJAM``.
 
 ```{r fit_hJAM}
 # fit the hJAM model
-hJAM(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = T)
+hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = T)
 ```
 

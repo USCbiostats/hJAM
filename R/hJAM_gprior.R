@@ -83,7 +83,7 @@ hJAM_gprior = function(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9, trait.va
 
     out <- list(
       Exposure = colnames(Z),
-      numSNP = nrow(X),
+      numSNP = ncol(Z),
       Estimate = betas.XY,
       StdErr = se.XY,
       Pvalue = pvalues.XY)

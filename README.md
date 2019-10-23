@@ -42,16 +42,14 @@ After obtained the conditional Z matrix, fit hJAM model with function `hJAM`.
 
 ``` r
 # fit the hJAM model
-hJAM(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = T)
-#> $Estimate
-#>         X1         X2 
-#> 0.04243959 0.11365449 
+hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = T)
+#> -------------------------------------------- 
+#>                 hJAM output                  
+#> -------------------------------------------- 
+#> Number of SNPs used in model: 19 
 #> 
-#> $StdErr
-#>         X1         X2 
-#> 0.01855368 0.01949630 
-#> 
-#> $Pvalue
-#>           X1           X2 
-#> 3.526250e-02 2.010226e-05
+#>              Estimate     StdErr       Pvalue
+#> Exposure 1 0.04243959 0.01855368 3.526250e-02
+#> Exposure 2 0.11365449 0.01949630 2.010226e-05
+#> --------------------------------------------
 ```
