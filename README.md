@@ -64,7 +64,6 @@ hJAM_egger(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTe
 #> -------------------------------------------- 
 #> Number of SNPs used in model: 19 
 #> 
-#> Exposures
 #>              Estimate     StdErr       Pvalue
 #> Exposure 1 0.04411007 0.01802767 2.634095e-02
 #> Exposure 2 0.10587960 0.01965768 6.058969e-05

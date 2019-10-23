@@ -34,7 +34,6 @@ print.hJAM_egger <- function(x, ...) {
 
   cat(paste0("Number of SNPs used in model: ", x$numSNP), "\n\n")
 
-  cat("Exposures\n")
   exp_output = as.data.frame(unclass(x))[c(3, 4, 5)]
   rownames(exp_output) <- substr(rownames(exp_output), 2, nchar(rownames(exp_output)))
   print(exp_output)
