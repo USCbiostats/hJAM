@@ -63,9 +63,15 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE) {
     se.XY = summary(lm(zL ~ 0 + X))$coef[-1,2]
     pvalues.XY = summary(lm(zL ~ 0 + X))$coef[-1,4]
 
+    lower.ci = confint((lm(zL ~ 0 + X)))[-1, 1]
+    upper.ci = confint((lm(zL ~ 0 + X)))[-1, 2]
+
     betas.int = summary(lm(zL ~ 0 + X))$coef[1,1]
     se.int = summary(lm(zL ~ 0 + X))$coef[1,2]
     pvalues.int = summary(lm(zL ~ 0 + X))$coef[1,4]
+
+    lower.ci.int = confint((lm(zL ~ 0 + X)))[1, 1]
+    upper.ci.int = confint((lm(zL ~ 0 + X)))[1, 2]
 
     out <- list(
       Exposure = colnames(Z),
@@ -73,8 +79,12 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE) {
       Estimate = betas.XY,
       StdErr = se.XY,
       Pvalue = pvalues.XY,
+      Lower.CI = lower.ci,
+      Upper.CI = upper.ci,
       Est.Int = betas.int,
       StdErr.Int = se.int,
+      Lower.CI.Int = lower.ci.int,
+      Upper.CI.Int = upper.ci.int,
       Pvalue.Int = pvalues.int)
     class(out) <- "hJAM_egger"
     return(out)

@@ -63,11 +63,16 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE) {
     se.XY = summary(lm(zL ~ 0 + X))$coef[,2]
     pvalues.XY = summary(lm(zL ~ 0 + X))$coef[,4]
 
+    lower.ci = confint((lm(zL ~ 0 + X)))[, 1]
+    upper.ci = confint((lm(zL ~ 0 + X)))[, 2]
+
     out <- list(
       Exposure = colnames(Z),
       numSNP = nrow(X),
       Estimate = betas.XY,
       StdErr = se.XY,
+      Lower.CI = lower.ci,
+      Upper.CI = upper.ci,
       Pvalue = pvalues.XY)
     class(out) <- "hJAM_lnreg"
     return(out)

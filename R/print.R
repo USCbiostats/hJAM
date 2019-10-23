@@ -1,16 +1,24 @@
 #' @export
+output.format = function(x, ...){
+  return(round(x, digits = 3))
+}
+#' @export
 print.hJAM_lnreg <- function(x, ...) {
-  cat("--------------------------------------------", "\n")
-  cat("                hJAM output                 ", "\n")
-  cat("--------------------------------------------", "\n")
+  cat("------------------------------------------------------", "\n")
+  cat("                   hJAM output                        ", "\n")
+  cat("------------------------------------------------------", "\n")
 
   cat(paste0("Number of SNPs used in model: ", x$numSNP), "\n\n")
 
-  output =  as.data.frame(unclass(x))[c(3, 4, 5)]
-  rownames(output) <- substr(rownames(output), 2, nchar(rownames(output)))
+  output =  as.data.frame(unclass(x))[c(3:7)]
+  output$'95% CI' = paste0("(", output.format(output$Lower.CI), ", ", output.format(output$Upper.CI), ")")
 
-  print(output)
-  cat("--------------------------------------------", "\n\n")
+  outprint = output[, c('Estimate', 'StdErr', '95% CI', 'Pvalue')]
+  outprint[, c(1:2)] = sapply(outprint[, c(1,2)], function(x) output.format(x))
+  rownames(outprint) <- substr(rownames(outprint), 2, nchar(rownames(outprint)))
+
+  print(outprint)
+  cat("------------------------------------------------------", "\n\n")
 }
 #' @export
 print.hJAM_gprior <- function(x, ...) {
@@ -28,19 +36,25 @@ print.hJAM_gprior <- function(x, ...) {
 }
 #' @export
 print.hJAM_egger <- function(x, ...) {
-  cat("--------------------------------------------", "\n")
-  cat("             hJAM egger output              ", "\n")
-  cat("--------------------------------------------", "\n")
+  cat("------------------------------------------------------", "\n")
+  cat("                   hJAM egger output                  ", "\n")
+  cat("------------------------------------------------------", "\n")
 
   cat(paste0("Number of SNPs used in model: ", x$numSNP), "\n\n")
 
-  exp_output = as.data.frame(unclass(x))[c(3, 4, 5)]
+  output =  as.data.frame(unclass(x))[c(3:12)]
+  output$'95% CI' = paste0("(", output.format(output$Lower.CI), ", ", output.format(output$Upper.CI), ")")
+  int.95ci = paste0("(", output.format(x$Lower.CI.Int), ", ", output.format(x$Upper.CI.Int), ")")
+
+  exp_output = output[, c('Estimate', 'StdErr', '95% CI', 'Pvalue')]
+  exp_output[, c(1:2)] = sapply(exp_output[, c(1,2)], function(x) output.format(x))
   rownames(exp_output) <- substr(rownames(exp_output), 2, nchar(rownames(exp_output)))
   print(exp_output)
 
   cat("\nIntercept\n")
-  int_output = cbind(x$Est.Int, x$StdErr.Int, x$Pvalue.Int)
-  colnames(int_output) = c("Est.Int", "StdErr.Int", "Pvalue.Int")
+  int_output = cbind(as.numeric(output.format(x$Est.Int)), as.numeric(output.format(x$StdErr.Int)),
+                     int.95ci, as.numeric(output.format(x$Pvalue.Int)))
+  colnames(int_output) = c("Est.Int", "StdErr.Int", "95% CI.Int", "Pvalue.Int")
   print(int_output)
-  cat("--------------------------------------------", "\n\n")
+  cat("------------------------------------------------------", "\n\n")
 }
