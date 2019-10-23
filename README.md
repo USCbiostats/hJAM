@@ -38,7 +38,7 @@ conditional_Z = get_cond_Z(marginal_Z = marginal_Z, Gl = Gl, N.Gx = 1000, ridgeT
 conditional_alpha = get_cond_alpha(alphas = marginal_Z[, 1], Gl = Gl, N.Gx = 1000, ridgeTerm = T)
 ```
 
-After obtained the conditional Z matrix, fit hJAM model with function `hJAM`.
+After obtained the conditional Z matrix, fit hJAM model with function `hJAM_lnreg`.
 
 ``` r
 # fit the hJAM model
@@ -51,5 +51,26 @@ hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTe
 #>              Estimate     StdErr       Pvalue
 #> Exposure 1 0.04243959 0.01855368 3.526250e-02
 #> Exposure 2 0.11365449 0.01949630 2.010226e-05
+#> --------------------------------------------
+```
+
+In the package, you could also implement hJAM with Egger regression, which is designed to detect the unmeasured pleiotropy effect. The function for hJAM with Egger regression is `hJAM_egger`.
+
+``` r
+# fit the hJAM model
+hJAM_egger(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = T)
+#> -------------------------------------------- 
+#>              hJAM egger output               
+#> -------------------------------------------- 
+#> Number of SNPs used in model: 19 
+#> 
+#> Exposures
+#>              Estimate     StdErr       Pvalue
+#> Exposure 1 0.04411007 0.01802767 2.634095e-02
+#> Exposure 2 0.10587960 0.01965768 6.058969e-05
+#> 
+#> Intercept
+#>         Est.Int StdErr.Int Pvalue.Int
+#> [1,] -0.8951416  0.6205016  0.1684211
 #> --------------------------------------------
 ```

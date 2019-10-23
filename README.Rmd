@@ -47,10 +47,18 @@ conditional_Z = get_cond_Z(marginal_Z = marginal_Z, Gl = Gl, N.Gx = 1000, ridgeT
 conditional_alpha = get_cond_alpha(alphas = marginal_Z[, 1], Gl = Gl, N.Gx = 1000, ridgeTerm = T)
 ```
 
-After obtained the conditional Z matrix, fit hJAM model with function ``hJAM``.
+After obtained the conditional Z matrix, fit hJAM model with function ``hJAM_lnreg``.
 
 ```{r fit_hJAM}
 # fit the hJAM model
 hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = T)
 ```
+
+In the package, you could also implement hJAM with Egger regression, which is designed to detect the unmeasured pleiotropy effect. The function for hJAM with Egger regression is ``hJAM_egger``.
+
+```{r fit_hJAMegger}
+# fit the hJAM model
+hJAM_egger(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = T)
+```
+
 
