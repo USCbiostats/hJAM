@@ -4,7 +4,7 @@
 #' @param betas.Gy The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)
 #' @param N.Gy The sample size of Gy
 #' @param Gl The reference panel (Gl), such as 1000 Genome
-#' @param Z The Z matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)
+#' @param A The A matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)
 #' @param a_sigma The scale parameter of the prior, default = 1
 #' @param b_sigma The scale parameter of the prior, default = 9
 #' @param trait.variance The variance of the trait (outcome), default = 1
@@ -15,18 +15,18 @@
 #' @examples
 #' data(reference_data)
 #' data(betas.Gy)
-#' data(conditional_Z)
-#' hJAM_gprior(betas.Gy, Gl, N.Gy = 5000, Z = conditional_Z,a_sigma = 1,
+#' data(conditional_A)
+#' hJAM_gprior(betas.Gy, Gl, N.Gy = 5000, A = conditional_A,a_sigma = 1,
 #' b_sigma = 9, trait.variance = 1, ridgeTerm = TRUE)
 
-hJAM_gprior = function(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9, trait.variance = 1, ridgeTerm = FALSE) {
+hJAM_gprior = function(betas.Gy, N.Gy, Gl, A, a_sigma = 1, b_sigma = 9, trait.variance = 1, ridgeTerm = FALSE) {
 
-  # Check the dimension of betas.Gy, Gl and Z
+  # Check the dimension of betas.Gy, Gl and A
   dim_betas = length(betas.Gy)
   dim_Gl = ncol(Gl)
-  dim_Z = nrow(Z)
+  dim_A = nrow(A)
 
-  if(dim_betas == dim_Gl & dim_betas == dim_Z){
+  if(dim_betas == dim_Gl & dim_betas == dim_A){
 
     # The sample size in Gy
     N = N.Gy
@@ -56,8 +56,8 @@ hJAM_gprior = function(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9, trait.va
     G0_t_G0.ridge = G0_t_G0.scaled + ridgeValue*diag(length(betas.Gy))
 
     # For MR-JAM
-    xTx = t(Z)%*% G0_t_G0.ridge %*% Z
-    z = t(Z) %*% z
+    xTx = t(A)%*% G0_t_G0.ridge %*% A
+    z = t(A) %*% z
     g = N.Gy
 
     betas.XY = (solve(xTx) %*% z) *g/(1+g)
@@ -82,14 +82,14 @@ hJAM_gprior = function(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9, trait.va
     pvalues.XY = 2*(1 - pnorm(abs(betas.XY/se.XY)))
 
     out <- list(
-      Exposure = colnames(Z),
-      numSNP = ncol(Z),
+      Exposure = colnames(A),
+      numSNP = ncol(A),
       Estimate = betas.XY,
       StdErr = se.XY,
       Pvalue = pvalues.XY)
     class(out) <- "hJAM_gprior"
     return(out)
   }else{
-    cat("ERROR: The number of SNPs in betas.Gy, Z matrix and the reference panel (Gl) are different.")
+    cat("ERROR: The number of SNPs in betas.Gy, A matrix and the reference panel (Gl) are different.")
   }
 }

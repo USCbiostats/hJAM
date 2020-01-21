@@ -4,7 +4,7 @@
 \alias{hJAM_lnreg}
 \title{Fit hJAM with linear regression}
 \usage{
-hJAM_lnreg(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE)
+hJAM_lnreg(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE)
 }
 \arguments{
 \item{betas.Gy}{The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)}
@@ -13,7 +13,7 @@ hJAM_lnreg(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE)
 
 \item{Gl}{The reference panel (Gl), such as 1000 Genome}
 
-\item{Z}{The Z matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)}
+\item{A}{The A matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)}
 
 \item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.}
 }
@@ -23,8 +23,8 @@ The hJAM function is to get the results from the hJAM model using input data
 \examples{
 data(reference_data)
 data(betas.Gy)
-data(conditional_Z)
-hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = TRUE)
+data(conditional_A)
+hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, A = conditional_A, ridgeTerm = TRUE)
 }
 \author{
 Lai Jiang

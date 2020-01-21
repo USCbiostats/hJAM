@@ -4,7 +4,7 @@
 \alias{hJAM_gprior}
 \title{Fit hJAM with putting gprior on the parameter (a Bayesian approach)}
 \usage{
-hJAM_gprior(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9,
+hJAM_gprior(betas.Gy, N.Gy, Gl, A, a_sigma = 1, b_sigma = 9,
   trait.variance = 1, ridgeTerm = FALSE)
 }
 \arguments{
@@ -14,7 +14,7 @@ hJAM_gprior(betas.Gy, N.Gy, Gl, Z, a_sigma = 1, b_sigma = 9,
 
 \item{Gl}{The reference panel (Gl), such as 1000 Genome}
 
-\item{Z}{The Z matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)}
+\item{A}{The A matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)}
 
 \item{a_sigma}{The scale parameter of the prior, default = 1}
 
@@ -30,8 +30,8 @@ The hJAM function is to get the results from the hJAM model using input data
 \examples{
 data(reference_data)
 data(betas.Gy)
-data(conditional_Z)
-hJAM_gprior(betas.Gy, Gl, N.Gy = 5000, Z = conditional_Z,a_sigma = 1,
+data(conditional_A)
+hJAM_gprior(betas.Gy, Gl, N.Gy = 5000, A = conditional_A,a_sigma = 1,
 b_sigma = 9, trait.variance = 1, ridgeTerm = TRUE)
 }
 \author{

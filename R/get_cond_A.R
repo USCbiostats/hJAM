@@ -1,60 +1,60 @@
 #' Compute conditional Z matrix
-#' @description The get_condZ function is to get the conditional Z matrix by using marginal Z matrix
+#' @description The get_cond_A function is to get the conditional A matrix by using marginal A matrix
 #'
-#' @param marginal_Z the marginal effects of SNPs on the exposures (Gx).
+#' @param marginal_A the marginal effects of SNPs on the exposures (Gx).
 #' @param Gl the reference panel (Gl), such as 1000 Genome
 #' @param N.Gx the sample size of each Gx. It can be a scalar or a vector. If there are multiple X's from different Gx, it should be a vector including the sample size of each Gx. If all alphas are from the same Gx, it could be a scalar.
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
 #' @author Lai Jiang
-#' @export
 #'
+#' @export
 #' @examples
 #' data(reference_data)
 #' data(betas.Gy)
-#' data(marginal_Z)
-#' get_cond_Z(marginal_Z = marginal_Z, Gl = Gl, N.Gx = 1000, ridgeTerm = TRUE)
+#' data(marginal_A)
+#' get_cond_A(marginal_A = marginal_A, Gl = Gl, N.Gx = 1000, ridgeTerm = TRUE)
 
-get_cond_Z =  function(marginal_Z, Gl, N.Gx, ridgeTerm = FALSE){
+get_cond_A =  function(marginal_A, Gl, N.Gx, ridgeTerm = FALSE){
 
-  if(ncol(marginal_Z) == "NULL"){
-    cat("! Please use get_cond_alpha instead of get_cond_Z.")
-  }else if(length(N.Gx) != 1 && length(N.Gx) != ncol(marginal_Z) ){
-    cat("! ERROR: The length of the sample size of each Gx is different from the number of X in marginal Z matrix")
-  }else if(nrow(marginal_Z) != ncol(Gl)){
-    cat("! ERROR: The number of SNPs in marignal Z matrix and the reference panel (Gl) are different.")
+  if(ncol(marginal_A) == "NULL"){
+    cat("! Please use get_cond_alpha instead of get_cond_A.")
+  }else if(length(N.Gx) != 1 && length(N.Gx) != ncol(marginal_A) ){
+    cat("! ERROR: The length of the sample size of each Gx is different from the number of X in marginal A matrix")
+  }else if(nrow(marginal_A) != ncol(Gl)){
+    cat("! ERROR: The number of SNPs in marignal A matrix and the reference panel (Gl) are different.")
   }else{
 
     # Check the length of N.Gx
-    if(length(N.Gx) != ncol(marginal_Z) && length(N.Gx) == 1){
-      N.Gx = rep(N.Gx, ncol(marginal_Z))
+    if(length(N.Gx) != ncol(marginal_A) && length(N.Gx) == 1){
+      N.Gx = rep(N.Gx, ncol(marginal_A))
     }
 
-    # Check the dimension of Gl and Z
+    # Check the dimension of Gl and A
     dim_Gl = ncol(Gl)
-    dim_Z = nrow(marginal_Z)
+    dim_A = nrow(marginal_A)
 
-    if(dim_Gl == dim_Z){
+    if(dim_Gl == dim_A){
 
       # Obtain the JAM variables: zL and L
-      num_X = ncol(marginal_Z)
-      conditional_Z = marginal_Z
-      for(i_Z in 1:num_X){
+      num_X = ncol(marginal_A)
+      conditional_A = marginal_A
+      for(i_A in 1:num_X){
 
         # Obtain marignal alpha and sample size for X_i
-        alphas = marginal_Z[, i_Z]
-        i_N = N.Gx[i_Z]
+        alphas = marginal_A[, i_A]
+        i_N = N.Gx[i_A]
 
         # Compute the conditional alpha
-        conditional_Z[, i_Z] = get_cond_alpha(alphas, Gl, N.Gx = i_N, ridgeTerm)
+        conditional_A[, i_A] = get_cond_alpha(alphas, Gl, N.Gx = i_N, ridgeTerm)
       }
-      return(conditional_Z)
+      return(conditional_A)
     }}
 }
 
 #' Compute conditional alphas
 #' @description The get_cond_alpha function is to compute the conditional alpha vector for each X
-#' If only one X in the model, please use get_cond_alpha instead of get_cond_Z
-#' A sub-step in the get_cond_Z function
+#' If only one X in the model, please use get_cond_alpha instead of get_cond_A
+#' A sub-step in the get_cond_A function
 #'
 #' @param alphas the marginal effects of SNPs on one exposure (Gx).
 #' @param Gl the reference panel (Gl), such as 1000 Genome
@@ -66,8 +66,8 @@ get_cond_Z =  function(marginal_Z, Gl, N.Gx, ridgeTerm = FALSE){
 #' @examples
 #' data(reference_data)
 #' data(betas.Gy)
-#' data(marginal_Z)
-#' get_cond_alpha(alphas = marginal_Z[, 1], Gl = Gl, N.Gx = 1000, ridgeTerm = TRUE)
+#' data(marginal_A)
+#' get_cond_alpha(alphas = marginal_A[, 1], Gl = Gl, N.Gx = 1000, ridgeTerm = TRUE)
 
 get_cond_alpha = function(alphas, Gl, N.Gx, ridgeTerm = FALSE){
 

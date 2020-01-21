@@ -12,12 +12,12 @@
 #' The simulated beta list for the examples in hJAM package
 "betas.Gy"
 
-#' Example conditional Z matrix of hJAM
+#' Example conditional A matrix of hJAM
 #'
-#' The conditional Z matrix for the examples in hJAM package
-"conditional_Z"
+#' The conditional A matrix for the examples in hJAM package
+"conditional_A"
 
-#' Example marginal Z matrix of hJAM
+#' Example marginal A matrix of hJAM
 #'
-#' The marginal Z matrix for the examples in hJAM package
-"marginal_Z"
+#' The marginal A matrix for the examples in hJAM package
+"marginal_A"

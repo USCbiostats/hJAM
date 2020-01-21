@@ -5,26 +5,26 @@
 #' @param betas.Gy The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)
 #' @param N.Gy The sample size of Gy
 #' @param Gl The reference panel (Gl), such as 1000 Genome
-#' @param Z The Z matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)
+#' @param A The A matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
 #' @author Lai Jiang
 #'
 #' @export
-#' @importFrom stats lm pnorm
+#' @importFrom stats lm pnorm confint
 #' @examples
 #' data(reference_data)
 #' data(betas.Gy)
-#' data(conditional_Z)
-#' hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, Z = conditional_Z, ridgeTerm = TRUE)
+#' data(conditional_A)
+#' hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, A = conditional_A, ridgeTerm = TRUE)
 
-hJAM_lnreg = function(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE) {
+hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
 
-  # Check the dimension of betas.Gy, Gl and Z
+  # Check the dimension of betas.Gy, Gl and A
   dim_betas = length(betas.Gy)
   dim_Gl = ncol(Gl)
-  dim_Z = nrow(Z)
+  dim_A = nrow(A)
 
-  if(dim_betas == dim_Gl & dim_betas == dim_Z){
+  if(dim_betas == dim_Gl & dim_betas == dim_A){
 
     # The sample size in Gy
     N = N.Gy
@@ -58,7 +58,7 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE) {
     zL = solve(t(L))%*%z
 
     # Perform linear regression
-    X = L%*%Z
+    X = L%*%A
     betas.XY = summary(lm(zL ~ 0 + X))$coef[,1]
     se.XY = summary(lm(zL ~ 0 + X))$coef[,2]
     pvalues.XY = summary(lm(zL ~ 0 + X))$coef[,4]
@@ -67,7 +67,7 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE) {
     upper.ci = confint((lm(zL ~ 0 + X)))[, 2]
 
     out <- list(
-      Exposure = colnames(Z),
+      Exposure = colnames(A),
       numSNP = nrow(X),
       Estimate = betas.XY,
       StdErr = se.XY,
@@ -77,6 +77,6 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, Z, ridgeTerm = FALSE) {
     class(out) <- "hJAM_lnreg"
     return(out)
   }else{
-    cat("ERROR: The number of SNPs in betas.Gy, Z matrix and the reference panel (Gl) are different.")
+    cat("ERROR: The number of SNPs in betas.Gy, A matrix and the reference panel (Gl) are different.")
   }
 }

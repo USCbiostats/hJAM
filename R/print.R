@@ -1,9 +1,22 @@
+#' Keep the output as three digits
+#' @description Keep the output as three digits
+#' @author Lai Jiang
+#'
+#' @param x input
+#' @param ... other options you want to put in
 #' @export
 output.format = function(x, ...){
   return(round(x, digits = 3))
 }
+
+#' Print out for hJAM_lnreg
+#' @description Print out for hJAM_lnreg
+#' @author Lai Jiang
+#'
+#' @param x input
+#' @param ... other options you want to put in
 #' @export
-print.hJAM_lnreg <- function(x, ...) {
+print.hJAM_lnreg = function(x, ...) {
   cat("------------------------------------------------------", "\n")
   cat("                   hJAM output                        ", "\n")
   cat("------------------------------------------------------", "\n")
@@ -20,8 +33,15 @@ print.hJAM_lnreg <- function(x, ...) {
   print(outprint)
   cat("------------------------------------------------------", "\n\n")
 }
+
+#' Print out for hJAM_gprior
+#' @description Print out for hJAM_lnreg
+#' @author Lai Jiang
+#'
+#' @param x input
+#' @param ... other options you want to put in
 #' @export
-print.hJAM_gprior <- function(x, ...) {
+print.hJAM_gprior = function(x, ...) {
   cat("--------------------------------------------", "\n")
   cat("           hJAM gprior output              ", "\n")
   cat("--------------------------------------------", "\n")
@@ -34,8 +54,15 @@ print.hJAM_gprior <- function(x, ...) {
   print(output)
   cat("--------------------------------------------", "\n\n")
 }
+
+#' Print out for hJAM_egger
+#' @description Print out for hJAM_egger
+#' @author Lai Jiang
+#'
+#' @param x input
+#' @param ... other options you want to put in
 #' @export
-print.hJAM_egger <- function(x, ...) {
+print.hJAM_egger = function(x, ...) {
   cat("------------------------------------------------------", "\n")
   cat("                   hJAM egger output                  ", "\n")
   cat("------------------------------------------------------", "\n")
