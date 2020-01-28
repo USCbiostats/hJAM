@@ -1,7 +1,7 @@
 Package: hJAM
 Type: Package
-Title: hJAM
-Version: 0.2.0
+Title: hJAM: an extended model with joint analysis of marginal summary data.
+Version: 1.0.0
 Author: Lai Jiang, David V. Conti
 Maintainer: Lai Jiang <jian848@usc.edu>
 Description: A hierarchical model to unify the framework of Mendelian Randomization and Transcriptome-wide association studies.
