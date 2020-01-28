@@ -4,11 +4,14 @@
 \name{conditional_A}
 \alias{conditional_A}
 \title{Example conditional A matrix of hJAM}
-\format{An object of class \code{matrix} with 19 rows and 2 columns.}
+\format{The \code{conditional_A} is the conditional estimates alpha matrix in the hJAM model: the association estimates between 210 SNPs and body mass index (BMI) and type 2 diabetes (T2D). The summary data was collected from GIANT consortium (n=339,224) and DIAGRAM+GERA+UKB (n=659316) for BMI and T2D, respectively. We converted it from marginal_A, using \code{get_cond_A} function in hJAM package.}
 \usage{
 conditional_A
 }
 \description{
-The conditional A matrix for the examples in hJAM package
+Example conditional A matrix of hJAM
+}
+\references{
+1. Locke AE, Kahali B, Berndt SI, et al. Genetic studies of body mass index yield new insights for obesity biology. Nature 2015; 518: 197-206. 2. Xue A, Wu Y, Zhu Z, et al. Genome-wide association analyses identify 143 risk variants and putative regulatory mechanisms for type 2 diabetes. Nat Commun 2018; 9: 2941.
 }
 \keyword{datasets}

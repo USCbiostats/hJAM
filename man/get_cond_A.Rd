@@ -22,7 +22,7 @@ The get_cond_A function is to get the conditional A matrix by using marginal A m
 data(reference_data)
 data(betas.Gy)
 data(marginal_A)
-get_cond_A(marginal_A = marginal_A, Gl = Gl, N.Gx = 1000, ridgeTerm = TRUE)
+get_cond_A(marginal_A = marginal_A, Gl = Gl, N.Gx = 339224, ridgeTerm = TRUE)
 }
 \author{
 Lai Jiang

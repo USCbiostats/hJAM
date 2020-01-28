@@ -24,7 +24,7 @@ A sub-step in the get_cond_A function
 data(reference_data)
 data(betas.Gy)
 data(marginal_A)
-get_cond_alpha(alphas = marginal_A[, 1], Gl = Gl, N.Gx = 1000, ridgeTerm = TRUE)
+get_cond_alpha(alphas = marginal_A[, 1], Gl = Gl, N.Gx = 339224, ridgeTerm = TRUE)
 }
 \author{
 Lai Jiang

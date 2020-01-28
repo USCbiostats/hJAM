@@ -4,11 +4,14 @@
 \name{marginal_A}
 \alias{marginal_A}
 \title{Example marginal A matrix of hJAM}
-\format{An object of class \code{matrix} with 19 rows and 2 columns.}
+\format{The \code{marginal_A} is the marginal estimates alpha matrix in the hJAM model: the association estimates between 210 SNPs and body mass index (BMI) and type 2 diabetes (T2D). The summary data was collected from GIANT consortium (n=339,224) and DIAGRAM+GERA+UKB (n=659316) for BMI and T2D, respectively.}
 \usage{
 marginal_A
 }
 \description{
-The marginal A matrix for the examples in hJAM package
+Example marginal A matrix of hJAM
+}
+\references{
+1. Locke AE, Kahali B, Berndt SI, et al. Genetic studies of body mass index yield new insights for obesity biology. Nature 2015; 518: 197-206. 2. Xue A, Wu Y, Zhu Z, et al. Genome-wide association analyses identify 143 risk variants and putative regulatory mechanisms for type 2 diabetes. Nat Commun 2018; 9: 2941.
 }
 \keyword{datasets}

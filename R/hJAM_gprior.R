@@ -13,10 +13,10 @@
 #'
 #' @export
 #' @examples
-#' data(reference_data)
+#' data(Gl)
 #' data(betas.Gy)
 #' data(conditional_A)
-#' hJAM_gprior(betas.Gy, Gl, N.Gy = 5000, A = conditional_A,a_sigma = 1,
+#' hJAM_gprior(betas.Gy, Gl, N.Gy = 459324, A = conditional_A,a_sigma = 1,
 #' b_sigma = 9, trait.variance = 1, ridgeTerm = TRUE)
 
 hJAM_gprior = function(betas.Gy, N.Gy, Gl, A, a_sigma = 1, b_sigma = 9, trait.variance = 1, ridgeTerm = FALSE) {

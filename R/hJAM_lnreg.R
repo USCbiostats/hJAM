@@ -15,7 +15,7 @@
 #' data(reference_data)
 #' data(betas.Gy)
 #' data(conditional_A)
-#' hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, A = conditional_A, ridgeTerm = TRUE)
+#' hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 459324, A = conditional_A, ridgeTerm = TRUE)
 
 hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
 

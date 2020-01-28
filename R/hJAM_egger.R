@@ -12,10 +12,10 @@
 #' @export
 #' @importFrom stats lm pnorm
 #' @examples
-#' data(reference_data)
+#' data(Gl)
 #' data(betas.Gy)
 #' data(conditional_A)
-#' hJAM_egger(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 5000, A = conditional_A, ridgeTerm = TRUE)
+#' hJAM_egger(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 459324, A = conditional_A, ridgeTerm = TRUE)
 
 hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
 

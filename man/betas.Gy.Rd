@@ -4,11 +4,14 @@
 \name{betas.Gy}
 \alias{betas.Gy}
 \title{Example beta list of hJAM}
-\format{An object of class \code{numeric} of length 19.}
+\format{The \code{betas.Gy} is the beta vector in the hJAM model: the association estimates between 210 SNPs and myocardial infarction. The summary data was collected from UK Biobank (n=459,324).}
 \usage{
 betas.Gy
 }
 \description{
-The simulated beta list for the examples in hJAM package
+Example beta list of hJAM
+}
+\references{
+Sudlow C, Gallacher J, Allen N, et al. UK biobank: an open access resource for identifying the causes of a wide range of complex diseases of middle and old age. PLoS Med 2015; 12: e1001779.
 }
 \keyword{datasets}
