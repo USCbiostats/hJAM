@@ -1,11 +1,15 @@
 Package: hJAM
 Type: Package
-Title: hJAM: an extended model with joint analysis of marginal summary data.
+Title: hJAM: A Hierarchical Approach Using Marginal Summary Statistics for Multiple Intermediates in a Mendelian Randomization or Transcriptome Analysis 
 Version: 1.0.0
-Author: Lai Jiang, David V. Conti
+Author: Lai Jiang
 Maintainer: Lai Jiang <jian848@usc.edu>
-Description: A hierarchical model to unify the framework of Mendelian Randomization and Transcriptome-wide association studies.
+Description: The R package for implementing the hJAM.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

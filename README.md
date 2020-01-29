@@ -10,7 +10,7 @@ hJAM is a hierarchical model which unifies the framework of Mendelian Randomizat
 Installation
 ------------
 
-You can install the development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/lailylajiang/hJAM) with:
 
 ``` r
 if (!require("devtools")) { install.packages("devtools") } else {}
