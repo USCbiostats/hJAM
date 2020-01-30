@@ -9,10 +9,10 @@
 #'
 #' @export
 #' @examples
-#' data(reference_data)
+#' data(Gl)
 #' data(betas.Gy)
 #' data(marginal_A)
-#' get_cond_A(marginal_A = marginal_A, Gl = Gl, N.Gx = 339224, ridgeTerm = TRUE)
+#' get_cond_A(marginal_A = marginal_A, Gl = Gl, N.Gx = c(339224, 659316), ridgeTerm = TRUE)
 
 get_cond_A =  function(marginal_A, Gl, N.Gx, ridgeTerm = FALSE){
 
@@ -64,7 +64,7 @@ get_cond_A =  function(marginal_A, Gl, N.Gx, ridgeTerm = FALSE){
 #'
 #' @export
 #' @examples
-#' data(reference_data)
+#' data(Gl)
 #' data(betas.Gy)
 #' data(marginal_A)
 #' get_cond_alpha(alphas = marginal_A[, 1], Gl = Gl, N.Gx = 339224, ridgeTerm = TRUE)

@@ -12,7 +12,7 @@
 #' @export
 #' @importFrom stats lm pnorm confint
 #' @examples
-#' data(reference_data)
+#' data(Gl)
 #' data(betas.Gy)
 #' data(conditional_A)
 #' hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 459324, A = conditional_A, ridgeTerm = TRUE)

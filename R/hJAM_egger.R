@@ -10,7 +10,6 @@
 #' @author Lai Jiang
 #'
 #' @export
-#' @importFrom stats lm pnorm
 #' @examples
 #' data(Gl)
 #' data(betas.Gy)
