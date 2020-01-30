@@ -72,3 +72,19 @@ hJAM_egger(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 459324, A = conditional_A, ridge
 #> [1,] "0.453" "0.787"    "(-1.099, 2.005)" "0.565"   
 #> ------------------------------------------------------
 ```
+
+The user could use `SNPs_heatmap` and `SNPs_scatter_plot` to display the correlation and pattern of the SNPs that the user used in the analysis.
+
+``` r
+scatter_plot_p = SNPs_scatter_plot(A = conditional_A, betas.Gy = betas.Gy, num_X = 2)
+scatter_plot_p
+```
+
+<img src="man/figures/README-scatter_plot-1.png" width="100%" />
+
+``` r
+heatmap_p = SNPs_heatmap(Gl)
+heatmap_p
+```
+
+<img src="man/figures/README-heatmap-1.png" width="100%" />

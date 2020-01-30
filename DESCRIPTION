@@ -13,3 +13,8 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Imports: 
+    ggplot2,
+    ggpubr,
+    dplyr,
+    reshape2
