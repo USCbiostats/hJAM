@@ -21,7 +21,7 @@ If only one X in the model, please use get_cond_alpha instead of get_cond_A
 A sub-step in the get_cond_A function
 }
 \examples{
-data(reference_data)
+data(Gl)
 data(betas.Gy)
 data(marginal_A)
 get_cond_alpha(alphas = marginal_A[, 1], Gl = Gl, N.Gx = 339224, ridgeTerm = TRUE)

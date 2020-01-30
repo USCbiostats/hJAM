@@ -19,10 +19,10 @@ get_cond_A(marginal_A, Gl, N.Gx, ridgeTerm = FALSE)
 The get_cond_A function is to get the conditional A matrix by using marginal A matrix
 }
 \examples{
-data(reference_data)
+data(Gl)
 data(betas.Gy)
 data(marginal_A)
-get_cond_A(marginal_A = marginal_A, Gl = Gl, N.Gx = 339224, ridgeTerm = TRUE)
+get_cond_A(marginal_A = marginal_A, Gl = Gl, N.Gx = c(339224, 659316), ridgeTerm = TRUE)
 }
 \author{
 Lai Jiang

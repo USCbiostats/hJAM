@@ -21,7 +21,7 @@ hJAM_lnreg(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE)
 The hJAM function is to get the results from the hJAM model using input data
 }
 \examples{
-data(reference_data)
+data(Gl)
 data(betas.Gy)
 data(conditional_A)
 hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 459324, A = conditional_A, ridgeTerm = TRUE)

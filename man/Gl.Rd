@@ -11,4 +11,7 @@ Gl
 \description{
 The real data example from hJAM paper
 }
+\references{
+Consortium GP. A global reference for human genetic variation. Nature 2015; 526: 68.
+}
 \keyword{datasets}
