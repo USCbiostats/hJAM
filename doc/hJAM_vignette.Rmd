@@ -1,0 +1,117 @@
+---
+title: "hJAM Vignette"
+author: Lai Jiang
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{hJAM vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup}
+library(hJAM)
+```
+
+## Overview
+
+*hJAM* is a package developed to implement the hJAM model, which is designed to estimate the associations between multiple intermediates and outcome in a Mendelian Randomization or Transcriptome analysis.
+
+Mendelian randomization (MR) and transcriptome-wide association studies (TWAS) can be viewed as the same approach within the instrumental variable analysis framework using genetic variants. They differ in their intermediates: MR focuses on modifible risk factors while TWAS focuses on gene expressions. We can use a two-stage hierarchical model to unify the framework of MR and TWAS. Details are described in our paper.
+
+## Implementation
+
+We have two methods in our pacakge:
+
+- *hJAM* with linear regression: `hJAM_lnreg`
+- *hJAM* with Egger regression: `hJAM_egger`
+
+#### General input 
+
+The input of the two *hJAM* model includes:
+
+- `betas.Gy` is the beta vector of the marginal effects of SNPs on the outcome. It can be directly extracted from a GWAS where the outcome is the outcome of interests.
+- `N.Gy` is the sample size of the GWAS where the users extract the `betas.Gy`.
+- `Gl` is the reference genotype matrix with number of columns equals to the number of SNPs in the instrument set. It can be a publicly available genotype data, such as [1000 Genomes project](https://www.internationalgenome.org/data/). Users need to confirm the genotype matrix is in a dosage format. For VCF files, users could use [vcftool](http://vcftools.sourceforge.net/) to convert it into dosage format.
+- `A` is the alpha matrix of the conditional effects of SNPs on the intermediates. The number of columns of `A` equals the number of intermediates in the users' research question. To conditional `A` matrix can be converted from a marginal `A` by using `get_cond_A` function in hJAM package. We will describe this later.
+- `ridgeTerm` is the ridge term that we add to the diagonal of Cholesky decomposition component matrix $L$ to enforce it to be a positive definite matrix. Please see details in our paper.
+
+#### Get conditional $\hat{A}$ matrix
+
+To generate a conditional estimate $\hat{A}$ matrix from a marginal estimate $\hat{A}$ matrix, users can use the `get_cond_A` (if number of intermediates > 1) or `get_cond_alpha` (if number of intermediate = 1) functions in hJAM package. Examples are given in next section.
+
+For MR questions, the intermediates are modifiable risk factors. The marginal $\hat{A}$ can be extracted from different GWAS whose the outcomes are the risk factors of interests. For example, for intermediate as body mass index, the marginal $\hat{\alpha}$ vector can be extracted from the [GIANT consortium](https://portals.broadinstitute.org/collaboration/giant/index.php/GIANT_consortium_data_files).
+
+For TWAS questions, the intermediates are gene expressions. There are two ways to obtain the elements in $\hat{A}$ matrix. 
+
+1. [GTEx portal](https://gtexportal.org/home/): the GTEx project provides marginal summary statistics between SNPs and gene expressions in different tissues. 
+
+2. [PredictDB](http://predictdb.org/): the PredictDB is developed by the PrediXcan group. It uses elastic net on individual level data from the GTEx project. 
+
+---
+
+**Implementation with caution:**
+
+- The users need to confirm that the reference allele of each SNP is the same for all estimates in $\hat{A}$ matrix and $\hat{\beta}$ vector.
+- If the users want to run the `hJAM_egger` function, make sure that the directions of the association estimates in $\hat{A}$ matrix are positive. It is possible that there are some of SNPs cannot be positive due to the reverse effects between intermediates on the outcome.
+
+---
+
+## Example
+
+In our package, we prepared a data example which we have described in detail in our paper. In this data example, we focus on the conditional effects of body mass index (BMI) and type 2 diabetes (T2D) on myocardial infarction (MI).
+
+We identified 75 and 136 significantly BMI- and T2D-associated SNPs from GIANT consortium and DIAGRAM+GERA+UKB, respectively. In this set of SNPs, there was one overlapping SNP in both the instrument sets for BMI and T2D. In total, we have 210 SNPs identified. The association estimates between the 210 SNPs and MI were collected from UK Biobank.
+
+#### Data exploration
+
+A quick look at the data in the example - 
+
+```{r data_check}
+data("conditional_A")
+data("betas.Gy")
+data("SNPs_info")
+conditional_A[1:10, ]
+betas.Gy[1:10]
+SNPs_info[1:10, ]
+```
+
+In this package, we embed two fucntions for the users to check the SNPs they use in the analysis visually:
+
+- Scatter plot: `SNPs_scatter_plot`
+- Heatmap: `SNPs_heatmap`
+
+```{r graphic_check}
+scatter_plot_p = SNPs_scatter_plot(A = conditional_A, betas.Gy = betas.Gy, num_X = 2)
+heatmap_p = SNPs_heatmap(Gl)
+```
+
+#### Conversion of $\hat{A}$ matrix
+
+You could use function `get_cond_A` function to run JAM on the marginal estimates $\hat{A}$ matrix and convert it into a conditional estimates $\hat{A}$ matrix.
+
+```{r Amatrix}
+data("marginal_A")
+cond_A = get_cond_A(marginal_A = marginal_A, Gl = Gl, N.Gx = 339224, ridgeTerm = T)
+cond_A[1:10, ]
+```
+
+#### hJAM 
+
+The default version of *hJAM* restricts the intercept to be zero. 
+
+```{r hjam_lnreg}
+hJAM::hJAM_lnreg(betas.Gy = betas.Gy, N.Gy = 459324, A = conditional_A, Gl = Gl, ridgeTerm = TRUE) # 459324 is the sample size of the UK Biobank GWAS of MI
+```
+
+Another method in this package is *hJAM* with Egger regression, which is analogus to MR egger. It allows the intercept to be non-zero.
+
+```{r hjam_egger}
+hJAM::hJAM_egger(betas.Gy = betas.Gy, N.Gy = 459324, A = conditional_A, Gl = Gl, ridgeTerm = TRUE) # 459324 is the sample size of the UK Biobank GWAS of MI
+```
+
+## Conclusion
+
+We presented the main usage of `hJAM` package. For more details about each function, please go check the package documentation. If you would like to give us feedback or report issue, please tell us on [Github](https://github.com/lailyaljiang/hJAM). 
+
+

@@ -13,6 +13,7 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://github.com/lailylajiang/hJAM
 Imports: 
     ggplot2,
     ggpubr,

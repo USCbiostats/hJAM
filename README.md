@@ -4,7 +4,8 @@ hJAM
 ====
 
 <!-- badges: start -->
-<!-- badges: end -->
+[![R build status](https://github.com/lailylajiang/hJAM/workflows/R-CMD-check/badge.svg)](https://github.com/lailylajiang/hJAM) <!-- badges: end -->
+
 hJAM is a hierarchical model which unifies the framework of Mendelian Randomization and Transcriptome-wide association studies.
 
 Installation
