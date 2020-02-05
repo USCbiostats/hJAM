@@ -1,6 +1,6 @@
 Package: hJAM
 Type: Package
-Title: hJAM: A Hierarchical Approach Using Marginal Summary Statistics for Multiple Intermediates in a Mendelian Randomization or Transcriptome Analysis 
+Title: A Hierarchical Approach Using Marginal Summary Statistics for Multiple Intermediates in a Mendelian Randomization or Transcriptome Analysis 
 Version: 1.0.0
 Author: Lai Jiang
 Maintainer: Lai Jiang <jian848@usc.edu>

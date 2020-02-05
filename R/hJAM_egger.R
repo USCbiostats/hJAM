@@ -10,6 +10,14 @@
 #' @author Lai Jiang
 #'
 #' @export
+#'
+#' @references
+#'
+#' Lai Jiang, Shujing Xu, Nicholas Mancuso, Paul J. Newcombe, David V. Conti (2020).
+#' A Hierarchical Approach Using Marginal Summary Statistics for Multiple Intermediates
+#' in a Mendelian Randomization or Transcriptome Analysis. \emph{bioRxiv}
+#' \url{https://doi.org/10.1101/2020.02.03.924241}.
+#'
 #' @examples
 #' data(Gl)
 #' data(betas.Gy)

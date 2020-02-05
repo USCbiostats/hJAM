@@ -112,6 +112,6 @@ hJAM::hJAM_egger(betas.Gy = betas.Gy, N.Gy = 459324, A = conditional_A, Gl = Gl,
 
 ## Conclusion
 
-We presented the main usage of `hJAM` package. For more details about each function, please go check the package documentation. If you would like to give us feedback or report issue, please tell us on [Github](https://github.com/lailyaljiang/hJAM). 
+We presented the main usage of `hJAM` package. For more details about each function, please go check the package documentation. If you would like to give us feedback or report issue, please tell us on [Github](https://github.com/lailylajiang/hJAM). 
 
 

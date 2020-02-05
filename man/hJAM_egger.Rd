@@ -26,6 +26,12 @@ data(betas.Gy)
 data(conditional_A)
 hJAM_egger(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 459324, A = conditional_A, ridgeTerm = TRUE)
 }
+\references{
+Lai Jiang, Shujing Xu, Nicholas Mancuso, Paul J. Newcombe, David V. Conti (2020).
+A Hierarchical Approach Using Marginal Summary Statistics for Multiple Intermediates
+in a Mendelian Randomization or Transcriptome Analysis. \emph{bioRxiv}
+\url{https://doi.org/10.1101/2020.02.03.924241}.
+}
 \author{
 Lai Jiang
 }
