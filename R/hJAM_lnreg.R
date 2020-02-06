@@ -71,8 +71,9 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     se.XY = summary(lm(zL ~ 0 + X))$coef[,2]
     pvalues.XY = summary(lm(zL ~ 0 + X))$coef[,4]
 
-    lower.ci = confint((lm(zL ~ 0 + X)))[, 1]
-    upper.ci = confint((lm(zL ~ 0 + X)))[, 2]
+    NaN_row = is.na(confint((lm(zL ~ 0 + X)))[, 1])
+    lower.ci = confint((lm(zL ~ 0 + X)))[!NaN_row, 1]
+    upper.ci = confint((lm(zL ~ 0 + X)))[!NaN_row, 2]
 
     out <- list(
       Exposure = colnames(A),

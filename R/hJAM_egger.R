@@ -70,15 +70,19 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     se.XY = summary(lm(zL ~ 0 + X))$coef[-1,2]
     pvalues.XY = summary(lm(zL ~ 0 + X))$coef[-1,4]
 
-    lower.ci = confint((lm(zL ~ 0 + X)))[-1, 1]
-    upper.ci = confint((lm(zL ~ 0 + X)))[-1, 2]
+    NaN_row = is.na(confint((lm(zL ~ 0 + X)))[, 1])
+    lower.ci.all = confint((lm(zL ~ 0 + X)))[!NaN_row, 1]
+    upper.ci.all = confint((lm(zL ~ 0 + X)))[!NaN_row, 2]
+
+    lower.ci = lower.ci.all[-1]
+    upper.ci = upper.ci.all[-1]
 
     betas.int = summary(lm(zL ~ 0 + X))$coef[1,1]
     se.int = summary(lm(zL ~ 0 + X))$coef[1,2]
     pvalues.int = summary(lm(zL ~ 0 + X))$coef[1,4]
 
-    lower.ci.int = confint((lm(zL ~ 0 + X)))[1, 1]
-    upper.ci.int = confint((lm(zL ~ 0 + X)))[1, 2]
+    lower.ci.int = lower.ci.all[1]
+    upper.ci.int = upper.ci.all[1]
 
     out <- list(
       Exposure = colnames(A),
