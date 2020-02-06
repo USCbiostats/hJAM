@@ -84,6 +84,9 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     lower.ci.int = lower.ci.all[1]
     upper.ci.int = upper.ci.all[1]
 
+    NaN_row = NaN_row[-1]
+    A = A[, !NaN_row]
+
     out <- list(
       Exposure = colnames(A),
       numSNP = nrow(X),
