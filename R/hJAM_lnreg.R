@@ -79,7 +79,7 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
       if(!is.null(dim(A))){
         colnames_A = paste0("exposure ", 1:ncol(A))
       }else{
-        colnames_A = "exposure 1"
+        colnames_A = "exposure"
       }
     }else{
       colnames_A = colnames(A)

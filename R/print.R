@@ -28,7 +28,7 @@ print.hJAM_lnreg = function(x, ...) {
 
   outprint = output[, c('Estimate', 'StdErr', '95% CI', 'Pvalue')]
   outprint[, c(1:2)] = sapply(outprint[, c(1,2)], function(x) output.format(x))
-  rownames(outprint) <- substr(rownames(outprint), 2, nchar(rownames(outprint)))
+  rownames(outprint) <- x$Exposure
 
   print(outprint)
   cat("------------------------------------------------------", "\n\n")
@@ -54,7 +54,7 @@ print.hJAM_egger = function(x, ...) {
 
   exp_output = output[, c('Estimate', 'StdErr', '95% CI', 'Pvalue')]
   exp_output[, c(1:2)] = sapply(exp_output[, c(1,2)], function(x) output.format(x))
-  rownames(exp_output) <- substr(rownames(exp_output), 2, nchar(rownames(exp_output)))
+  rownames(exp_output) <- x$Exposure
   print(exp_output)
 
   cat("\nIntercept\n")
