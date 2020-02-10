@@ -85,7 +85,7 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     upper.ci.int = upper.ci.all[1]
 
     NaN_row = NaN_row[-1]
-    A = A[, !NaN_row]
+    if(!is.null(dim(A))){A = A[, !NaN_row]}
 
     out <- list(
       Exposure = colnames(A),

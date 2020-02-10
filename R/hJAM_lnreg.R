@@ -75,7 +75,7 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     lower.ci = confint((lm(zL ~ 0 + X)))[!NaN_row, 1]
     upper.ci = confint((lm(zL ~ 0 + X)))[!NaN_row, 2]
 
-    A = A[, !NaN_row]
+    if(!is.null(dim(A))){A = A[, !NaN_row]}
 
     out <- list(
       Exposure = colnames(A),
