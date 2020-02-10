@@ -30,7 +30,7 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
   # Check the dimension of betas.Gy, Gl and A
   dim_betas = length(betas.Gy)
   dim_Gl = ncol(Gl)
-  dim_A = nrow(A)
+  dim_A = ifelse(is.null(dim_A), length(A), nrow(A))
 
   if(dim_betas == dim_Gl & dim_betas == dim_A){
 
