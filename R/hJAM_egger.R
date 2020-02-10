@@ -85,7 +85,11 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     upper.ci.int = upper.ci.all[1]
 
     if(is.null(colnames(A))){
-      colnames(conditional_A) = paste0("exposure ", 1:ncol(A))
+      if(!is.null(dim(A))){
+        colnames(A) = paste0("exposure ", 1:ncol(A))
+      }else{
+        colnames(A) = "exposure 1"
+      }
     } # add column names of A matrix if null
 
     NaN_row = NaN_row[-1]
