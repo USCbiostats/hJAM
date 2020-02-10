@@ -77,16 +77,16 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
 
     if(is.null(colnames(A))){
       if(!is.null(dim(A))){
-        colnames(A) = paste0("exposure ", 1:ncol(A))
+        colnames_A = paste0("exposure ", 1:ncol(A))
       }else{
-        colnames(A) = "exposure 1"
+        colnames_A = "exposure 1"
       }
-    } # add column names of A matrix if null
-
-    if(!is.null(dim(A))){A = A[, !NaN_row]}
+    }else{
+      colnames_A = colnames(A)
+    }  # add column names of A matrix if null
 
     out <- list(
-      Exposure = colnames(A),
+      Exposure = colnames_A,
       numSNP = nrow(X),
       Estimate = betas.XY,
       StdErr = se.XY,
