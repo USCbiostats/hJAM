@@ -34,27 +34,6 @@ print.hJAM_lnreg = function(x, ...) {
   cat("------------------------------------------------------", "\n\n")
 }
 
-#' Print out for hJAM_gprior
-#' @description Print out for hJAM_lnreg
-#' @author Lai Jiang
-#'
-#' @param x input
-#' @param ... other options you want to put in
-#' @export
-print.hJAM_gprior = function(x, ...) {
-  cat("--------------------------------------------", "\n")
-  cat("           hJAM gprior output              ", "\n")
-  cat("--------------------------------------------", "\n")
-
-  cat(paste0("Number of SNPs used in model: ", x$numSNP), "\n\n")
-
-  output =  as.data.frame(unclass(x))[c(3, 4, 5)]
-  rownames(output) <- substr(rownames(output), 2, nchar(rownames(output)))
-
-  print(output)
-  cat("--------------------------------------------", "\n\n")
-}
-
 #' Print out for hJAM_egger
 #' @description Print out for hJAM_egger
 #' @author Lai Jiang

@@ -75,6 +75,10 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     lower.ci = confint((lm(zL ~ 0 + X)))[!NaN_row, 1]
     upper.ci = confint((lm(zL ~ 0 + X)))[!NaN_row, 2]
 
+    if(is.null(colnames(A))){
+      colnames(conditional_A) = paste0("exposure ", 1:ncol(A))
+    } # add column names of A matrix if null
+
     if(!is.null(dim(A))){A = A[, !NaN_row]}
 
     out <- list(
