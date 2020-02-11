@@ -10,7 +10,7 @@
 #' @author Lai Jiang
 #'
 #' @export
-#' @importFrom stats lm pnorm confint
+#' @importFrom stats glm pnorm gaussian qnorm
 #'
 #' @references
 #'
@@ -67,13 +67,12 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
 
     # Perform linear regression
     X = L%*%A
-    betas.XY = summary(lm(zL ~ 0 + X))$coef[,1]
-    se.XY = summary(lm(zL ~ 0 + X))$coef[,2]
-    pvalues.XY = summary(lm(zL ~ 0 + X))$coef[,4]
+    betas.XY = summary(glm(zL ~ 0 + X, family = gaussian()))$coef[,1]
+    se.XY = summary(glm(zL ~ 0 + X, family = gaussian()))$coef[,2]
+    pvalues.XY = 2*pnorm(-abs(betas.XY/se.XY))
 
-    NaN_row = is.na(confint((lm(zL ~ 0 + X)))[, 1])
-    lower.ci = confint((lm(zL ~ 0 + X)))[!NaN_row, 1]
-    upper.ci = confint((lm(zL ~ 0 + X)))[!NaN_row, 2]
+    lower.ci = betas.XY+qnorm(0.05)*se.XY
+    upper.ci = betas.XY+qnorm(0.95)*se.XY
 
     if(is.null(colnames(A))){
       if(!is.null(dim(A))){

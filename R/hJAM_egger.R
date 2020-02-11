@@ -66,23 +66,19 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
 
     # Perform linear regression
     X = cbind(rep(1, nrow(L)), L%*%A)
-    betas.XY = summary(lm(zL ~ 0 + X))$coef[-1,1]
-    se.XY = summary(lm(zL ~ 0 + X))$coef[-1,2]
-    pvalues.XY = summary(lm(zL ~ 0 + X))$coef[-1,4]
+    betas.XY = summary(glm(zL ~ 0 + X, family = gaussian()))$coef[-1,1]
+    se.XY = summary(glm(zL ~ 0 + X, family = gaussian()))$coef[-1,2]
+    pvalues.XY = 2*pnorm(-abs(betas.XY/se.XY))
 
-    NaN_row = is.na(confint((lm(zL ~ 0 + X)))[, 1])
-    lower.ci.all = confint((lm(zL ~ 0 + X)))[!NaN_row, 1]
-    upper.ci.all = confint((lm(zL ~ 0 + X)))[!NaN_row, 2]
+    lower.ci = betas.XY+qnorm(0.05)*se.XY
+    upper.ci = betas.XY+qnorm(0.95)*se.XY
 
-    lower.ci = lower.ci.all[-1]
-    upper.ci = upper.ci.all[-1]
+    betas.int = summary(glm(zL ~ 0 + X, family = gaussian()))$coef[1,1]
+    se.int = summary(glm(zL ~ 0 + X, family = gaussian()))$coef[1,2]
+    pvalues.int = 2*pnorm(-abs(betas.int/se.int))
 
-    betas.int = summary(lm(zL ~ 0 + X))$coef[1,1]
-    se.int = summary(lm(zL ~ 0 + X))$coef[1,2]
-    pvalues.int = summary(lm(zL ~ 0 + X))$coef[1,4]
-
-    lower.ci.int = lower.ci.all[1]
-    upper.ci.int = upper.ci.all[1]
+    lower.ci.int = betas.int+qnorm(0.05)*se.int
+    upper.ci.int = betas.int+qnorm(0.95)*se.int
 
     if(is.null(colnames(A))){
       if(!is.null(dim(A))){
