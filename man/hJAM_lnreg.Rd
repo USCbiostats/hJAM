@@ -15,7 +15,21 @@ hJAM_lnreg(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE)
 
 \item{A}{The A matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)}
 
-\item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.}
+\item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky
+decomposition of G0'G0. Default as FALSE.}
+}
+\value{
+An object of the hJAM with linear regression results.
+
+\describe{
+   \item{Exposure}{The intermediates, such as the modifiable risk factors in Mendelian Randomization and gene expression in transcriptome analysis.}
+   \item{numSNP}{The number of SNPs that the user use in the instrument set.}
+   \item{Estimate}{The conditional estimates of the associations between intermediates and the outcome.}
+   \item{StdErr}{The standard error of the conditional estimates of the associations between intermediates and the outcome.}
+   \item{Lower.CI}{The lower bound of the 95\% confidence interval of the estimates.}
+   \item{Upper.CI}{The upper bound of the 95\% confidence interval of the estimates.}
+   \item{Pvalue}{The p value of the estimates with a type-I error equals 0.05.}
+}
 }
 \description{
 The hJAM function is to get the results from the hJAM model using input data

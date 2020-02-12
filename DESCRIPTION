@@ -1,12 +1,12 @@
+Encoding: UTF-8
 Package: hJAM
 Type: Package
-Title: A Hierarchical Approach Using Marginal Summary Statistics for Multiple Intermediates in a Mendelian Randomization or Transcriptome Analysis 
+Title: Hierarchical Joint Analysis of Marginal Summary Statistics
 Version: 1.0.0
-Author: Lai Jiang
+Author: Lai Jiang <jian848@usc.edu>
 Maintainer: Lai Jiang <jian848@usc.edu>
-Description: The R package for implementing the hJAM.
+Description: Provides functions to implement a hierarchical approach which is designed to perform joint analysis of summary statistics using the framework of Mendelian Randomization or transcriptome analysis. Reference: Lai Jiang, Shujing Xu, Nicholas Mancuso, Paul J. Newcombe, David V. Conti (2020). "A Hierarchical Approach Using Marginal Summary Statistics for Multiple Intermediates in a Mendelian Randomization or Transcriptome Analysis." <bioRxiv><doi:10.1101/2020.02.03.924241>.
 License: MIT + file LICENSE
-Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Suggests: 
@@ -14,6 +14,7 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 URL: https://github.com/lailylajiang/hJAM
+BugReports:https://github.com/lailylajiang/hJAM/issues
 Imports: 
     ggplot2,
     ggpubr,

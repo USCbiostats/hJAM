@@ -6,6 +6,8 @@
 #' @param num_X The number of intermediates in the research question.
 #' @author Lai Jiang
 #'
+#' @return A set of scatter plots with x-axis being the conditional \eqn{\alpha}{alpha} estimates for each
+#' intermediate and y-axis being the \eqn{\beta}{beta} estimates.
 #' @export
 #' @import ggplot2 ggpubr
 #' @examples
@@ -28,6 +30,6 @@ SNPs_scatter_plot = function(A, betas.Gy, num_X){
                   labels = label.plot, font.label = list(size = 12))
    return(p)
   }else{
-    cat("ERROR: the number of SNPs in A matrix is not the same as the number of SNPs in betas.Gy vector.")
+    stop("The number of SNPs in A matrix is not the same as the number of SNPs in betas.Gy vector.")
   }
 }

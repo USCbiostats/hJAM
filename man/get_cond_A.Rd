@@ -15,6 +15,9 @@ get_cond_A(marginal_A, Gl, N.Gx, ridgeTerm = FALSE)
 
 \item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.}
 }
+\value{
+A matrix with conditional estimates which are converted from marginal estimates using the JAM model.
+}
 \description{
 The get_cond_A function is to get the conditional A matrix by using marginal A matrix
 }

@@ -6,8 +6,21 @@
 #' @param N.Gy The sample size of Gy
 #' @param Gl The reference panel (Gl), such as 1000 Genome
 #' @param A The A matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)
-#' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
+#' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky
+#' decomposition of G0'G0. Default as FALSE.
 #' @author Lai Jiang
+#'
+#' @return An object of the hJAM with linear regression results.
+#'
+#' \describe{
+#'    \item{Exposure}{The intermediates, such as the modifiable risk factors in Mendelian Randomization and gene expression in transcriptome analysis.}
+#'    \item{numSNP}{The number of SNPs that the user use in the instrument set.}
+#'    \item{Estimate}{The conditional estimates of the associations between intermediates and the outcome.}
+#'    \item{StdErr}{The standard error of the conditional estimates of the associations between intermediates and the outcome.}
+#'    \item{Lower.CI}{The lower bound of the 95\% confidence interval of the estimates.}
+#'    \item{Upper.CI}{The upper bound of the 95\% confidence interval of the estimates.}
+#'    \item{Pvalue}{The p value of the estimates with a type-I error equals 0.05.}
+#' }
 #'
 #' @export
 #' @importFrom stats glm pnorm gaussian qnorm
@@ -67,8 +80,9 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
 
     # Perform linear regression
     X = L%*%A
-    betas.XY = summary(glm(zL ~ 0 + X, family = gaussian()))$coef[,1]
-    se.XY = summary(glm(zL ~ 0 + X, family = gaussian()))$coef[,2]
+    glm.out = summary(glm(zL ~ 0 + X, family = gaussian()))
+    betas.XY = glm.out$coef[,1]
+    se.XY = glm.out$coef[,2]
     pvalues.XY = 2*pnorm(-abs(betas.XY/se.XY))
 
     lower.ci = betas.XY+qnorm(0.05)*se.XY
@@ -95,6 +109,6 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     class(out) <- "hJAM_lnreg"
     return(out)
   }else{
-    cat("ERROR: The number of SNPs in betas.Gy, A matrix and the reference panel (Gl) are different.")
+    stop("The number of SNPs in betas.Gy, A matrix and the reference panel (Gl) are different.")
   }
 }

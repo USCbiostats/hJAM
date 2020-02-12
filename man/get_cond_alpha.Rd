@@ -15,6 +15,9 @@ get_cond_alpha(alphas, Gl, N.Gx, ridgeTerm = FALSE)
 
 \item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE}
 }
+\value{
+A vector with conditional estimates which are converted from marginal estimates using the JAM model.
+}
 \description{
 The get_cond_alpha function is to compute the conditional alpha vector for each X
 If only one X in the model, please use get_cond_alpha instead of get_cond_A

@@ -7,6 +7,7 @@
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
 #' @author Lai Jiang
 #'
+#' @return A matrix with conditional estimates which are converted from marginal estimates using the JAM model.
 #' @export
 #' @examples
 #' data(Gl)
@@ -17,11 +18,11 @@
 get_cond_A =  function(marginal_A, Gl, N.Gx, ridgeTerm = FALSE){
 
   if(ncol(marginal_A) == "NULL"){
-    cat("! Please use get_cond_alpha instead of get_cond_A.")
+    stop("Please use get_cond_alpha instead of get_cond_A.")
   }else if(length(N.Gx) != 1 && length(N.Gx) != ncol(marginal_A) ){
-    cat("! ERROR: The length of the sample size of each Gx is different from the number of X in marginal A matrix")
+    stop("The length of the sample size of each Gx is different from the number of X in marginal A matrix")
   }else if(nrow(marginal_A) != ncol(Gl)){
-    cat("! ERROR: The number of SNPs in marignal A matrix and the reference panel (Gl) are different.")
+    stop("The number of SNPs in marignal A matrix and the reference panel (Gl) are different.")
   }else{
 
     # Check the length of N.Gx
@@ -61,6 +62,7 @@ get_cond_A =  function(marginal_A, Gl, N.Gx, ridgeTerm = FALSE){
 #' @param N.Gx the sample size of the Gx. It can be a scalar.
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE
 #' @author Lai Jiang
+#' @return A vector with conditional estimates which are converted from marginal estimates using the JAM model.
 #'
 #' @export
 #'

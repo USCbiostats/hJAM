@@ -9,6 +9,25 @@
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
 #' @author Lai Jiang
 #'
+#' @return An object of the hJAM with egger regression results.
+#' \describe{
+#' \item{Exposure}{The intermediates, such as the modifiable risk factors in Mendelian Randomization and
+#' gene expression in transcriptome analysis.}
+#' \item{numSNP}{The number of SNPs that the user use in the instrument set.}
+#' \item{Estimate}{The conditional estimates of the associations between intermediates and the outcome.}
+#' \item{StdErr}{The standard error of the conditional estimates of the associations between intermediates
+#' and the outcome.}
+#' \item{Lower.CI}{The lower bound of the 95\% confidence interval of the estimates.}
+#' \item{Upper.CI}{The upper bound of the 95\% confidence interval of the estimates.}
+#' \item{Pvalue}{The p value of the estimates with a type-I error equals 0.05.}
+#' \item{Est.Int}{The intercept of the regression of intermediates on the outcome.}
+#' \item{StdErr.Int}{The standard error of the intercept of the regression of intermediates
+#' on the outcome.}
+#' \item{Lower.CI.Int}{The lower bound of the 95\% confidence interval of the intercept.}
+#' \item{Upper.CI.Int}{The upper bound of the 95\% confidence interval of the intercept.}
+#' \item{Pvalue.Int}{The p value of the intercept with a type-I error equals 0.05.}
+#' }
+#'
 #' @export
 #'
 #' @references
@@ -23,6 +42,8 @@
 #' data(betas.Gy)
 #' data(conditional_A)
 #' hJAM_egger(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 459324, A = conditional_A, ridgeTerm = TRUE)
+
+#' @return An object of hJAM with egger regression results.
 
 hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
 
@@ -66,15 +87,16 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
 
     # Perform linear regression
     X = cbind(rep(1, nrow(L)), L%*%A)
-    betas.XY = summary(glm(zL ~ 0 + X, family = gaussian()))$coef[-1,1]
-    se.XY = summary(glm(zL ~ 0 + X, family = gaussian()))$coef[-1,2]
+    glm.out = summary(glm(zL ~ 0 + X, family = gaussian()))
+    betas.XY = glm.out$coef[-1,1]
+    se.XY = glm.out$coef[-1,2]
     pvalues.XY = 2*pnorm(-abs(betas.XY/se.XY))
 
     lower.ci = betas.XY+qnorm(0.05)*se.XY
     upper.ci = betas.XY+qnorm(0.95)*se.XY
 
-    betas.int = summary(glm(zL ~ 0 + X, family = gaussian()))$coef[1,1]
-    se.int = summary(glm(zL ~ 0 + X, family = gaussian()))$coef[1,2]
+    betas.int = glm.out$coef[1,1]
+    se.int = glm.out$coef[1,2]
     pvalues.int = 2*pnorm(-abs(betas.int/se.int))
 
     lower.ci.int = betas.int+qnorm(0.05)*se.int
@@ -106,6 +128,6 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     class(out) <- "hJAM_egger"
     return(out)
   }else{
-    cat("ERROR: The number of SNPs in betas.Gy, A matrix and the reference panel (Gl) are different.")
+    stop("The number of SNPs in betas.Gy, A matrix and the reference panel (Gl) are different.")
   }
 }

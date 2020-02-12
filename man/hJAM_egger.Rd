@@ -17,6 +17,28 @@ hJAM_egger(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE)
 
 \item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.}
 }
+\value{
+An object of the hJAM with egger regression results.
+\describe{
+\item{Exposure}{The intermediates, such as the modifiable risk factors in Mendelian Randomization and
+gene expression in transcriptome analysis.}
+\item{numSNP}{The number of SNPs that the user use in the instrument set.}
+\item{Estimate}{The conditional estimates of the associations between intermediates and the outcome.}
+\item{StdErr}{The standard error of the conditional estimates of the associations between intermediates
+and the outcome.}
+\item{Lower.CI}{The lower bound of the 95\% confidence interval of the estimates.}
+\item{Upper.CI}{The upper bound of the 95\% confidence interval of the estimates.}
+\item{Pvalue}{The p value of the estimates with a type-I error equals 0.05.}
+\item{Est.Int}{The intercept of the regression of intermediates on the outcome.}
+\item{StdErr.Int}{The standard error of the intercept of the regression of intermediates
+on the outcome.}
+\item{Lower.CI.Int}{The lower bound of the 95\% confidence interval of the intercept.}
+\item{Upper.CI.Int}{The upper bound of the 95\% confidence interval of the intercept.}
+\item{Pvalue.Int}{The p value of the intercept with a type-I error equals 0.05.}
+}
+
+An object of hJAM with egger regression results.
+}
 \description{
 The hJAM_egger function is to get the results from the hJAM model with Egger regression. It is for detecting potential pleiotropy
 }

@@ -13,6 +13,10 @@ SNPs_scatter_plot(A, betas.Gy, num_X)
 
 \item{num_X}{The number of intermediates in the research question.}
 }
+\value{
+A set of scatter plots with x-axis being the conditional \eqn{\alpha}{alpha} estimates for each
+intermediate and y-axis being the \eqn{\beta}{beta} estimates.
+}
 \description{
 To generate the scatter plot of all the SNPs that the user use in the analysis
 }
