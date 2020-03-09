@@ -19,7 +19,13 @@ Randomization and Transcriptome-wide association studies.
 
 ## Installation
 
-You can install the development version from
+You can install the published version of hJAM from CRAN with:
+
+``` r
+install.packages("hJAM")
+```
+
+Or you can install the development version from
 [GitHub](https://github.com/lailylajiang/hJAM) with:
 
 ``` r
