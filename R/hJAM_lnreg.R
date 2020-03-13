@@ -85,8 +85,8 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     se.XY = glm.out$coef[,2]
     pvalues.XY = 2*pnorm(-abs(betas.XY/se.XY))
 
-    lower.ci = betas.XY+qnorm(0.05)*se.XY
-    upper.ci = betas.XY+qnorm(0.95)*se.XY
+    lower.ci = betas.XY+qnorm(0.025)*se.XY
+    upper.ci = betas.XY+qnorm(0.975)*se.XY
 
     if(is.null(colnames(A))){
       if(!is.null(dim(A))){

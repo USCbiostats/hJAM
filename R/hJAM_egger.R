@@ -99,8 +99,8 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     se.int = glm.out$coef[1,2]
     pvalues.int = 2*pnorm(-abs(betas.int/se.int))
 
-    lower.ci.int = betas.int+qnorm(0.05)*se.int
-    upper.ci.int = betas.int+qnorm(0.95)*se.int
+    lower.ci.int = betas.int+qnorm(0.025)*se.int
+    upper.ci.int = betas.int+qnorm(0.975)*se.int
 
     if(is.null(colnames(A))){
       if(!is.null(dim(A))){
