@@ -11,8 +11,10 @@ status](https://github.com/lailylajiang/hJAM/workflows/R-CMD-check/badge.svg)](h
 
 <!-- CRAN badges: start -->
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/hJAM)](https://CRAN.R-project.org/package=hJAM)[![Downloads](http://cranlogs.r-pkg.org/badges/hJAM)](https://CRAN.R-project.org/package=hJAM)
-<!-- CRAN badges: end -->
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/hJAM)](https://CRAN.R-project.org/package=hJAM)
+“[![CRAN
+downloads](http://cranlogs.r-pkg.org/badges/grand-total/%s)](https://cran.r-project.org/package=%1$s)”,
+names(pkgs) <!-- CRAN badges: end -->
 
 hJAM is a hierarchical model which unifies the framework of Mendelian
 Randomization and Transcriptome-wide association studies.
