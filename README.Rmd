@@ -19,8 +19,7 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 <!-- CRAN badges: start -->
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/hJAM)](https://CRAN.R-project.org/package=hJAM)
-"[![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/%s)](https://cran.r-project.org/package=%1$s)", names(pkgs)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/hJAM)](https://CRAN.R-project.org/package=hJAM)[![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/hJAM)](https://CRAN.R-project.org/package=hJAM)
 <!-- CRAN badges: end -->
 
 hJAM is a hierarchical model which unifies the framework of Mendelian Randomization and Transcriptome-wide association studies.
