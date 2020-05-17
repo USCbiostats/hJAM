@@ -6,14 +6,14 @@
 #'
 #' @export
 #' @import dplyr reshape2
-#' @importFrom stats cor
+#' @importFrom WGCNA cor
 #' @examples
 #' data(Gl)
 #' t = SNPs_heatmap(Gl = Gl)
 #' t
 
 SNPs_heatmap = function(Gl){
-  rho = cor(Gl)
+  rho = WGCNA::cor(Gl)
   melted_cormat = melt(rho)
   heatmap_p = ggplot(data = melted_cormat, aes(melted_cormat[, 1], melted_cormat[, 2], fill = melted_cormat[, 3]))+
     geom_tile(color = "white") +
