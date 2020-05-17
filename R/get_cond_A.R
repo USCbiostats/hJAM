@@ -100,7 +100,7 @@ get_cond_alpha = function(alphas, Gl, N.Gx, ridgeTerm = FALSE){
   Dm = 2*p*(1-p)*N.Gx
   D_sqrt = diag(sqrt(Dm))
   Dw_sqrt_inv = diag(1/sqrt(diag(G0_t_G0)))
-  G0_t_G0.scaled = D_sqrt %*% Dw_sqrt_inv  %*% t(G0) %*% G0 %*% Dw_sqrt_inv %*% D_sqrt
+  G0_t_G0.scaled = D_sqrt %*% Dw_sqrt_inv  %*% G0_t_G0 %*% Dw_sqrt_inv %*% D_sqrt
 
   ## Add a ridge term in case G0'G0 is singular
   ridgeValue = ifelse(ridgeTerm, min(1,min(diag(G0_t_G0.scaled)*.001)), 0)
