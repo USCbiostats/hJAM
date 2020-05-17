@@ -4,7 +4,9 @@
 \name{betas.Gy}
 \alias{betas.Gy}
 \title{Example beta list of hJAM}
-\format{The \code{betas.Gy} is the beta vector in the hJAM model: the association estimates between 210 SNPs and myocardial infarction. The summary data was collected from UK Biobank (n=459,324).}
+\format{
+The \code{betas.Gy} is the beta vector in the hJAM model: the association estimates between 210 SNPs and myocardial infarction. The summary data was collected from UK Biobank (n=459,324).
+}
 \usage{
 betas.Gy
 }

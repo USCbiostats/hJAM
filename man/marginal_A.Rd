@@ -4,7 +4,9 @@
 \name{marginal_A}
 \alias{marginal_A}
 \title{Example marginal A matrix of hJAM}
-\format{The \code{marginal_A} is the marginal estimates alpha matrix in the hJAM model: the association estimates between 210 SNPs and body mass index (BMI) and type 2 diabetes (T2D). The summary data was collected from GIANT consortium (n=339,224) and DIAGRAM+GERA+UKB (n=659316) for BMI and T2D, respectively.}
+\format{
+The \code{marginal_A} is the marginal estimates alpha matrix in the hJAM model: the association estimates between 210 SNPs and body mass index (BMI) and type 2 diabetes (T2D). The summary data was collected from GIANT consortium (n=339,224) and DIAGRAM+GERA+UKB (n=659316) for BMI and T2D, respectively.
+}
 \usage{
 marginal_A
 }

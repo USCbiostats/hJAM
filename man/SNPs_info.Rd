@@ -4,7 +4,9 @@
 \name{SNPs_info}
 \alias{SNPs_info}
 \title{Example SNPs' information of hJAM}
-\format{The \code{SNPs_info} is the information of the 210 SNPs that we used in this data example. It includes three columns: the rsID, major allele, and minor allele frequency of each SNP. The minor allele frequencies were calculated in the 503 European-ancestry subjects in 1000 Genome project.}
+\format{
+The \code{SNPs_info} is the information of the 210 SNPs that we used in this data example. It includes three columns: the rsID, major allele, and minor allele frequency of each SNP. The minor allele frequencies were calculated in the 503 European-ancestry subjects in 1000 Genome project.
+}
 \usage{
 SNPs_info
 }
