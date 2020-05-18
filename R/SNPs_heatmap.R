@@ -5,9 +5,10 @@
 #' @author Lai Jiang
 #'
 #' @export
-#' @import dplyr reshape2
-#' @import WGCNA
-#' @import AnnotationDbi GO.db impute preprocessCore
+#' @importFrom reshape2 melt
+#' @import dplyr
+#' @importFrom WGCNA cor
+#' @importFrom AnnotationDbi GO.db impute preprocessCore
 #' @examples
 #' data(Gl)
 #' t = SNPs_heatmap(Gl = Gl)
@@ -15,7 +16,7 @@
 
 SNPs_heatmap = function(Gl){
   rho = WGCNA::cor(Gl)
-  melted_cormat = melt(rho)
+  melted_cormat = reshape2::melt(rho)
   heatmap_p = ggplot(data = melted_cormat, aes(melted_cormat[, 1], melted_cormat[, 2], fill = melted_cormat[, 3]))+
     geom_tile(color = "white") +
     scale_fill_gradient2(low = "blue", high = "red", mid = "white",
