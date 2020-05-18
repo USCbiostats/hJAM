@@ -16,6 +16,14 @@ jobs:
         run: |
           BiocManager::install("WGCNA")
         shell: Rscript {0}
+      - name: Install AnnotationDbi
+        run: |
+          BiocManager::install("AnnotationDbi")
+        shell: Rscript {0}
+      - name: Install GO.db
+        run: |
+          BiocManager::install("GO.db")
+        shell: Rscript {0}
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))
