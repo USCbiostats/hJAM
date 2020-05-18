@@ -18,10 +18,5 @@ BugReports: https://github.com/lailylajiang/hJAM/issues
 Imports: 
     ggplot2,
     ggpubr,
-    dplyr,
     reshape2,
-    WGCNA,
-    impute,
-    preprocessCore,
-    GO.db,
-    AnnotationDbi
+    WGCNA
