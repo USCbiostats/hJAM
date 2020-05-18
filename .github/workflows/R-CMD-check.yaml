@@ -12,7 +12,7 @@ jobs:
         run: |
           if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
         shell: Rscript {0}
-       - name: Install WGCNA
+      - name: Install WGCNA
         run: |
           BiocManager::install("WGCNA")
         shell: Rscript {0}
