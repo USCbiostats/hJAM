@@ -12,9 +12,9 @@ jobs:
         run: |
           if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
         shell: Rscript {0}
-      - name: Install Bioconductor packages
+       - name: Install WGCNA
         run: |
-          BiocManager::install(c("WGCNA", "impute", "preprocessCore", "GO.db", "AnnotationDbi"))
+          BiocManager::install("WGCNA")
         shell: Rscript {0}
       - name: Install dependencies
         run: |
