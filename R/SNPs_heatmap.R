@@ -6,7 +6,8 @@
 #'
 #' @export
 #' @import dplyr reshape2
-#' @importFrom WGCNA cor
+#' @import WGCNA
+#' @import AnnotationDbi GO.db impute preprocessCore
 #' @examples
 #' data(Gl)
 #' t = SNPs_heatmap(Gl = Gl)
