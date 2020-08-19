@@ -83,7 +83,7 @@ hJAM_lnreg = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     glm.out = summary(glm(zL ~ 0 + X, family = gaussian()))
     betas.XY = glm.out$coef[,1]
     se.XY = glm.out$coef[,2]
-    pvalues.XY = 2*pnorm(-abs(betas.XY/se.XY))
+    pvalues.XY = glm.out$coef[,4]
 
     lower.ci = betas.XY+qnorm(0.025)*se.XY
     upper.ci = betas.XY+qnorm(0.975)*se.XY
