@@ -45,41 +45,25 @@ This is a basic example of fitting hJAM model:
 ```{r example}
 library(hJAM)
 # Download the data for data example 2 from the package
-data(Gl)
-data(betas.Gy)
-data(marginal_A)
+data(MI)
+```
+## Data and functions import
+
+A quick look at the data in the example - 
+
+```{r data_check}
+MI.Amatrix[1:5, ]
+MI.betas.gwas[1:5]
+MI.SNPs_info[1:5, ]
 ```
 
-If you don't have conditional A matrix, you can use ``get_cond_A`` (if more than one X) or ``get_cond_alpha`` (if only one X) to convert the marginal effects to conditional A matrix with the reference panel.
-
-```{r get_cond}
-conditional_A = get_cond_A(marginal_A = marginal_A, Gl = Gl, N.Gx = 339224, ridgeTerm = T)
-conditional_alpha = get_cond_alpha(alphas = marginal_A[, 1], Gl = Gl, N.Gx = 339224, ridgeTerm = T)
+```{r Amatrix}
+MI.cond_A = JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), ridgeTerm = TRUE)
+MI.cond_A[1:5, ]
+MI.Amatrix[1:5, ]
 ```
 
-After obtained the conditional A matrix, fit hJAM model with function ``hJAM_lnreg``.
-
-```{r fit_hJAM}
-# fit the hJAM model
-hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 459324, A = conditional_A, ridgeTerm = T)
+```{r hjam_lnreg}
+hJAM::hJAM(betas.Gy = MI.betas.gwas, N.Gy = 459324, A = MI.Amatrix, 
+                 Gl = MI.Geno, ridgeTerm = TRUE) # 459324 is the sample size of the UK Biobank GWAS of MI
 ```
-
-In the package, you could also implement hJAM with Egger regression, which is designed to detect the unmeasured pleiotropy effect. The function for hJAM with Egger regression is ``hJAM_egger``.
-
-```{r fit_hJAMegger}
-# fit the hJAM model
-hJAM_egger(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 459324, A = conditional_A, ridgeTerm = T)
-```
-
-The user could use ``SNPs_heatmap`` and ``SNPs_scatter_plot`` to display the correlation and pattern of the SNPs that the user used in the analysis.
-
-```{r scatter_plot}
-scatter_plot_p = SNPs_scatter_plot(A = conditional_A, betas.Gy = betas.Gy, num_X = 2)
-scatter_plot_p
-```
-
-```{r heatmap}
-heatmap_p = SNPs_heatmap(Gl)
-heatmap_p
-```
-

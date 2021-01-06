@@ -4,7 +4,7 @@
 #'
 #' @param betas.Gy The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)
 #' @param N.Gy The sample size of Gy
-#' @param Gl The reference panel (Gl), such as 1000 Genome
+#' @param Geno The reference panel (Geno), such as 1000 Genome
 #' @param A The A matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
 #' @author Lai Jiang
@@ -38,27 +38,25 @@
 #' \url{https://doi.org/10.1101/2020.02.03.924241}.
 #'
 #' @examples
-#' data(Gl)
-#' data(betas.Gy)
-#' data(conditional_A)
-#' hJAM_egger(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 459324, A = conditional_A, ridgeTerm = TRUE)
+#' data(MI)
+#' hJAM_egger(betas.Gy = MI.betas.gwas, Geno = MI.Geno, N.Gy = 459324, A = MI.Amatrix, ridgeTerm = TRUE)
 
 #' @return An object of hJAM with egger regression results.
 
-hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
+hJAM_egger = function(betas.Gy, N.Gy, Geno, A, ridgeTerm = FALSE) {
 
-  # Check the dimension of betas.Gy, Gl and A
+  # Check the dimension of betas.Gy, Geno and A
   dim_betas = length(betas.Gy)
-  dim_Gl = ncol(Gl)
+  dim_Geno = ncol(Geno)
   dim_A = ifelse(is.null(dim(A)), length(A), nrow(A))
 
-  if(dim_betas == dim_Gl & dim_betas == dim_A){
+  if(dim_betas == dim_Geno & dim_betas == dim_A){
 
     # The sample size in Gy
     N = N.Gy
 
     # Obtain the JAM variables: zL and L
-    p = apply(Gl, 2, mean)/2
+    p = apply(Geno, 2, mean)/2
     n0 = N*(1-p)^2
     n1 = N*2*p*(1-p)
     n2 = N*p^2
@@ -68,10 +66,10 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     z = n1*y1 + 2*n2*y2
 
     ## Compute G0'G0
-    G0 = scale(Gl, center=T, scale=F)
+    G0 = scale(Geno, center=T, scale=F)
     G0_t_G0 = t(G0)%*%G0
 
-    ## Modify G0'G0 if the sample sizes of Gl and Gx are different
+    ## Modify G0'G0 if the sample sizes of Geno and Gx are different
     Dm = 2*p*(1-p)*N
     D_sqrt = diag(sqrt(Dm))
     Dw_sqrt_inv = diag(1/sqrt(diag(G0_t_G0)))
@@ -86,7 +84,8 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     zL = solve(t(L))%*%z
 
     # Perform linear regression
-    X = cbind(rep(1, nrow(L)), L%*%A)
+    A = cbind(rep(1, nrow(L)), A)
+    X = L%*%A
     glm.out = summary(glm(zL ~ 0 + X, family = gaussian()))
     betas.XY = glm.out$coef[-1,1]
     se.XY = glm.out$coef[-1,2]
@@ -113,7 +112,7 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     } # add column names of A matrix if null
 
     out <- list(
-      Exposure = colnames_A,
+      Exposure = colnames_A[-1],
       numSNP = nrow(X),
       Estimate = betas.XY,
       StdErr = se.XY,
@@ -128,6 +127,6 @@ hJAM_egger = function(betas.Gy, N.Gy, Gl, A, ridgeTerm = FALSE) {
     class(out) <- "hJAM_egger"
     return(out)
   }else{
-    stop("The number of SNPs in betas.Gy, A matrix and the reference panel (Gl) are different.")
+    stop("The number of SNPs in betas.Gy, A matrix and the reference panel (Geno) are different.")
   }
 }

@@ -2,13 +2,13 @@ Encoding: UTF-8
 Package: hJAM
 Type: Package
 Title: Hierarchical Joint Analysis of Marginal Summary Statistics
-Version: 1.0.0
+Version: 1.0.1
 Author: Lai Jiang <jian848@usc.edu>
 Maintainer: Lai Jiang <jian848@usc.edu>
 Description: Provides functions to implement a hierarchical approach which is designed to perform joint analysis of summary statistics using the framework of Mendelian Randomization or transcriptome analysis. Reference: Lai Jiang, Shujing Xu, Nicholas Mancuso, Paul J. Newcombe, David V. Conti (2020). "A Hierarchical Approach Using Marginal Summary Statistics for Multiple Intermediates in a Mendelian Randomization or Transcriptome Analysis." <bioRxiv><doi:10.1101/2020.02.03.924241>.
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: 
     knitr,
     rmarkdown
