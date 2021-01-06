@@ -1,4 +1,4 @@
-#hJAM_egger
+#' hJAM_egger
 #' Fit hJAM with Egger regression
 #' @description The hJAM_egger function is to get the results from the hJAM model with Egger regression. It is for detecting potential pleiotropy
 #'
