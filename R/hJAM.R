@@ -79,7 +79,7 @@ hJAM = function(betas.Gy, N.Gy, Geno, A, ridgeTerm = FALSE) {
 
     # Perform linear regression
     X = L%*%A
-    glm.out = summary(lm(zL ~ 0 + X, family = gaussian()))
+    glm.out = summary(glm(zL ~ 0 + X, family = gaussian()))
     betas.XY = glm.out$coef[,1]
     se.XY = glm.out$coef[,2]
     pvalues.XY = 2*pnorm(-abs(betas.XY/se.XY))
