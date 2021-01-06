@@ -1,64 +1,65 @@
-#' Compute conditional Z matrix
-#' @description The get_cond_A function is to get the conditional A matrix by using marginal A matrix
+ #' Compute conditional A matrix
+#' @description The JAM_A function is to get the conditional A matrix by using marginal A matrix
 #'
-#' @param marginal_A the marginal effects of SNPs on the exposures (Gx).
-#' @param Gl the reference panel (Gl), such as 1000 Genome
+#' @param marginalA the marginal effects of SNPs on the exposures (Gx).
+#' @param Geno the reference panel (Geno), such as 1000 Genome
 #' @param N.Gx the sample size of each Gx. It can be a scalar or a vector. If there are multiple X's from different Gx, it should be a vector including the sample size of each Gx. If all alphas are from the same Gx, it could be a scalar.
+#' @param eaf_Gx the effect allele frequency of the SNPs in the Gx data.
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
 #' @author Lai Jiang
 #'
 #' @return A matrix with conditional estimates which are converted from marginal estimates using the JAM model.
 #' @export
 #' @examples
-#' data(Gl)
-#' data(betas.Gy)
-#' data(marginal_A)
-#' get_cond_A(marginal_A = marginal_A, Gl = Gl, N.Gx = c(339224, 659316), ridgeTerm = TRUE)
+#' data(MI)
+#' JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), ridgeTerm = TRUE)
+#' JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), eaf_Gx = MI.SNPs_info$ref_frq, ridgeTerm = TRUE)
 
-get_cond_A =  function(marginal_A, Gl, N.Gx, ridgeTerm = FALSE){
+JAM_A =  function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE){
 
-  if(ncol(marginal_A) == "NULL"){
-    stop("Please use get_cond_alpha instead of get_cond_A.")
-  }else if(length(N.Gx) != 1 && length(N.Gx) != ncol(marginal_A) ){
+  if(ncol(marginalA) == "NULL"){
+    stop("Please use JAM_alphas instead of get_cond_A.")
+  }else if(length(N.Gx) != 1 && length(N.Gx) != ncol(marginalA) ){
     stop("The length of the sample size of each Gx is different from the number of X in marginal A matrix")
-  }else if(nrow(marginal_A) != ncol(Gl)){
-    stop("The number of SNPs in marignal A matrix and the reference panel (Gl) are different.")
+  }else if(nrow(marginalA) != ncol(Geno)){
+    stop("The number of SNPs in marignal A matrix and the reference panel (Geno) are different.")
   }else{
 
     # Check the length of N.Gx
-    if(length(N.Gx) != ncol(marginal_A) && length(N.Gx) == 1){
-      N.Gx = rep(N.Gx, ncol(marginal_A))
+    if(length(N.Gx) != ncol(marginalA) && length(N.Gx) == 1){
+      N.Gx = rep(N.Gx, ncol(marginalA))
     }
 
-    # Check the dimension of Gl and A
-    dim_Gl = ncol(Gl)
-    dim_A = nrow(marginal_A)
+    # Check the dimension of Geno and A
+    dim_Geno = ncol(Geno)
+    dim_A = nrow(marginalA)
 
-    if(dim_Gl == dim_A){
+    if(dim_Geno == dim_A){
 
       # Obtain the JAM variables: zL and L
-      num_X = ncol(marginal_A)
-      conditional_A = marginal_A
+      num_X = ncol(marginalA)
+      conditional_A = marginalA
       for(i_A in 1:num_X){
 
         # Obtain marignal alpha and sample size for X_i
-        alphas = marginal_A[, i_A]
+        alphas = marginalA[, i_A]
         i_N = N.Gx[i_A]
 
         # Compute the conditional alpha
-        conditional_A[, i_A] = get_cond_alpha(alphas, Gl, N.Gx = i_N, ridgeTerm)
+        conditional_A[, i_A] = JAM_alphas(alphas, Geno, N.Gx = i_N, eaf_Gx = eaf_Gx, ridgeTerm)
       }
       return(conditional_A)
-    }}
+    }
+    }
 }
 
 #' Compute conditional alphas
-#' @description The get_cond_alpha function is to compute the conditional alpha vector for each X
-#' If only one X in the model, please use get_cond_alpha instead of get_cond_A
-#' A sub-step in the get_cond_A function
+#' @description The JAM_alphas function is to compute the conditional alpha vector for each X
+#' If only one X in the model, please use JAM_alphas instead of JAM_A
+#' A sub-step in the JAM_A function
 #'
 #' @param alphas the marginal effects of SNPs on one exposure (Gx).
-#' @param Gl the reference panel (Gl), such as 1000 Genome
+#' @param Geno the reference panel (Geno), such as 1000 Genome
 #' @param N.Gx the sample size of the Gx. It can be a scalar.
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE
 #' @author Lai Jiang
@@ -74,15 +75,19 @@ get_cond_A =  function(marginal_A, Gl, N.Gx, ridgeTerm = FALSE){
 #' \url{https://doi.org/10.1101/2020.02.03.924241}.
 #'
 #' @examples
-#' data(Gl)
-#' data(betas.Gy)
-#' data(marginal_A)
-#' get_cond_alpha(alphas = marginal_A[, 1], Gl = Gl, N.Gx = 339224, ridgeTerm = TRUE)
+#' data(MI)
+#' JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224, ridgeTerm = TRUE)
+#' JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224, eaf_Gx = MI.SNPs_info$ref_frq, ridgeTerm = TRUE)
 
-get_cond_alpha = function(alphas, Gl, N.Gx, ridgeTerm = FALSE){
+JAM_alphas = function(alphas, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE){
 
   ## Compute z vector
-  p = apply(Gl, 2, mean)/2
+  if(!is.null(eaf_Gx)){
+    p = eaf_Gx
+  }else{
+    p = apply(Geno, 2, mean)/2
+  }
+
   n0 = N.Gx*(1-p)^2
   n1 = N.Gx*2*p*(1-p)
   n2 = N.Gx*p^2
@@ -93,10 +98,10 @@ get_cond_alpha = function(alphas, Gl, N.Gx, ridgeTerm = FALSE){
   z = n1*y1 + 2*n2*y2
 
   ## Compute G0'G0
-  G0 = scale(Gl, center=T, scale=F)
+  G0 = scale(Geno, center=T, scale=F)
   G0_t_G0 = t(G0)%*%G0
 
-  ## Modify G0'G0 if the sample sizes of Gl and Gx are different
+  ## Modify G0'G0 if the sample sizes of Geno and Gx are different
   Dm = 2*p*(1-p)*N.Gx
   D_sqrt = diag(sqrt(Dm))
   Dw_sqrt_inv = diag(1/sqrt(diag(G0_t_G0)))
