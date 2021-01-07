@@ -32,12 +32,13 @@ You can install the published version of hJAM from CRAN with:
 install.packages("hJAM")
 ```
 
-Or you can install the development version from [GitHub](https://github.com/lailylajiang/hJAM) with:
+Or you can install the development version from [GitHub](https://github.com/USCbiostats/hJAM) with:
 
 ``` r
 if (!require("devtools")) { install.packages("devtools") } else {}
-devtools::install_github("lailylajiang/hJAM")
+devtools::install_github("USCbiostats/hJAM")
 ```
+
 ## Example
 
 This is a basic example of fitting hJAM model:
