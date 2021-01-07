@@ -6,7 +6,7 @@
 #' @param N.Gy The sample size of Gy
 #' @param Geno The reference panel (Geno), such as 1000 Genome
 #' @param A The A matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)
-#' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
+#' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as TRUE
 #' @author Lai Jiang
 #'
 #' @return An object of the hJAM with egger regression results.
@@ -39,11 +39,11 @@
 #'
 #' @examples
 #' data(MI)
-#' hJAM_egger(betas.Gy = MI.betas.gwas, Geno = MI.Geno, N.Gy = 459324, A = MI.Amatrix, ridgeTerm = TRUE)
+#' hJAM_egger(betas.Gy = MI.betas.gwas, Geno = MI.Geno, N.Gy = 459324, A = MI.Amatrix)
 
 #' @return An object of hJAM with egger regression results.
 
-hJAM_egger = function(betas.Gy, N.Gy, Geno, A, ridgeTerm = FALSE) {
+hJAM_egger = function(betas.Gy, N.Gy, Geno, A, ridgeTerm = TRUE) {
 
   # Check the dimension of betas.Gy, Geno and A
   dim_betas = length(betas.Gy)

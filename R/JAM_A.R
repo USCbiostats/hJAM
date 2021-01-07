@@ -5,7 +5,7 @@
 #' @param Geno the reference panel (Geno), such as 1000 Genome
 #' @param N.Gx the sample size of each Gx. It can be a scalar or a vector. If there are multiple X's from different Gx, it should be a vector including the sample size of each Gx. If all alphas are from the same Gx, it could be a scalar.
 #' @param eaf_Gx the effect allele frequency of the SNPs in the Gx data.
-#' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.
+#' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as TRUE.
 #' @author Lai Jiang
 #'
 #' @return A matrix with conditional estimates which are converted from marginal estimates using the JAM model.
@@ -13,9 +13,9 @@
 #' @examples
 #' data(MI)
 #' JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), ridgeTerm = TRUE)
-#' JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), eaf_Gx = MI.SNPs_info$ref_frq, ridgeTerm = TRUE)
+#' JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), eaf_Gx = MI.SNPs_info$ref_frq)
 
-JAM_A =  function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE){
+JAM_A =  function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE){
 
   if(ncol(marginalA) == "NULL"){
     stop("Please use JAM_alphas instead of get_cond_A.")
@@ -62,7 +62,7 @@ JAM_A =  function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE){
 #' @param Geno the reference panel (Geno), such as 1000 Genome
 #' @param N.Gx the sample size of the Gx. It can be a scalar.
 #' @param eaf_Gx the effect allele frequency of the SNPs in the Gx data.
-#' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE
+#' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as TRUE.
 #' @author Lai Jiang
 #' @return A vector with conditional estimates which are converted from marginal estimates using the JAM model.
 #'
@@ -77,10 +77,10 @@ JAM_A =  function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE){
 #'
 #' @examples
 #' data(MI)
-#' JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224, ridgeTerm = TRUE)
-#' JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224, eaf_Gx = MI.SNPs_info$ref_frq, ridgeTerm = TRUE)
+#' JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224)
+#' JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224, eaf_Gx = MI.SNPs_info$ref_frq)
 
-JAM_alphas = function(alphas, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE){
+JAM_alphas = function(alphas, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE){
 
   ## Compute z vector
   if(!is.null(eaf_Gx)){

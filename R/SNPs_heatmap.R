@@ -10,14 +10,15 @@
 #' @importFrom WGCNA cor
 #' @examples
 #' data(MI.Rdata)
-#' t = SNPs_heatmap(Geno = MI.Geno[1: 10])
+#' t = SNPs_heatmap(Geno = MI.Geno[, 1: 10])
 #' t
-#' t = SNPs_heatmap(Geno = MI.Geno[1: 10], show.variable = TRUE)
+#' t = SNPs_heatmap(Geno = MI.Geno[, 1: 10], show.variable = TRUE)
 #' t
 
 SNPs_heatmap = function(Geno, show.variables = FALSE){
   rho = WGCNA::cor(Geno)
-  melted_cormat = reshape2::melt(rho) %>% mutate(r.text = paste0("r = ", round(value, 3)))
+  melted_cormat = reshape2::melt(rho)
+  melted_cormat$r.text = paste0("r = ", round(melted_cormat$value, 3))
 
   heatmap_p = ggplot(data = melted_cormat, aes(y=melted_cormat[, 1], x=melted_cormat[, 2], fill = melted_cormat[, 3]))+
     geom_tile() +

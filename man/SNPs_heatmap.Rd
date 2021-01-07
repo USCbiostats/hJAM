@@ -16,9 +16,9 @@ To generate the heatmap of all the SNPs that the user use in the analysis
 }
 \examples{
 data(MI.Rdata)
-t = SNPs_heatmap(Geno = MI.Geno[1: 10])
+t = SNPs_heatmap(Geno = MI.Geno[, 1: 10])
 t
-t = SNPs_heatmap(Geno = MI.Geno[1: 10], show.variable = TRUE)
+t = SNPs_heatmap(Geno = MI.Geno[, 1: 10], show.variable = TRUE)
 t
 }
 \author{
