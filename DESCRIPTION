@@ -19,4 +19,6 @@ Imports:
     ggplot2,
     ggpubr,
     reshape2,
-    WGCNA
+    WGCNA,
+    glmnet,
+    susieR
