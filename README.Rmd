@@ -65,5 +65,5 @@ MI.Amatrix[1:5, ]
 
 ```{r hjam_lnreg}
 hJAM::hJAM(betas.Gy = MI.betas.gwas, N.Gy = 459324, A = MI.Amatrix, 
-                 Gl = MI.Geno, ridgeTerm = TRUE) # 459324 is the sample size of the UK Biobank GWAS of MI
+           Geno = MI.Geno, ridgeTerm = TRUE) # 459324 is the sample size of the UK Biobank GWAS of MI
 ```

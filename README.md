@@ -39,75 +39,62 @@ This is a basic example of fitting hJAM model:
 
 ``` r
 library(hJAM)
+#> 
 # Download the data for data example 2 from the package
-data(Gl)
-data(betas.Gy)
-data(marginal_A)
+data(MI)
 ```
 
-If you don’t have conditional A matrix, you can use `get_cond_A` (if
-more than one X) or `get_cond_alpha` (if only one X) to convert the
-marginal effects to conditional A matrix with the reference
-panel.
+## Data and functions import
+
+A quick look at the data in the example -
 
 ``` r
-conditional_A = get_cond_A(marginal_A = marginal_A, Gl = Gl, N.Gx = 339224, ridgeTerm = T)
-conditional_alpha = get_cond_alpha(alphas = marginal_A[, 1], Gl = Gl, N.Gx = 339224, ridgeTerm = T)
+MI.Amatrix[1:5, ]
+#>               bmi          t2d
+#> [1,]  0.019531085  0.072587211
+#> [2,]  0.025262061  0.013586392
+#> [3,] -0.005147363  0.089673178
+#> [4,]  0.046302578  0.041313103
+#> [5,]  0.016849395 -0.004564683
+MI.betas.gwas[1:5]
+#> [1]  0.0197298348  0.0133151413  0.0008717583  0.0213550014 -0.0031514278
+MI.SNPs_info[1:5, ]
+#>          SNP Major_A   ref_frq BMI.sig T2D.sig
+#> 1  rs2296173       G 0.1207945       0       1
+#> 2   rs657452       A 0.5474260       1       0
+#> 3 rs12088739       A 0.8785975       0       1
+#> 4  rs3101336       C 0.6781516       1       0
+#> 5 rs12566985       G 0.6793677       1       0
 ```
 
-After obtained the conditional A matrix, fit hJAM model with function
-`hJAM_lnreg`.
+``` r
+MI.cond_A = JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), ridgeTerm = TRUE)
+MI.cond_A[1:5, ]
+#>               bmi          t2d
+#> [1,]  0.019531085  0.072587479
+#> [2,]  0.025262061  0.013586305
+#> [3,] -0.005147363  0.089673869
+#> [4,]  0.046302578  0.041313424
+#> [5,]  0.016849395 -0.004564612
+MI.Amatrix[1:5, ]
+#>               bmi          t2d
+#> [1,]  0.019531085  0.072587211
+#> [2,]  0.025262061  0.013586392
+#> [3,] -0.005147363  0.089673178
+#> [4,]  0.046302578  0.041313103
+#> [5,]  0.016849395 -0.004564683
+```
 
 ``` r
-# fit the hJAM model
-hJAM_lnreg(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 459324, A = conditional_A, ridgeTerm = T)
+hJAM::hJAM(betas.Gy = MI.betas.gwas, N.Gy = 459324, A = MI.Amatrix, 
+           Geno = MI.Geno, ridgeTerm = TRUE) # 459324 is the sample size of the UK Biobank GWAS of MI
 #> ------------------------------------------------------ 
 #>                    hJAM output                         
 #> ------------------------------------------------------ 
 #> Number of SNPs used in model: 210 
 #> 
 #>     Estimate StdErr         95% CI       Pvalue
-#> bmi    0.322  0.061 (0.222, 0.422) 1.268210e-07
-#> t2d    0.119  0.017 (0.091, 0.147) 3.176604e-12
+#> bmi    0.322  0.061 (0.202, 0.441) 1.268210e-07
+#> t2d    0.119  0.017 (0.086, 0.153) 3.176604e-12
 #> ------------------------------------------------------
 ```
-
-In the package, you could also implement hJAM with Egger regression,
-which is designed to detect the unmeasured pleiotropy effect. The
-function for hJAM with Egger regression is `hJAM_egger`.
-
-``` r
-# fit the hJAM model
-hJAM_egger(betas.Gy = betas.Gy, Gl = Gl, N.Gy = 459324, A = conditional_A, ridgeTerm = T)
-#> ------------------------------------------------------ 
-#>                    hJAM egger output                   
-#> ------------------------------------------------------ 
-#> Number of SNPs used in model: 210 
-#> 
-#>     Estimate StdErr         95% CI       Pvalue
-#> bmi    0.302  0.070 (0.186, 0.417) 1.841101e-05
-#> t2d    0.107  0.027 (0.063, 0.151) 5.839645e-05
-#> 
-#> Intercept
-#>      Est.Int StdErr.Int 95% CI.Int        Pvalue.Int
-#> [1,] "0.453" "0.787"    "(-0.841, 1.748)" "0.565"   
-#> ------------------------------------------------------
-```
-
-The user could use `SNPs_heatmap` and `SNPs_scatter_plot` to display the
-correlation and pattern of the SNPs that the user used in the
-analysis.
-
-``` r
-scatter_plot_p = SNPs_scatter_plot(A = conditional_A, betas.Gy = betas.Gy, num_X = 2)
-scatter_plot_p
-```
-
-<img src="man/figures/README-scatter_plot-1.png" width="100%" />
-
-``` r
-heatmap_p = SNPs_heatmap(Gl)
-heatmap_p
-```
-
-<img src="man/figures/README-heatmap-1.png" width="100%" />
