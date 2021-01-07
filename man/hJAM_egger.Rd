@@ -4,7 +4,7 @@
 \alias{hJAM_egger}
 \title{Fit hJAM with Egger regression}
 \usage{
-hJAM_egger(betas.Gy, N.Gy, Geno, A, ridgeTerm = FALSE)
+hJAM_egger(betas.Gy, N.Gy, Geno, A, ridgeTerm = TRUE)
 }
 \arguments{
 \item{betas.Gy}{The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)}
@@ -15,7 +15,7 @@ hJAM_egger(betas.Gy, N.Gy, Geno, A, ridgeTerm = FALSE)
 
 \item{A}{The A matrix in the paper: the marginal/conditional effects of SNPs on the exposures (Gx)}
 
-\item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.}
+\item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as TRUE}
 }
 \value{
 An object of the hJAM with egger regression results.
@@ -44,7 +44,7 @@ The hJAM_egger function is to get the results from the hJAM model with Egger reg
 }
 \examples{
 data(MI)
-hJAM_egger(betas.Gy = MI.betas.gwas, Geno = MI.Geno, N.Gy = 459324, A = MI.Amatrix, ridgeTerm = TRUE)
+hJAM_egger(betas.Gy = MI.betas.gwas, Geno = MI.Geno, N.Gy = 459324, A = MI.Amatrix)
 }
 \references{
 Lai Jiang, Shujing Xu, Nicholas Mancuso, Paul J. Newcombe, David V. Conti (2020).

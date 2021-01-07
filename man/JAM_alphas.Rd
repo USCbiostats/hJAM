@@ -4,7 +4,7 @@
 \alias{JAM_alphas}
 \title{Compute conditional alphas}
 \usage{
-JAM_alphas(alphas, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE)
+JAM_alphas(alphas, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE)
 }
 \arguments{
 \item{alphas}{the marginal effects of SNPs on one exposure (Gx).}
@@ -15,7 +15,7 @@ JAM_alphas(alphas, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE)
 
 \item{eaf_Gx}{the effect allele frequency of the SNPs in the Gx data.}
 
-\item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE}
+\item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as TRUE.}
 }
 \value{
 A vector with conditional estimates which are converted from marginal estimates using the JAM model.
@@ -27,8 +27,8 @@ A sub-step in the JAM_A function
 }
 \examples{
 data(MI)
-JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224, ridgeTerm = TRUE)
-JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224, eaf_Gx = MI.SNPs_info$ref_frq, ridgeTerm = TRUE)
+JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224)
+JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224, eaf_Gx = MI.SNPs_info$ref_frq)
 }
 \references{
 Lai Jiang, Shujing Xu, Nicholas Mancuso, Paul J. Newcombe, David V. Conti (2020).

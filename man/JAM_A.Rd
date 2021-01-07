@@ -4,7 +4,7 @@
 \alias{JAM_A}
 \title{Compute conditional A matrix}
 \usage{
-JAM_A(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE)
+JAM_A(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE)
 }
 \arguments{
 \item{marginalA}{the marginal effects of SNPs on the exposures (Gx).}
@@ -15,7 +15,7 @@ JAM_A(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE)
 
 \item{eaf_Gx}{the effect allele frequency of the SNPs in the Gx data.}
 
-\item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE.}
+\item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as TRUE.}
 }
 \value{
 A matrix with conditional estimates which are converted from marginal estimates using the JAM model.
@@ -26,7 +26,7 @@ The JAM_A function is to get the conditional A matrix by using marginal A matrix
 \examples{
 data(MI)
 JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), ridgeTerm = TRUE)
-JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), eaf_Gx = MI.SNPs_info$ref_frq, ridgeTerm = TRUE)
+JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), eaf_Gx = MI.SNPs_info$ref_frq)
 }
 \author{
 Lai Jiang

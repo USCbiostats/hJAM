@@ -1,8 +1,18 @@
 #' SHA-JAM
 #' Fit SHA-JAM
-#' @description
+#' @description Function to implement SHA-JAM
 #'
 #' @param betas.Gy The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)
+#' @param betas_se.Gy The standard errors of the betas
+#' @param N.Gy The sample size of the GWAS where you obtain the betas.Gy and betas_se.Gy
+#' @param raf.Gy The reference allele frequency of the SNPs in betas.Gy
+#' @param Geno The individual level data of the reference panel. Must have the same order of SNPs as in the betas.Gy.
+#' @param A The conditional A matrix.
+#' @param L.susie The largest number of credible set allowed in SHA-JAM. Required by SHA-JAM.
+#' @param min_abs_corr The requested minimum absolute correlation coefficient between intermediates within one credible set. Required by SHA-JAM.
+#' @param coverage The coverage of credible set. Default is 0.95. Required by SHA-JAM.
+#' @param estimate_residual_variance If estimate the residual variance in the fitting procedure of SHA-JAM. Default as TRUE. Required by SHA-JAM.
+#' @param max_iter The number of maximum iterations in fitting SHA-JAM. Required by SHA-JAM.
 #' @author Lai Jiang
 #'
 #' @return An object of the SHAJAM
@@ -18,35 +28,33 @@
 #' }
 #'
 #' @export
-#' @import glmnet
+#' @importFrom glmnet cv.glmnet
+#' @importFrom stats coef complete.cases median
 #' @import susieR
-#'
 
-SHAJAM = function(betas.Gy, betas_se.Gy = NULL, N.Gy, MAF_summary = NULL,
-                  Gl, A,
-                  selection_alg = 'en',
+SHAJAM = function(betas.Gy, betas_se.Gy = NULL, N.Gy, raf.Gy = NULL,
+                  Geno, A,
                   L.susie = NULL, min_abs_corr = NULL, coverage=0.95,
                   estimate_residual_variance = TRUE,
-                  max_iter = 500,
-                  ridgeTerm = FALSE) {
+                  max_iter = 500) {
 
-  # Check the dimension of betas.Gy, Gl and A
+  # Check the dimension of betas.Gy, Geno and A
   dim_betas = length(betas.Gy)
-  dim_Gl = ncol(Gl)
+  dim_Geno = ncol(Geno)
   dim_A = ifelse(is.null(dim(A)), length(A), nrow(A))
 
-  if(dim_betas == dim_Gl & dim_betas == dim_A){
+  if(dim_betas == dim_Geno & dim_betas == dim_A){
 
     # Remove rows with all-zero
     zero.A.row = ifelse(apply(A, 1, sum)==0, TRUE, FALSE)
     A = A[!zero.A.row, ]
     betas.Gy = betas.Gy[!zero.A.row]
     betas_se.Gy = betas_se.Gy[!zero.A.row]
-    Gl = Gl[, !zero.A.row]
+    Geno = Geno[, !zero.A.row]
 
     # Remove rows with zero in Genotype file
-    if(sum(is.na(Gl))>0){
-      Gl = Gl[complete.cases(Gl), ]
+    if(sum(is.na(Geno))>0){
+      Geno = Geno[complete.cases(Geno), ]
     }
 
     # Check the colnames of A matrix
@@ -54,10 +62,10 @@ SHAJAM = function(betas.Gy, betas_se.Gy = NULL, N.Gy, MAF_summary = NULL,
       stop("Please assign colnames to the A matrix input.\n")
     }
 
-    if(is.null(MAF_summary)){
-      p_D = apply(Gl, 2, mean)/2
+    if(is.null(raf.Gy)){
+      p_D = apply(Geno, 2, mean)/2
     }else{
-      p_D = MAF_summary[!zero.A.row]
+      p_D = raf.Gy[!zero.A.row]
     }
 
     # Obtain the JAM variables: zL and L
@@ -71,10 +79,10 @@ SHAJAM = function(betas.Gy, betas_se.Gy = NULL, N.Gy, MAF_summary = NULL,
     z = n1*y1 + 2*n2*y2
 
     ## Compute G0'G0
-    G0 = scale(Gl, center=T, scale=F)
+    G0 = scale(Geno, center=T, scale=F)
     G0_t_G0 = t(G0)%*%G0
 
-    ## Modify G0'G0 if the sample sizes of Gl and Gy are different
+    ## Modify G0'G0 if the sample sizes of Geno and Gy are different
     Dj = 2*p_D*(1-p_D)*N.Gy
     D_sqrt = diag(sqrt(Dj))
     Dw_sqrt_inv = diag(1/sqrt(diag(G0_t_G0)))
@@ -83,96 +91,60 @@ SHAJAM = function(betas.Gy, betas_se.Gy = NULL, N.Gy, MAF_summary = NULL,
     Sj2 = betas_se.Gy^2
     yTy.est = median(Dj*Sj2*(N.Gy-1)+Dj*betas.Gy^2, na.rm = TRUE)
 
-    if(selection_alg == 'susie'){
-      if(is.null(L.susie) | is.null(min_abs_corr)){
-        stop("Please specify the L value or min_abs_corr in Susie model.")
-      }else if(is.null(betas_se.Gy)){
-        stop("Specify the standard errors of the beta.gwas")
-      }else{
-        AtXtXA = t(A)%*%G0_t_G0.scaled%*%A
-        XAty = t(A) %*% z
-
-        susie_out = susieR::susie_suff_stat(XtX = AtXtXA, Xty = XAty,
-                                            n = N.Gy, yty = yTy.est, L = L.susie,
-                                            min_abs_corr = min_abs_corr, max_iter = max_iter, coverage=coverage,
-                                            estimate_residual_variance = estimate_residual_variance)
-        num.CS = length(susie_out$sets$cs)
-        cs_purity = susie_out$sets$purity
-
-        if(num.CS > 0){
-          i.CS.name = names(eval(parse(text = "susie_out$sets$cs[1]")))
-          Selected_credible_sets = rep(i.CS.name, times = eval(parse(text = paste0("length(susie_out$sets$cs$", i.CS.name, ")"))))
-          i.XY = unlist(eval(parse(text = "susie_out$sets$cs[1]")))
-          if(num.CS > 1){
-            for(j.cs in 2:num.CS){
-              i.CS.name = names(eval(parse(text = paste0("susie_out$sets$cs[", j.cs, "]"))))
-              Selected_credible_sets = c(Selected_credible_sets,
-                                         rep(i.CS.name, times = eval(parse(text = paste0("length(susie_out$sets$cs$", i.CS.name, ")")))))
-              i.XY = c(i.XY, unlist(eval(parse(text = paste0("susie_out$sets$cs[", j.cs, "]")))))
-            }
-          }
-        }else{
-          Selected_credible_sets = i.XY = NULL
-        }
-
-        betas.XY = susieR::susie_get_posterior_mean(susie_out)[i.XY]
-        i.length = length(unique(unlist(susie_out$sets$cs)))
-        i.pip = susie_out$pip[i.XY]
-
-        out <- list(
-          numSNP = length(betas.Gy),
-          Selected_variable_length = i.length,
-          Selected_variable_index = i.XY,
-          Selected_credible_sets = Selected_credible_sets,
-          Selected_variable_name = colnames(A)[i.XY],
-          Coefficients = betas.XY,
-          Selected_variable_pip = i.pip,
-          Selection_algorithm = selection_alg,
-          num_Credible_sets = num.CS,
-          all_variables = colnames(A),
-          all_variable_pip = susie_out$pip,
-          all_variable_coefficient = susieR::susie_get_posterior_mean(susie_out),
-          numX = ncol(A),
-          cs_purity = cs_purity)
-      }
+    if(is.null(L.susie) | is.null(min_abs_corr)){
+      stop("Please specify the L value or min_abs_corr in Susie model.")
+    }else if(is.null(betas_se.Gy)){
+      stop("Specify the standard errors of the beta.gwas")
     }else{
+      AtXtXA = t(A)%*%G0_t_G0.scaled%*%A
+      XAty = t(A) %*% z
 
-      ## Add a ridge term in case G0'G0 is singular
-      ridgeValue = ifelse(ridgeTerm, min(1, min(diag(G0_t_G0.scaled)*.001)), 0)
-      G0_t_G0.ridge = G0_t_G0.scaled + ridgeValue*diag(length(betas.Gy))
+      susie_out = susieR::susie_suff_stat(XtX = AtXtXA, Xty = XAty,
+                                          n = N.Gy, yty = yTy.est, L = L.susie,
+                                          min_abs_corr = min_abs_corr, max_iter = max_iter, coverage=coverage,
+                                          estimate_residual_variance = estimate_residual_variance)
+      num.CS = length(susie_out$sets$cs)
+      cs_purity = susie_out$sets$purity
 
-      # Perfrom Cholesky decompostion and construct zL
-      L = chol(G0_t_G0.ridge)
-      zL = solve(t(L))%*%z
-
-      # Perform linear regression
-      X = L%*%A
-
-      zero.X.column = ifelse(apply(X, 2, sum)==0, TRUE, FALSE)
-      X = X[, !zero.X.column]
-      if(selection_alg == 'en'){
-        tune_alpha = 0.5
-      }else if(selection_alg == 'lasso'){
-        tune_alpha = 1
+      if(num.CS > 0){
+        i.CS.name = names(eval(parse(text = "susie_out$sets$cs[1]")))
+        Selected_credible_sets = rep(i.CS.name, times = eval(parse(text = paste0("length(susie_out$sets$cs$", i.CS.name, ")"))))
+        i.XY = unlist(eval(parse(text = "susie_out$sets$cs[1]")))
+        if(num.CS > 1){
+          for(j.cs in 2:num.CS){
+            i.CS.name = names(eval(parse(text = paste0("susie_out$sets$cs[", j.cs, "]"))))
+            Selected_credible_sets = c(Selected_credible_sets,
+                                       rep(i.CS.name, times = eval(parse(text = paste0("length(susie_out$sets$cs$", i.CS.name, ")")))))
+            i.XY = c(i.XY, unlist(eval(parse(text = paste0("susie_out$sets$cs[", j.cs, "]")))))
+          }
+        }
+      }else{
+        Selected_credible_sets = i.XY = NULL
       }
 
-      glm.out = cv.glmnet(X, zL, family="gaussian", alpha = tune_alpha, intercept = FALSE) # set intercept=0, use elastic net
-      betas.XY = coef(glm.out)@x
-      i.XY = coef(glm.out)@i
-      i.length = length(i.XY)
+      betas.XY = susieR::susie_get_posterior_mean(susie_out)[i.XY]
+      i.length = length(unique(unlist(susie_out$sets$cs)))
+      i.pip = susie_out$pip[i.XY]
 
       out <- list(
-        numSNP = nrow(X),
+        numSNP = length(betas.Gy),
         Selected_variable_length = i.length,
         Selected_variable_index = i.XY,
+        Selected_credible_sets = Selected_credible_sets,
         Selected_variable_name = colnames(A)[i.XY],
         Coefficients = betas.XY,
-        Selection_algorithm = selection_alg)
+        Selected_variable_pip = i.pip,
+        num_Credible_sets = num.CS,
+        all_variables = colnames(A),
+        all_variable_pip = susie_out$pip,
+        all_variable_coefficient = susieR::susie_get_posterior_mean(susie_out),
+        numX = ncol(A),
+        cs_purity = cs_purity)
     }
 
     class(out) <- "SHAJAM"
     return(out)
   }else{
-    stop("The number of SNPs in betas.Gy, A matrix and the reference panel (Gl) are different.")
+    stop("The number of SNPs in betas.Gy, A matrix and the reference panel (Geno) are different.")
   }
 }
