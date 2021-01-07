@@ -9,20 +9,38 @@ SHAJAM(
   betas.Gy,
   betas_se.Gy = NULL,
   N.Gy,
-  MAF_summary = NULL,
-  Gl,
+  raf.Gy = NULL,
+  Geno,
   A,
-  selection_alg = "en",
   L.susie = NULL,
   min_abs_corr = NULL,
   coverage = 0.95,
   estimate_residual_variance = TRUE,
-  max_iter = 500,
-  ridgeTerm = FALSE
+  max_iter = 500
 )
 }
 \arguments{
 \item{betas.Gy}{The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)}
+
+\item{betas_se.Gy}{The standard errors of the betas}
+
+\item{N.Gy}{The sample size of the GWAS where you obtain the betas.Gy and betas_se.Gy}
+
+\item{raf.Gy}{The reference allele frequency of the SNPs in betas.Gy}
+
+\item{Geno}{The individual level data of the reference panel. Must have the same order of SNPs as in the betas.Gy.}
+
+\item{A}{The conditional A matrix.}
+
+\item{L.susie}{The largest number of credible set allowed in SHA-JAM. Required by SHA-JAM.}
+
+\item{min_abs_corr}{The requested minimum absolute correlation coefficient between intermediates within one credible set. Required by SHA-JAM.}
+
+\item{coverage}{The coverage of credible set. Default is 0.95. Required by SHA-JAM.}
+
+\item{estimate_residual_variance}{If estimate the residual variance in the fitting procedure of SHA-JAM. Default as TRUE. Required by SHA-JAM.}
+
+\item{max_iter}{The number of maximum iterations in fitting SHA-JAM. Required by SHA-JAM.}
 }
 \value{
 An object of the SHAJAM
@@ -38,7 +56,7 @@ An object of the SHAJAM
 }
 }
 \description{
-
+Function to implement SHA-JAM
 }
 \author{
 Lai Jiang
