@@ -14,7 +14,9 @@
 #' @references Locke, Adam E., et al. Genetic studies of body mass index yield new insights for obesity biology. Nature 518.7538 (2015): 197-206.
 #' @references Xue, Angli, et al. Genome-wide association analyses identify 143 risk variants and putative regulatory mechanisms for type 2 diabetes. Nature communications 9.1 (2018): 1-14.
 #' @references Sudlow, Cathie, et al. UK biobank: an open access resource for identifying the causes of a wide range of complex diseases of middle and old age. Plos med 12.3 (2015): e1001779.
-"MI"
+#' @name MI
+#' @aliases MI.marginal.Amatrix MI.Amatrix MI.Geno MI.betas.gwas MI.SNPs_info
+NULL
 
 #' Real data for selecting the genes on chromosome 10 for the risk of prostate cancer
 #'
@@ -32,7 +34,9 @@
 #' @references Consortium GP. A global reference for human genetic variation. Nature 2015; 526: 68.
 #' @references Lonsdale, John, et al. The genotype-tissue expression (GTEx) project. Nature genetics 45.6 (2013): 580-585.
 #' @references Schumacher, Fredrick R., et al. Association analyses of more than 140,000 men identify 63 new prostate cancer susceptibility loci. Nature genetics 50.7 (2018): 928-936.
-"GTEx.PrCa"
+#' @name GTEx.PrCa
+#' @aliases GTEx.PrCa.marginal.Amatrix GTEx.PrCa.Amatrix GTEx.PrCa.Geno GTEx.PrCa.betas.gwas GTEx.PrCa.betas.se.gwas GTEx.PrCa.pvalue.gwas GTEx.PrCa.maf.gwas GTEx.PrCa.rsid
+NULL
 
 #' Real data for selecting the metabolites for the risk of prostate cancer
 #'
@@ -50,5 +54,6 @@
 #' @references Consortium GP. A global reference for human genetic variation. Nature 2015; 526: 68.
 #' @references Zuber, Verena, et al. Selecting likely causal risk factors from high-throughput experiments using multivariable Mendelian randomization. Nature communications 11.1 (2020): 1-11.
 #' @references Schumacher, Fredrick R., et al. Association analyses of more than 140,000 men identify 63 new prostate cancer susceptibility loci. Nature genetics 50.7 (2018): 928-936.
-"PrCa.lipids"
-
+#' @name PrCa.lipids
+#' @aliases PrCa.lipids.marginal.Amatrix PrCa.lipids.Amatrix PrCa.lipids.Geno PrCa.lipids.betas.gwas PrCa.lipids.betas.se.gwas PrCa.lipids.pvalue.gwas PrCa.lipids.maf.gwas PrCa.lipids.rsid
+NULL
