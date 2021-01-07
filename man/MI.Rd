@@ -11,8 +11,8 @@
 \format{
 The \code{MI} object is a set of data sets which was used to estimate the causal effect of body mass index and type 2 diabetes on the risk of myocardial infarction.
 \describe{
-   \item{MI.marginal.Amatrix}{The marginal Â matrix. Column one and two are the marginal estimates of the SNPs on body mass index from GIANT consortium (n = 339,224) (Locke et al., 2015) and type 2 diabetes from DIAGRAM+GERA+UKB (n = 659,316) (Xue et al., 2018), respectively}
-   \item{MI.Amatrix}{The conditional Â matrix composed by JAM and the marginal Â matrix. Column one and two are the conditional effect estimates of the SNPs on body mass index and type 2 diabetes, respectively.}
+   \item{MI.marginal.Amatrix}{The marginal \eqn{\hat{A}}{A hat} matrix. Column one and two are the marginal estimates of the SNPs on body mass index from GIANT consortium (n = 339,224) (Locke et al., 2015) and type 2 diabetes from DIAGRAM+GERA+UKB (n = 659,316) (Xue et al., 2018), respectively}
+   \item{MI.Amatrix}{The conditional \eqn{\hat{A}}{A hat} matrix composed by JAM and the marginal \eqn{\hat{A}}{A hat} matrix. Column one and two are the conditional effect estimates of the SNPs on body mass index and type 2 diabetes, respectively.}
    \item{MI.Geno}{The reference genotype data from the European-ancestry population in 1000 Genome Project (Consortium, 2015).}
    \item{MI.betas.gwas}{The b vector. The association estimates between selected SNPs and the risk of myocardial infarction from UK Biobank (Sudlow et al., 2015).}
    \item{MI.SNPs_info}{The SNP information. Five columns included: the RSID, reference allele, reference allele frequency, if BMI significant and if T2D significant. The last two columns are indicator variables for the SNPs which are genome-wide significant associated with BMI/T2D.}

@@ -7,21 +7,23 @@
 \alias{GTEx.PrCa.Geno}
 \alias{GTEx.PrCa.betas.gwas}
 \alias{GTEx.PrCa.betas.se.gwas}
-\alias{GTEx.PrCa.pvalue.gwas}
+\alias{GTEx.PrCa.pvalues.gwas}
 \alias{GTEx.PrCa.maf.gwas}
 \alias{GTEx.PrCa.rsid}
+\alias{GTEx.PrCa.marginal.selected}
 \title{Real data for selecting the genes on chromosome 10 for the risk of prostate cancer}
 \format{
 The \code{GTEx.PrCa} is a set of data sets which was applied for selecting the genes on chromosome 10 for the risk of prostate cancer
 \describe{
-    \item{GTEx.PrCa.marginal.Amatrix}{The marginal Â matrix with 158 genes and 182 eQTLs. The raw data was downloaded from GTEx analysis v7 (https://gtexportal.org/home/datasets). Priority Pruner was used to select the independent eQTLs. We used this matrix for MR-BMA implementation.)}
-    \item{GTEx.PrCa.Amatrix}{The conditional A matrix with 167 genes and 447 eQTLs, which was composed by SuSiE JAM and the raw data of Â matrix.}
+    \item{GTEx.PrCa.marginal.Amatrix}{The marginal \eqn{\hat{A}}{A hat} matrix with 158 genes and 182 eQTLs. The raw data was downloaded from GTEx analysis v7 (https://gtexportal.org/home/datasets). Priority Pruner was used to select the independent eQTLs. We used this matrix for MR-BMA implementation.)}
+    \item{GTEx.PrCa.Amatrix}{The conditional A matrix with 167 genes and 447 eQTLs, which was composed by SuSiE JAM and the raw data of \eqn{\hat{A}}{A hat}  matrix.}
     \item{GTEx.PrCa.Geno}{The reference genotype data for the 447 eQTLs from the European-ancestry population in 1000 Genome Project (Consortium, 2015)}
     \item{GTEx.PrCa.betas.gwas}{The b vector. The association estimates between eQTLs and the risk of prostate cancer from (Schumacher et al., 2018)}
     \item{GTEx.PrCa.betas.se.gwas}{The se(b) vector from (Schumacher et al., 2018)}
-    \item{GTEx.PrCa.pvalue.gwas}{The pvalues vector of the association estimates between selected SNPs and the risk of prostate cancer from (Schumacher et al., 2018)}
+    \item{GTEx.PrCa.pvalues.gwas}{The pvalues vector of the association estimates between selected SNPs and the risk of prostate cancer from (Schumacher et al., 2018)}
     \item{GTEx.PrCa.maf.gwas}{The vector of the effect allele frequency of the SNPs from (Schumacher et al., 2018)}
-    \item{GTEx.PrCa.rsid}{The RSID of the eQTLs}
+    \item{GTEx.PrCa.rsid}{NOT PRESENT The RSID of the eQTLs}
+    \item{GTEx.PrCa.marginal.selected}{TBD}
 }
 }
 \description{
