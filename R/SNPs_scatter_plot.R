@@ -11,9 +11,8 @@
 #' @export
 #' @import ggplot2 ggpubr
 #' @examples
-#' data(conditional_A)
-#' data(betas.Gy)
-#' t = SNPs_scatter_plot(A = conditional_A, betas.Gy = betas.Gy, num_X = 2)
+#' data(MI)
+#' t = SNPs_scatter_plot(A = MI.Amatrix, betas.Gy = MI.betas.gwas, num_X = 2)
 #' t
 
 SNPs_scatter_plot = function(A, betas.Gy, num_X){

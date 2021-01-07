@@ -61,6 +61,7 @@ JAM_A =  function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE){
 #' @param alphas the marginal effects of SNPs on one exposure (Gx).
 #' @param Geno the reference panel (Geno), such as 1000 Genome
 #' @param N.Gx the sample size of the Gx. It can be a scalar.
+#' @param eaf_Gx the effect allele frequency of the SNPs in the Gx data.
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE
 #' @author Lai Jiang
 #' @return A vector with conditional estimates which are converted from marginal estimates using the JAM model.
