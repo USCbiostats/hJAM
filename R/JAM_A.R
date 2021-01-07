@@ -1,5 +1,5 @@
- #' Compute conditional A matrix
-#' @description The JAM_A function is to get the conditional A matrix by using marginal A matrix
+#' Compute conditional A matrix
+#' @description The \code{JAM_A} function is to get the conditional A matrix by using marginal A matrix
 #'
 #' @param marginalA the marginal effects of SNPs on the exposures (Gx).
 #' @param Geno the reference panel (Geno), such as 1000 Genome
@@ -54,13 +54,14 @@ JAM_A =  function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE){
 }
 
 #' Compute conditional alphas
-#' @description The JAM_alphas function is to compute the conditional alpha vector for each X
+#' @description The \code{JAM_alphas} function is to compute the conditional alpha vector for each X
 #' If only one X in the model, please use JAM_alphas instead of JAM_A
 #' A sub-step in the JAM_A function
 #'
 #' @param alphas the marginal effects of SNPs on one exposure (Gx).
 #' @param Geno the reference panel (Geno), such as 1000 Genome
 #' @param N.Gx the sample size of the Gx. It can be a scalar.
+#' @param eaf_Gx the effect allele frequency of the SNPs in the Gx data.
 #' @param ridgeTerm ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE
 #' @param eaf_Gx TBD
 #' @author Lai Jiang

@@ -2,7 +2,7 @@
 % Please edit documentation in R/hJAM.R
 \name{hJAM}
 \alias{hJAM}
-\title{Fit hJAM with linear regression}
+\title{Fit hJAM }
 \usage{
 hJAM(betas.Gy, N.Gy, Geno, A, ridgeTerm = FALSE)
 }

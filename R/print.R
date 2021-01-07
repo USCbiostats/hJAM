@@ -9,11 +9,11 @@ output.format = function(x, ...){
   return(round(x, digits = 3))
 }
 
-#' Print out for hJAM_lnreg
+#' Print out for hJAM
 #' @description Print out for hJAM_lnreg
 #' @author Lai Jiang
 #'
-#' @param x input
+#' @param x object output by hJAM
 #' @param ... other options you want to put in
 #' @export
 print.hJAM = function(x, ...) {
@@ -38,7 +38,7 @@ print.hJAM = function(x, ...) {
 #' @description Print out for hJAM_egger
 #' @author Lai Jiang
 #'
-#' @param x input
+#' @param x obejct output from hJAM_egger
 #' @param ... other options you want to put in
 #' @export
 print.hJAM_egger = function(x, ...) {
@@ -61,6 +61,49 @@ print.hJAM_egger = function(x, ...) {
   exp_output = rbind(exp_output, int_output)
   rownames(exp_output) <- c(x$Exposure, 'Intercept')
   print(exp_output)
+
+  cat("------------------------------------------------------", "\n\n")
+}
+
+#' Print out for SHA-JAM
+#' @description Print out for SHA-JAM
+#' @author Lai Jiang
+#'
+#' @param x obejct output from SHAJAM
+#' @param ... other options you want to put in
+#' @export
+print.SHAJAM = function(x, ...) {
+  cat("------------------------------------------------------", "\n")
+  cat("                   SHAJAM output                      ", "\n")
+  cat("------------------------------------------------------", "\n")
+
+  cat(paste0("Number of SNPs used in model: ", x$numSNP), "\n")
+  cat(paste0("Number of intermediates used in model: ", x$numX), "\n")
+
+  if(x$Selection_algorithm == 'susie'){
+    cat(paste0("Number of the credible sets of intermediates selected by ", x$Selection_algorithm, ": ", x$num_Credible_sets), "\n\n")
+
+    if(x$Selected_variable_length == 0){
+      cat(paste0("No variable has been selected by ", x$Selection_algorithm, "\n"))
+    }else{
+      output =  as.data.frame(unclass(x)[4:7])
+      output[, 3:4] = sapply(output[, 3:4], function(x) output.format(x))
+      colnames(output) = c('Credible Sets', 'Variable', 'Coefficients', 'PIP')
+      rownames(output) = NULL
+      print(output)
+    }
+  }else{
+    cat(paste0("Number of intermediates selected by ", x$Selection_algorithm, ": ", x$Selected_variable_length), "\n\n")
+
+    if(x$Selected_variable_length == 0){
+      cat(paste0("No variable has been selected by ", x$Selection_algorithm, "\n"))
+    }else{
+      output =  as.data.frame(unclass(x))[4:5]
+      output[, 2] = sapply(output[, 2], function(x) output.format(x))
+      colnames(output) = c('Variable', 'Coefficients')
+      print(output)
+    }
+  }
 
   cat("------------------------------------------------------", "\n\n")
 }

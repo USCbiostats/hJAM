@@ -13,7 +13,7 @@ JAM_alphas(alphas, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = FALSE)
 
 \item{N.Gx}{the sample size of the Gx. It can be a scalar.}
 
-\item{eaf_Gx}{TBD}
+\item{eaf_Gx}{the effect allele frequency of the SNPs in the Gx data.}
 
 \item{ridgeTerm}{ridgeTerm = TRUE when the matrix L is singular. Matrix L is obtained from the cholesky decomposition of G0'G0. Default as FALSE}
 }

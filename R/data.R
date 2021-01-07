@@ -30,7 +30,7 @@ NULL
 #'     \item{GTEx.PrCa.pvalues.gwas}{The pvalues vector of the association estimates between selected SNPs and the risk of prostate cancer from (Schumacher et al., 2018)}
 #'     \item{GTEx.PrCa.maf.gwas}{The vector of the effect allele frequency of the SNPs from (Schumacher et al., 2018)}
 #'     \item{GTEx.PrCa.rsid}{NOT PRESENT The RSID of the eQTLs}
-#'     \item{GTEx.PrCa.marginal.selected}{TBD}
+#'     \item{GTEx.PrCa.marginal.selected}{The indicator variable of the genes and eQTLs being selected in MR-BMA or not (not needed for SHA-JAM).}
 #' }
 #' @references Consortium GP. A global reference for human genetic variation. Nature 2015; 526: 68.
 #' @references Lonsdale, John, et al. The genotype-tissue expression (GTEx) project. Nature genetics 45.6 (2013): 580-585.
@@ -40,7 +40,7 @@ NULL
 NULL
 
 #' Real data for selecting the metabolites for the risk of prostate cancer
-#'
+
 #' @format The \code{PrCa.lipids} is a set of data sets which was for selecting the metabolites for the risk of prostate cancer
 #' \describe{
 #'     \item{PrCa.lipids.marginal.Amatrix}{The marginal \eqn{\hat{A}}{A hat} matrix with 118 metabolites and 144 SNPs. This data is directly adapted from https://github.com/verena-zuber/demo_AMD (Zuber et al., 2020)}
