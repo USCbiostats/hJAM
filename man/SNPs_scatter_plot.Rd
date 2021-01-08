@@ -2,27 +2,27 @@
 % Please edit documentation in R/SNPs_scatter_plot.R
 \name{SNPs_scatter_plot}
 \alias{SNPs_scatter_plot}
-\title{Scatter plot for all the SNPs used in the analysis}
+\title{Scatter plot for SNPs vs. one intermediate in the analysis}
 \usage{
-SNPs_scatter_plot(A, betas.Gy, num_X)
+SNPs_scatter_plot(alphas, betas.Gy, X.label = NULL)
 }
 \arguments{
-\item{A}{The effects of SNPs on the exposures (Gx).}
+\item{alphas}{The effects of SNPs on the intermediate (i.e. exposure/risk factor) (Gx).}
 
 \item{betas.Gy}{The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)}
 
-\item{num_X}{The number of intermediates in the research question.}
+\item{X.label}{The label of the intermediate (i.e. exposure/risk factor). Default is NULL.}
 }
 \value{
 A set of scatter plots with x-axis being the conditional \eqn{\alpha}{alpha} estimates for each
 intermediate and y-axis being the \eqn{\beta}{beta} estimates.
 }
 \description{
-To generate the scatter plot of all the SNPs that the user use in the analysis
+To generate the scatter plot of the SNPs vs. one intermediate that the user use in the analysis
 }
 \examples{
 data(MI)
-t = SNPs_scatter_plot(A = MI.Amatrix, betas.Gy = MI.betas.gwas, num_X = 2)
+t = SNPs_scatter_plot(alphas = MI.Amatrix[, 1], betas.Gy = MI.betas.gwas, X.label = "BMI")
 t
 }
 \author{
