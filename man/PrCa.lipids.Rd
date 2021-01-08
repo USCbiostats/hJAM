@@ -14,14 +14,14 @@
 \format{
 The \code{PrCa.lipids} is a set of data sets which was for selecting the metabolites for the risk of prostate cancer
 \describe{
-    \item{PrCa.lipids.marginal.Amatrix}{The marginal \eqn{\hat{A}}{A hat} matrix with 118 metabolites and 144 SNPs. This data is directly adapted from https://github.com/verena-zuber/demo_AMD (Zuber et al., 2020)}
-    \item{PrCa.lipids.Amatrix}{The conditional \eqn{\hat{A}}{A hat} matrix with 118 metabolites and 144 SNPs, which was composed by SuSiE JAM and the marginal \eqn{\hat{A}}{A hat}  matrix.}
-    \item{PrCa.lipids.Geno}{The reference genotype data for the 144 SNPs from the European-ancestry population in 1000 Genome Project (Consortium, 2015).}
-    \item{PrCa.lipids.betas.gwas}{The b vector. The association estimates between selected SNPs and the risk of prostate cancer from (Schumacher et al., 2018)}
-    \item{PrCa.lipids.betas.se.gwas}{The se(b) vector from (Schumacher et al., 2018)}
-    \item{PrCa.lipids.pvalue.gwas}{The pvalues vector of the association estimates between selected SNPs and the risk of prostate cancer from (Schumacher et al., 2018)}
-    \item{PrCa.lipids.maf.gwas}{The vector of the effect allele frequency of the SNPs from (Schumacher et al., 2018)}
-    \item{PrCa.lipids.rsid}{The RSID of the SNPs.}
+ \item{PrCa.lipids.marginal.Amatrix}{The marginal \eqn{\hat{A}} matrix with 118 metabolites and 144 SNPs. This data is directly adapted from https://github.com/verena-zuber/demo_AMD (Zuber et al., 2020)}
+ \item{PrCa.lipids.Amatrix}{The conditional \eqn{\hat{A}} matrix with 118 metabolites and 144 SNPs, which was composed by SuSiE JAM and the marginal \eqn{\hat{A}} matrix.}
+ \item{PrCa.lipids.Geno}{The reference genotype data for the 144 SNPs from the European-ancestry population in 1000 Genome Project (Consortium, 2015).}
+ \item{PrCa.lipids.betas.gwas}{The b vector. The association estimates between selected SNPs and the risk of prostate cancer from (Schumacher et al., 2018)}
+ \item{PrCa.lipids.betas.se.gwas}{The se(b) vector from (Schumacher et al., 2018)}
+ \item{PrCa.lipids.pvalue.gwas}{The pvalues vector of the association estimates between selected SNPs and the risk of prostate cancer from (Schumacher et al., 2018)}
+ \item{PrCa.lipids.maf.gwas}{The vector of the effect allele frequency of the SNPs from (Schumacher et al., 2018)}
+ \item{PrCa.lipids.rsid}{The RSID of the SNPs.}
 }
 }
 \description{

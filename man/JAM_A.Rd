@@ -21,7 +21,7 @@ JAM_A(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE)
 A matrix with conditional estimates which are converted from marginal estimates using the JAM model.
 }
 \description{
-The JAM_A function is to get the conditional A matrix by using marginal A matrix
+The \code{JAM_A} function is to get the conditional A matrix by using marginal A matrix
 }
 \examples{
 data(MI)

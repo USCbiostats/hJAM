@@ -2,7 +2,8 @@
 % Please edit documentation in R/hJAM_egger.R
 \name{hJAM_egger}
 \alias{hJAM_egger}
-\title{Fit hJAM with Egger regression}
+\title{hJAM_egger
+Fit hJAM with Egger regression}
 \usage{
 hJAM_egger(betas.Gy, N.Gy, Geno, A, ridgeTerm = TRUE)
 }

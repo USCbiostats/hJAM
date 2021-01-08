@@ -4,8 +4,8 @@
 #'
 #' @format The \code{MI} object is a set of data sets which was used to estimate the causal effect of body mass index and type 2 diabetes on the risk of myocardial infarction.
 #' \describe{
-#'  \item{MI.marginal.Amatrix}{The marginal $\hat{A}$ matrix. Column one and two are the marginal estimates of the SNPs on body mass index from GIANT consortium (n = 339,224) (Locke et al., 2015) and type 2 diabetes from DIAGRAM+GERA+UKB (n = 659,316) (Xue et al., 2018), respectively}
-#'  \item{MI.Amatrix}{The conditional $\hat{A}$ matrix composed by JAM and the marginal $\hat{A}$ matrix. Column one and two are the conditional effect estimates of the SNPs on body mass index and type 2 diabetes, respectively.}
+#'  \item{MI.marginal.Amatrix}{The marginal \eqn{\hat{A}} matrix. Column one and two are the marginal estimates of the SNPs on body mass index from GIANT consortium (n = 339,224) (Locke et al., 2015) and type 2 diabetes from DIAGRAM+GERA+UKB (n = 659,316) (Xue et al., 2018), respectively}
+#'  \item{MI.Amatrix}{The conditional \eqn{\hat{A}} matrix composed by JAM and the marginal \eqn{\hat{A}} matrix. Column one and two are the conditional effect estimates of the SNPs on body mass index and type 2 diabetes, respectively.}
 #'  \item{MI.Geno}{The reference genotype data from the European-ancestry population in 1000 Genome Project (Consortium, 2015).}
 #'  \item{MI.betas.gwas}{The b vector. The association estimates between selected SNPs and the risk of myocardial infarction from UK Biobank (Sudlow et al., 2015).}
 #'  \item{MI.SNPs_info}{The SNP information. Five columns included: the RSID, reference allele, reference allele frequency, if BMI significant and if T2D significant. The last two columns are indicator variables for the SNPs which are genome-wide significant associated with BMI/T2D.}
@@ -22,8 +22,8 @@ NULL
 #'
 #' @format The \code{GTEx.PrCa} is a set of data sets which was applied for selecting the genes on chromosome 10 for the risk of prostate cancer
 #' \describe{
-#'  \item{GTEx.PrCa.marginal.Amatrix}{The marginal $\hat{A}$ matrix with 158 genes and 182 eQTLs. The raw data was downloaded from GTEx analysis v7 (https://gtexportal.org/home/datasets). Priority Pruner was used to select the independent eQTLs. We used this matrix for MR-BMA implementation.)}
-#'  \item{GTEx.PrCa.Amatrix}{The conditional $\hat{A}$ matrix with 167 genes and 447 eQTLs, which was composed by SuSiE JAM and the raw data of $\hat{A}$ matrix.}
+#'  \item{GTEx.PrCa.marginal.Amatrix}{The marginal \eqn{\hat{A}} matrix with 158 genes and 182 eQTLs. The raw data was downloaded from GTEx analysis v7 (https://gtexportal.org/home/datasets). Priority Pruner was used to select the independent eQTLs. We used this matrix for MR-BMA implementation.)}
+#'  \item{GTEx.PrCa.Amatrix}{The conditional \eqn{\hat{A}} matrix with 167 genes and 447 eQTLs, which was composed by SuSiE JAM and the raw data of \eqn{\hat{A}} matrix.}
 #'  \item{GTEx.PrCa.Geno}{The reference genotype data for the 447 eQTLs from the European-ancestry population in 1000 Genome Project (Consortium, 2015)}
 #'  \item{GTEx.PrCa.betas.gwas}{The b vector. The association estimates between eQTLs and the risk of prostate cancer from (Schumacher et al., 2018)}
 #'  \item{GTEx.PrCa.betas.se.gwas}{The se(b) vector from (Schumacher et al., 2018)}
@@ -41,8 +41,8 @@ NULL
 
 #' @format The \code{PrCa.lipids} is a set of data sets which was for selecting the metabolites for the risk of prostate cancer
 #' \describe{
-#'  \item{PrCa.lipids.marginal.Amatrix}{The marginal $\hat{A}$ matrix with 118 metabolites and 144 SNPs. This data is directly adapted from https://github.com/verena-zuber/demo_AMD (Zuber et al., 2020)}
-#'  \item{PrCa.lipids.Amatrix}{The conditional $\hat{A}$ matrix with 118 metabolites and 144 SNPs, which was composed by SuSiE JAM and the marginal $\hat{A}$ matrix.}
+#'  \item{PrCa.lipids.marginal.Amatrix}{The marginal \eqn{\hat{A}} matrix with 118 metabolites and 144 SNPs. This data is directly adapted from https://github.com/verena-zuber/demo_AMD (Zuber et al., 2020)}
+#'  \item{PrCa.lipids.Amatrix}{The conditional \eqn{\hat{A}} matrix with 118 metabolites and 144 SNPs, which was composed by SuSiE JAM and the marginal \eqn{\hat{A}} matrix.}
 #'  \item{PrCa.lipids.Geno}{The reference genotype data for the 144 SNPs from the European-ancestry population in 1000 Genome Project (Consortium, 2015).}
 #'  \item{PrCa.lipids.betas.gwas}{The b vector. The association estimates between selected SNPs and the risk of prostate cancer from (Schumacher et al., 2018)}
 #'  \item{PrCa.lipids.betas.se.gwas}{The se(b) vector from (Schumacher et al., 2018)}

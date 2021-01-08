@@ -28,7 +28,6 @@
 #' }
 #'
 #' @export
-#' @importFrom glmnet cv.glmnet
 #' @importFrom stats coef complete.cases median
 #' @import susieR
 
