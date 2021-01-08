@@ -13,7 +13,8 @@
 #' @examples
 #' data(MI)
 #' JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), ridgeTerm = TRUE)
-#' JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), eaf_Gx = MI.SNPs_info$ref_frq)
+#' JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316),
+#' eaf_Gx = MI.SNPs_info$ref_frq)
 
 JAM_A =  function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE){
 
@@ -78,7 +79,8 @@ JAM_A =  function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE){
 #' @examples
 #' data(MI)
 #' JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224)
-#' JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224, eaf_Gx = MI.SNPs_info$ref_frq)
+#' JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224,
+#' eaf_Gx = MI.SNPs_info$ref_frq)
 
 JAM_alphas = function(alphas, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE){
 

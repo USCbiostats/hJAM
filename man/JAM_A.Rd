@@ -26,7 +26,8 @@ The \code{JAM_A} function is to get the conditional A matrix by using marginal A
 \examples{
 data(MI)
 JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), ridgeTerm = TRUE)
-JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), eaf_Gx = MI.SNPs_info$ref_frq)
+JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316),
+eaf_Gx = MI.SNPs_info$ref_frq)
 }
 \author{
 Lai Jiang
