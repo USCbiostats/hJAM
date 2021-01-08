@@ -8,7 +8,6 @@
 }
 \arguments{
 \item{x}{object output by hJAM}
-
 \item{...}{other options you want to put in}
 }
 \description{

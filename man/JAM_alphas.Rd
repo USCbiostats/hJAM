@@ -21,7 +21,7 @@ JAM_alphas(alphas, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE)
 A vector with conditional estimates which are converted from marginal estimates using the JAM model.
 }
 \description{
-The \code{JAM_alphas} function is to compute the conditional alpha vector for each X
+The JAM_alphas function is to compute the conditional alpha vector for each X
 If only one X in the model, please use JAM_alphas instead of JAM_A
 A sub-step in the JAM_A function
 }

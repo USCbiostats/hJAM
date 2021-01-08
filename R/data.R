@@ -16,6 +16,7 @@
 #' @references Sudlow, Cathie, et al. UK biobank: an open access resource for identifying the causes of a wide range of complex diseases of middle and old age. Plos med 12.3 (2015): e1001779.
 #' @name MI
 #' @aliases MI.marginal.Amatrix MI.Amatrix MI.Geno MI.betas.gwas MI.SNPs_info
+NULL
 
 #' Real data for selecting the genes on chromosome 10 for the risk of prostate cancer
 #'
@@ -33,9 +34,10 @@
 #' @references Lonsdale, John, et al. The genotype-tissue expression (GTEx) project. Nature genetics 45.6 (2013): 580-585.
 #' @references Schumacher, Fredrick R., et al. Association analyses of more than 140,000 men identify 63 new prostate cancer susceptibility loci. Nature genetics 50.7 (2018): 928-936.
 #' @name GTEx.PrCa
-#' @aliases GTEx.PrCa.marginal.Amatrix GTEx.PrCa.Amatrix GTEx.PrCa.Geno GTEx.PrCa.betas.gwas GTEx.PrCa.betas.se.gwas GTEx.PrCa.pvalue.gwas GTEx.PrCa.maf.gwas GTEx.PrCa.rsid
-#' Real data for selecting the metabolites for the risk of prostate cancer
+#' @aliases GTEx.PrCa.marginal.Amatrix GTEx.PrCa.Amatrix GTEx.PrCa.Geno GTEx.PrCa.betas.gwas GTEx.PrCa.betas.se.gwas GTEx.PrCa.pvalues.gwas GTEx.PrCa.maf.gwas GTEx.PrCa.rsid GTEx.PrCa.marginal.selected
+NULL
 
+#' Real data for selecting the metabolites for the risk of prostate cancer
 
 #' @format The \code{PrCa.lipids} is a set of data sets which was for selecting the metabolites for the risk of prostate cancer
 #' \describe{
@@ -53,5 +55,4 @@
 #' @references Schumacher, Fredrick R., et al. Association analyses of more than 140,000 men identify 63 new prostate cancer susceptibility loci. Nature genetics 50.7 (2018): 928-936.
 #' @name PrCa.lipids
 #' @aliases PrCa.lipids.marginal.Amatrix PrCa.lipids.Amatrix PrCa.lipids.Geno PrCa.lipids.betas.gwas PrCa.lipids.betas.se.gwas PrCa.lipids.pvalue.gwas PrCa.lipids.maf.gwas PrCa.lipids.rsid
-
-
+NULL
