@@ -9,7 +9,7 @@
 #'  \item{MI.Geno}{The reference genotype data from the European-ancestry population in 1000 Genome Project (Consortium, 2015).}
 #'  \item{MI.betas.gwas}{The b vector. The association estimates between selected SNPs and the risk of myocardial infarction from UK Biobank (Sudlow et al., 2015).}
 #'  \item{MI.SNPs_info}{The SNP information. Five columns included: the RSID, reference allele, reference allele frequency, if BMI significant and if T2D significant. The last two columns are indicator variables for the SNPs which are genome-wide significant associated with BMI/T2D.}
-#'    }
+#' }
 #' @references Consortium GP. A global reference for human genetic variation. Nature 2015; 526: 68.
 #' @references Locke, Adam E., et al. Genetic studies of body mass index yield new insights for obesity biology. Nature 518.7538 (2015): 197-206.
 #' @references Xue, Angli, et al. Genome-wide association analyses identify 143 risk variants and putative regulatory mechanisms for type 2 diabetes. Nature communications 9.1 (2018): 1-14.
