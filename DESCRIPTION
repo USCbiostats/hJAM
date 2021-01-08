@@ -18,7 +18,6 @@ BugReports: https://github.com/lailylajiang/hJAM/issues
 Depends: R (>= 3.5.0)
 Imports: 
     ggplot2,
-    ggpubr,
     reshape2,
     WGCNA,
     glmnet,
