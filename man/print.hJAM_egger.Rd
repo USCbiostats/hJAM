@@ -7,6 +7,7 @@
 \method{print}{hJAM_egger}(x, ...)
 }
 \arguments{
+
 \item{x}{obejct output from hJAM_egger}
 
 \item{...}{other options you want to put in}
