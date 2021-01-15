@@ -80,29 +80,45 @@ print.SHAJAM = function(x, ...) {
   cat(paste0("Number of SNPs used in model: ", x$numSNP), "\n")
   cat(paste0("Number of intermediates used in model: ", x$numX), "\n")
 
-  if(x$Selection_algorithm == 'susie'){
-    cat(paste0("Number of the credible sets of intermediates selected by ", x$Selection_algorithm, ": ", x$num_Credible_sets), "\n\n")
+  cat(paste0("Number of the credible sets of intermediates selected by SHA-JAM: ", x$num_Credible_sets), "\n\n")
 
-    if(x$Selected_variable_length == 0){
-      cat(paste0("No variable has been selected by ", x$Selection_algorithm, "\n"))
-    }else{
-      output =  as.data.frame(unclass(x)[4:7])
-      output[, 3:4] = sapply(output[, 3:4], function(x) output.format(x))
-      colnames(output) = c('Credible Sets', 'Variable', 'Coefficients', 'PIP')
-      rownames(output) = NULL
-      print(output)
-    }
+  if(x$Selected_variable_length == 0){
+    cat(paste0("No variable has been selected by SHA-JAM\n"))
   }else{
-    cat(paste0("Number of intermediates selected by ", x$Selection_algorithm, ": ", x$Selected_variable_length), "\n\n")
+    output =  as.data.frame(unclass(x)[4:7])
+    output[, 3:4] = sapply(output[, 3:4], function(x) output.format(x))
+    colnames(output) = c('Credible Sets', 'Variable', 'Coefficients', 'PIP')
+    rownames(output) = NULL
+    print(output)
+  }
 
-    if(x$Selected_variable_length == 0){
-      cat(paste0("No variable has been selected by ", x$Selection_algorithm, "\n"))
-    }else{
-      output =  as.data.frame(unclass(x))[4:5]
-      output[, 2] = sapply(output[, 2], function(x) output.format(x))
-      colnames(output) = c('Variable', 'Coefficients')
-      print(output)
-    }
+  cat("------------------------------------------------------", "\n\n")
+}
+
+#' Print out for EN-hJAM
+#' @description Print out for EN-hJAM
+#' @author Lai Jiang
+#'
+#' @param x obejct output from ENhJAM
+#' @param ... other options you want to put in
+#' @export
+print.ENhJAM = function(x, ...) {
+  cat("------------------------------------------------------", "\n")
+  cat("             Elastic net hJAM output                  ", "\n")
+  cat("------------------------------------------------------", "\n")
+
+  cat(paste0("Number of SNPs used in model: ", x$numSNP), "\n")
+  cat(paste0("Number of intermediates used in model: ", x$numX), "\n")
+
+  cat(paste0("Number of intermediates selected by elastic net hJAM: ", x$Selected_variable_length), "\n\n")
+
+  if(x$Selected_variable_length == 0){
+    cat(paste0("No variable has been selected by elastic net hJAM \n"))
+  }else{
+    output =  as.data.frame(unclass(x))[4:5]
+    output[, 2] = sapply(output[, 2], function(x) output.format(x))
+    colnames(output) = c('Variable', 'Coefficients')
+    print(output)
   }
 
   cat("------------------------------------------------------", "\n\n")

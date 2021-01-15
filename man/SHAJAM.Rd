@@ -12,7 +12,7 @@ SHAJAM(
   raf.Gy = NULL,
   Geno,
   A,
-  L.susie = NULL,
+  L.cs = NULL,
   min_abs_corr = NULL,
   coverage = 0.95,
   estimate_residual_variance = TRUE,
@@ -32,7 +32,7 @@ SHAJAM(
 
 \item{A}{The conditional A matrix.}
 
-\item{L.susie}{The largest number of credible set allowed in SHA-JAM. Required by SHA-JAM.}
+\item{L.cs}{The largest number of credible set allowed in SHA-JAM. Required by SHA-JAM.}
 
 \item{min_abs_corr}{The requested minimum absolute correlation coefficient between intermediates within one credible set. Required by SHA-JAM.}
 
@@ -46,13 +46,17 @@ SHAJAM(
 An object of the SHAJAM
 
 \describe{
-   \item{Exposure}{The intermediates, such as the modifiable risk factors in Mendelian Randomization and gene expression in transcriptome analysis.}
-   \item{numSNP}{The number of SNPs that the user use in the instrument set.}
-   \item{Estimate}{The conditional estimates of the associations between intermediates and the outcome.}
-   \item{StdErr}{The standard error of the conditional estimates of the associations between intermediates and the outcome.}
-   \item{Lower.CI}{The lower bound of the 95\% confidence interval of the estimates.}
-   \item{Upper.CI}{The upper bound of the 95\% confidence interval of the estimates.}
-   \item{Pvalue}{The p value of the estimates with a type-I error equals 0.05.}
+   \item{numSNP}{The number of SNPs used in the analysis.}
+   \item{numX}{The number of intermediates in the analysis.}
+   \item{Selected_variable_length}{The number of selected intermediates, regardless of the credible sets.}
+   \item{Selected_variable_name}{The label/name for each selected intermediates.}
+   \item{Coefficients}{The coefficients of selected intermediates.}
+   \item{Selected_variable_pip}{The posterior inclusion probability of each selected intermediate.}
+   \item{num_Credible_sets}{Number of credible sets.}
+   \item{all_variables}{The label/name for all candidate intermediates.}
+   \item{all_variable_pip}{The posterior inclusion probability of all candidate intermediates.}
+   \item{all_variable_coefficient}{The coefficients of all candidate intermediates.}
+   \item{cs_purity}{The purity of the credibel set selected.}
 }
 }
 \description{

@@ -8,7 +8,7 @@
 #' @param raf.Gy The reference allele frequency of the SNPs in betas.Gy
 #' @param Geno The individual level data of the reference panel. Must have the same order of SNPs as in the betas.Gy.
 #' @param A The conditional A matrix.
-#' @param L.susie The largest number of credible set allowed in SHA-JAM. Required by SHA-JAM.
+#' @param L.cs The largest number of credible set allowed in SHA-JAM. Required by SHA-JAM.
 #' @param min_abs_corr The requested minimum absolute correlation coefficient between intermediates within one credible set. Required by SHA-JAM.
 #' @param coverage The coverage of credible set. Default is 0.95. Required by SHA-JAM.
 #' @param estimate_residual_variance If estimate the residual variance in the fitting procedure of SHA-JAM. Default as TRUE. Required by SHA-JAM.
@@ -18,13 +18,17 @@
 #' @return An object of the SHAJAM
 #'
 #' \describe{
-#'    \item{Exposure}{The intermediates, such as the modifiable risk factors in Mendelian Randomization and gene expression in transcriptome analysis.}
-#'    \item{numSNP}{The number of SNPs that the user use in the instrument set.}
-#'    \item{Estimate}{The conditional estimates of the associations between intermediates and the outcome.}
-#'    \item{StdErr}{The standard error of the conditional estimates of the associations between intermediates and the outcome.}
-#'    \item{Lower.CI}{The lower bound of the 95\% confidence interval of the estimates.}
-#'    \item{Upper.CI}{The upper bound of the 95\% confidence interval of the estimates.}
-#'    \item{Pvalue}{The p value of the estimates with a type-I error equals 0.05.}
+#'    \item{numSNP}{The number of SNPs used in the analysis.}
+#'    \item{numX}{The number of intermediates in the analysis.}
+#'    \item{Selected_variable_length}{The number of selected intermediates, regardless of the credible sets.}
+#'    \item{Selected_variable_name}{The label/name for each selected intermediates.}
+#'    \item{Coefficients}{The coefficients of selected intermediates.}
+#'    \item{Selected_variable_pip}{The posterior inclusion probability of each selected intermediate.}
+#'    \item{num_Credible_sets}{Number of credible sets.}
+#'    \item{all_variables}{The label/name for all candidate intermediates.}
+#'    \item{all_variable_pip}{The posterior inclusion probability of all candidate intermediates.}
+#'    \item{all_variable_coefficient}{The coefficients of all candidate intermediates.}
+#'    \item{cs_purity}{The purity of the credibel set selected.}
 #' }
 #'
 #' @export
@@ -32,8 +36,7 @@
 #' @import susieR
 
 SHAJAM = function(betas.Gy, betas_se.Gy = NULL, N.Gy, raf.Gy = NULL,
-                  Geno, A,
-                  L.susie = NULL, min_abs_corr = NULL, coverage=0.95,
+                  Geno, A, L.cs = NULL, min_abs_corr = NULL, coverage=0.95,
                   estimate_residual_variance = TRUE,
                   max_iter = 500) {
 
@@ -90,7 +93,7 @@ SHAJAM = function(betas.Gy, betas_se.Gy = NULL, N.Gy, raf.Gy = NULL,
     Sj2 = betas_se.Gy^2
     yTy.est = median(Dj*Sj2*(N.Gy-1)+Dj*betas.Gy^2, na.rm = TRUE)
 
-    if(is.null(L.susie) | is.null(min_abs_corr)){
+    if(is.null(L.cs) | is.null(min_abs_corr)){
       stop("Please specify the L value or min_abs_corr in Susie model.")
     }else if(is.null(betas_se.Gy)){
       stop("Specify the standard errors of the beta.gwas")
@@ -99,7 +102,7 @@ SHAJAM = function(betas.Gy, betas_se.Gy = NULL, N.Gy, raf.Gy = NULL,
       XAty = t(A) %*% z
 
       susie_out = susieR::susie_suff_stat(XtX = AtXtXA, Xty = XAty,
-                                          n = N.Gy, yty = yTy.est, L = L.susie,
+                                          n = N.Gy, yty = yTy.est, L = L.cs,
                                           min_abs_corr = min_abs_corr, max_iter = max_iter, coverage=coverage,
                                           estimate_residual_variance = estimate_residual_variance)
       num.CS = length(susie_out$sets$cs)
