@@ -22,7 +22,10 @@ NULL
 #'
 #' @format The \code{GTEx.PrCa} is a set of data sets which was applied for selecting the genes on chromosome 10 for the risk of prostate cancer
 #' \describe{
-#'  \item{GTEx.PrCa.marginal.Amatrix}{The marginal \eqn{\hat{A}} matrix with 158 genes and 182 eQTLs. The raw data was downloaded from GTEx analysis v7 (https://gtexportal.org/home/datasets). Priority Pruner was used to select the independent eQTLs. We used this matrix for MR-BMA implementation.)}
+#'  \item{GTEx.PrCa.IVWmarginal.A}{The marginal \eqn{\hat{A}} matrix with 158 genes and 182 eQTLs. The raw data was downloaded from GTEx analysis v7 (https://gtexportal.org/home/datasets). Priority Pruner was used to select the independent eQTLs. We used this matrix for MR-BMA implementation.)}
+#'  \item{GTEx.PrCa.marginal.A}{The marginal \eqn{\hat{A}} matrix with 167 genes and 447 eQTLs. The raw data was downloaded from GTEx analysis v7 (https://gtexportal.org/home/datasets). This is the raw \eqn{\hat{A}} matrix for constructing the conditional weight matrix for SHA-JAM analysis.}
+#'  \item{GTEx.PrCa.marginal.A.se}{The standard errors of the marginal \eqn{\hat{A}} effects for the SNP-gene pairs (167 genes, 447 eQTLs). The raw data was downloaded from GTEx analysis v7 (https://gtexportal.org/home/datasets).}
+#'  \item{GTEx.PrCa.inclusion.indicator}{The inclusion indicator for the significant SNP-gene pairs (167 genes, 447 eQTLs). Significant as 1; otherwise 0. This matrix is for composing the conditional weight matrix using the raw data.}
 #'  \item{GTEx.PrCa.Amatrix}{The conditional \eqn{\hat{A}} matrix with 167 genes and 447 eQTLs, which was composed by SuSiE JAM and the raw data of \eqn{\hat{A}} matrix.}
 #'  \item{GTEx.PrCa.Geno}{The reference genotype data for the 447 eQTLs from the European-ancestry population in 1000 Genome Project (Consortium, 2015)}
 #'  \item{GTEx.PrCa.betas.gwas}{The b vector. The association estimates between eQTLs and the risk of prostate cancer from (Schumacher et al., 2018)}
@@ -34,7 +37,7 @@ NULL
 #' @references Lonsdale, John, et al. The genotype-tissue expression (GTEx) project. Nature genetics 45.6 (2013): 580-585.
 #' @references Schumacher, Fredrick R., et al. Association analyses of more than 140,000 men identify 63 new prostate cancer susceptibility loci. Nature genetics 50.7 (2018): 928-936.
 #' @name GTEx.PrCa
-#' @aliases GTEx.PrCa.marginal.Amatrix GTEx.PrCa.Amatrix GTEx.PrCa.Geno GTEx.PrCa.betas.gwas GTEx.PrCa.betas.se.gwas GTEx.PrCa.pvalues.gwas GTEx.PrCa.maf.gwas GTEx.PrCa.rsid GTEx.PrCa.marginal.selected
+#' @aliases GTEx.PrCa.IVWmarginal.A GTEx.PrCa.marginal.A GTEx.PrCa.marginal.A.se GTEx.PrCa.inclusion.indicator GTEx.PrCa.Amatrix GTEx.PrCa.Geno GTEx.PrCa.betas.gwas GTEx.PrCa.betas.se.gwas GTEx.PrCa.pvalues.gwas GTEx.PrCa.maf.gwas GTEx.PrCa.rsid GTEx.PrCa.marginal.selected
 NULL
 
 #' Real data for selecting the metabolites for the risk of prostate cancer
@@ -55,4 +58,18 @@ NULL
 #' @references Schumacher, Fredrick R., et al. Association analyses of more than 140,000 men identify 63 new prostate cancer susceptibility loci. Nature genetics 50.7 (2018): 928-936.
 #' @name PrCa.lipids
 #' @aliases PrCa.lipids.marginal.Amatrix PrCa.lipids.Amatrix PrCa.lipids.Geno PrCa.lipids.betas.gwas PrCa.lipids.betas.se.gwas PrCa.lipids.pvalue.gwas PrCa.lipids.maf.gwas PrCa.lipids.rsid
+NULL
+
+#' Simulation data for EN-hJAM
+
+#' @format The \code{ENhJAM.SimulationSet} is a set of simulation data sets for the example of elastic net hJAM
+#' \describe{
+#'  \item{Simulation.Amatrix}{The conditional \eqn{\hat{A}} matrix with 118 metabolites and 144 SNPs, which was composed by SuSiE JAM and the marginal \eqn{\hat{A}} matrix.}
+#'  \item{Simulation.Geno}{The reference genotype data for the 144 SNPs from the European-ancestry population in 1000 Genome Project (Consortium, 2015).}
+#'  \item{Simulation.betas.gwas}{The b vector. The association estimates between selected SNPs and the risk of prostate cancer from (Schumacher et al., 2018)}
+#'  \item{Simulation.betas.se.gwas}{The se(b) vector from (Schumacher et al., 2018)}
+#'  \item{Simulation.maf.gwas}{The vector of the effect allele frequency of the SNPs from (Schumacher et al., 2018)}
+#' }
+#' @name ENhJAM.SimulationSet
+#' @aliases Simulation.Amatrix Simulation.Geno Simulation.betas.gwas Simulation.betas.se.gwas Simulation.maf.gwas
 NULL
