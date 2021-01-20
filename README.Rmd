@@ -22,12 +22,24 @@ knitr::opts_chunk$set(
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/hJAM)](https://CRAN.R-project.org/package=hJAM)[![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/hJAM)](https://CRAN.R-project.org/package=hJAM)
 <!-- CRAN badges: end -->
 
-hJAM is a hierarchical model which unifies the framework of Mendelian Randomization and Transcriptome-wide association studies. This package contains the implementations of the methods that were proposed in two papers from our lab:
+## About 
+
+In this package, we provide three methods that are developed for estimating (and selecting) the causal effect of intermediates on the outcome using the genetic variants as instrumental variables. 
+
+The hJAM (`hJAM`) is a hierarchical model which unifies the framework of Mendelian Randomization and Transcriptome-wide association studies. The hJAM-Egger (`hJAM_egger`) is a natural extension on hJAM that uses an intercept term to account for the pleiotropy effect of the SNPs on the outcome. The SHA-JAM (`SHAJAM`) is applicable for high-throughput experiment data, such as omics data.
+
+Additionally, we provide implementations to construct the weight matrix. The JAM framework (`JAM_A`) is used to convert the marginal summary statistics into conditional ones by using the correlation matrix of the SNPs from a reference data. The SuSiE JAM (`susieJAM_A`) is used to select the SNPs for one intermediate using the marginal summary statistics from GWAS or other study summary data. It can also be used for fine-mapping problems.
+
+## Citing this work
+
+If you find the `hJAM`, `hJAM_egger`, and/or `JAM_A` useful, please cite:
 
 * Jiang, L., Xu, S., Mancuso, N., Newcombe, P.J. & Conti, D.V. A Hierarchical Approach Using Marginal Summary Statistics for Multiple Intermediates in a Mendelian Randomization or Transcriptome Analysis. (Accepted by American Journal of Epidemiology).
-* Jiang, L., Conti, D.V. SHA-JAM: A Scalable Hierarchical Approach to Joint Analysis for Marginal Summary Statistics with Omics Data. (In preparation).
 
-Please cite if you find the `hJAM` package or any of the source code in this repository useful for your study.
+If you find the `SHAJAM` and/or `susieJAM_A` useful, please cite:
+
+* Jiang, L., Conti, D.V. SHA-JAM: A Scalable Hierarchical Approach to Joint Analysis for Marginal Summary Statistics with Omics Data. (In preparation; preprint will be ready in Feburary, 2021).
+
 
 ## Quick start with hJAM package
 
