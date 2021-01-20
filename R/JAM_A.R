@@ -19,7 +19,7 @@
 JAM_A =  function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE){
 
   if(ncol(marginalA) == "NULL"){
-    stop("Please use JAM_alphas instead of get_cond_A.")
+    stop("Please use JAM_alphas instead of JAM_A.")
   }else if(length(N.Gx) != 1 && length(N.Gx) != ncol(marginalA) ){
     stop("The length of the sample size of each Gx is different from the number of X in marginal A matrix")
   }else if(nrow(marginalA) != ncol(Geno)){
@@ -59,7 +59,7 @@ JAM_A =  function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE){
 #' If only one X in the model, please use JAM_alphas instead of JAM_A
 #' A sub-step in the JAM_A function
 #'
-#' @param alphas the marginal effects of SNPs on one exposure (Gx).
+#' @param marginalA the marginal effects of SNPs on one exposure (Gx).
 #' @param Geno the reference panel (Geno), such as 1000 Genome
 #' @param N.Gx the sample size of the Gx. It can be a scalar.
 #' @param eaf_Gx the effect allele frequency of the SNPs in the Gx data.
@@ -78,11 +78,13 @@ JAM_A =  function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE){
 #'
 #' @examples
 #' data(MI)
-#' JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224)
-#' JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224,
+#' JAM_alphas(marginalA = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224)
+#' JAM_alphas(marginalA = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224,
 #' eaf_Gx = MI.SNPs_info$ref_frq)
 
-JAM_alphas = function(alphas, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE){
+JAM_alphas = function(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE){
+
+  alphas = marginalA
 
   ## Compute z vector
   if(!is.null(eaf_Gx)){

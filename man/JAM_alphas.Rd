@@ -4,10 +4,10 @@
 \alias{JAM_alphas}
 \title{Compute conditional alphas}
 \usage{
-JAM_alphas(alphas, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE)
+JAM_alphas(marginalA, Geno, N.Gx, eaf_Gx = NULL, ridgeTerm = TRUE)
 }
 \arguments{
-\item{alphas}{the marginal effects of SNPs on one exposure (Gx).}
+\item{marginalA}{the marginal effects of SNPs on one exposure (Gx).}
 
 \item{Geno}{the reference panel (Geno), such as 1000 Genome}
 
@@ -27,8 +27,8 @@ A sub-step in the JAM_A function
 }
 \examples{
 data(MI)
-JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224)
-JAM_alphas(alphas = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224,
+JAM_alphas(marginalA = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224)
+JAM_alphas(marginalA = MI.marginal.Amatrix[, 1], Geno = MI.Geno, N.Gx = 339224,
 eaf_Gx = MI.SNPs_info$ref_frq)
 }
 \references{

@@ -62,7 +62,7 @@ susieJAM_A = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
         i_Geno = Geno[, i_row]
 
         if(length(alphas) > 1){
-          i_alpha = susieJAM_alphas(alphas = alphas, alphas_se = alphas_se, raf.Gy = i_raf,
+          i_alpha = susieJAM_alphas(marginalA = alphas, marginalA_se = alphas_se, raf.Gy = i_raf,
                                     Geno = i_Geno, N.Gx = 620, L.cs = 10, min_abs_corr = 0.5)
           cond_A[i_row, i_A] = i_alpha$cond_alphas
         }else{
@@ -79,8 +79,8 @@ susieJAM_A = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
 #' @description The \code{susieJAM_alphas} function is to perform the variable selection and compute the selected conditional alpha vector for one intermediate.
 #' If only one intermediate in the model, please use susieJAM_alphas instead of susieJAM_A
 #'
-#' @param alphas the marginal effects of SNPs on one exposure (Gx).
-#' @param alphas_se the standard error of the marginal effects of SNPs on one outcome (Gx).
+#' @param marginalA the marginal effects of SNPs on one exposure (Gx).
+#' @param marginalA_se the standard error of the marginal effects of SNPs on one outcome (Gx).
 #' @param Geno the reference panel (Geno), such as 1000 Genome. The reference data has to be centered.
 #' @param N.Gx the sample size of the Gx. It can be a scalar.
 #' @param raf.Gy The vector of the minor allele frequency or effect allele frequency in the GWAS.
@@ -96,14 +96,18 @@ susieJAM_A = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
 #' @examples
 #' data(GTEx.PrCa)
 #' include.SNPs = which(GTEx.PrCa.inclusion.indicator[,1]==1)
-#' susieJAM_alphas(alphas = GTEx.PrCa.marginal.A[include.SNPs, 1],
-#' alphas_se = GTEx.PrCa.marginal.A.se[include.SNPs, 1], raf.Gy = GTEx.PrCa.maf.gwas[include.SNPs],
+#' susieJAM_alphas(marginalA = GTEx.PrCa.marginal.A[include.SNPs, 1],
+#' marginalA_se = GTEx.PrCa.marginal.A.se[include.SNPs, 1], raf.Gy = GTEx.PrCa.maf.gwas[include.SNPs],
 #' Geno = GTEx.PrCa.Geno[, include.SNPs], N.Gx = 620, L.cs = 10, min_abs_corr = 0.5)
 
-susieJAM_alphas = function(alphas, alphas_se, N.Gx, raf.Gy = NULL, Geno,
+susieJAM_alphas = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
                            L.cs = 10, min_abs_corr = 0.6, max_iter = 100,
                            coverage = 0.95,
                            estimate_residual_variance = FALSE){
+
+  # Define alphas and alphas_se
+  alphas = marginalA
+  alphas_se = marginalA_se
 
   # Check the reference panel component
   if(is.null(Geno)){

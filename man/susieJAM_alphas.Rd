@@ -5,8 +5,8 @@
 \title{Compute conditional alphas using SuSiE JAM}
 \usage{
 susieJAM_alphas(
-  alphas,
-  alphas_se,
+  marginalA,
+  marginalA_se,
   N.Gx,
   raf.Gy = NULL,
   Geno,
@@ -18,9 +18,9 @@ susieJAM_alphas(
 )
 }
 \arguments{
-\item{alphas}{the marginal effects of SNPs on one exposure (Gx).}
+\item{marginalA}{the marginal effects of SNPs on one exposure (Gx).}
 
-\item{alphas_se}{the standard error of the marginal effects of SNPs on one outcome (Gx).}
+\item{marginalA_se}{the standard error of the marginal effects of SNPs on one outcome (Gx).}
 
 \item{N.Gx}{the sample size of the Gx. It can be a scalar.}
 
@@ -45,8 +45,8 @@ If only one intermediate in the model, please use susieJAM_alphas instead of sus
 \examples{
 data(GTEx.PrCa)
 include.SNPs = which(GTEx.PrCa.inclusion.indicator[,1]==1)
-susieJAM_alphas(alphas = GTEx.PrCa.marginal.A[include.SNPs, 1],
-alphas_se = GTEx.PrCa.marginal.A.se[include.SNPs, 1], raf.Gy = GTEx.PrCa.maf.gwas[include.SNPs],
+susieJAM_alphas(marginalA = GTEx.PrCa.marginal.A[include.SNPs, 1],
+marginalA_se = GTEx.PrCa.marginal.A.se[include.SNPs, 1], raf.Gy = GTEx.PrCa.maf.gwas[include.SNPs],
 Geno = GTEx.PrCa.Geno[, include.SNPs], N.Gx = 620, L.cs = 10, min_abs_corr = 0.5)
 }
 \author{
