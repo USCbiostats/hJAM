@@ -49,9 +49,9 @@ The \code{susieJAM_A} function is to get the conditional A matrix by using margi
 }
 \examples{
 data(GTEx.PrCa)
-susieJAM_A(marginalA = GTEx.PrCa.marginal.A[, 1:10],
-marginalA_se = GTEx.PrCa.marginal.A.se[, 1:10], raf.Gy = GTEx.PrCa.maf.gwas,
-Geno = GTEx.PrCa.Geno, inclusion.indicator = GTEx.PrCa.inclusion.indicator,
+susieJAM_A(marginalA = GTEx.PrCa.marginal.A[1:15, 1:9],
+marginalA_se = GTEx.PrCa.marginal.A.se[1:15, 1:9], raf.Gy = GTEx.PrCa.maf.gwas[1:15],
+Geno = GTEx.PrCa.Geno[, 1:15], inclusion.indicator = GTEx.PrCa.inclusion.indicator[1:15, 1:9],
 N.Gx = 620, L.cs = 10, min_abs_corr = 0.5)
 }
 \author{
