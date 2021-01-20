@@ -47,6 +47,13 @@ A matrix with conditional estimates which are converted from marginal estimates 
 \description{
 The \code{susieJAM_A} function is to get the conditional A matrix by using marginal A matrix
 }
+\examples{
+data(GTEx.PrCa)
+susieJAM_A(marginalA = GTEx.PrCa.marginal.A[, 1:9],
+marginalA_se = GTEx.PrCa.marginal.A.se[, 1:9], raf.Gy = GTEx.PrCa.maf.gwas,
+Geno = GTEx.PrCa.Geno, inclusion.indicator = GTEx.PrCa.inclusion.indicator,
+N.Gx = 620, L.cs = 10, min_abs_corr = 0.5)
+}
 \author{
 Lai Jiang
 }

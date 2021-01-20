@@ -19,7 +19,12 @@
 #' @return A matrix with conditional estimates which are converted from marginal estimates using the susie JAM model.
 #' @export
 #' @importFrom stats sd
-
+#' @examples
+#' data(GTEx.PrCa)
+#' susieJAM_A(marginalA = GTEx.PrCa.marginal.A[, 1:9],
+#' marginalA_se = GTEx.PrCa.marginal.A.se[, 1:9], raf.Gy = GTEx.PrCa.maf.gwas,
+#' Geno = GTEx.PrCa.Geno, inclusion.indicator = GTEx.PrCa.inclusion.indicator,
+#' N.Gx = 620, L.cs = 10, min_abs_corr = 0.5)
 
 susieJAM_A = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
                       inclusion.indicator,
@@ -145,7 +150,7 @@ susieJAM_alphas = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
                                       min_abs_corr = min_abs_corr, max_iter = max_iter,
                                       estimate_residual_variance = estimate_residual_variance,
                                       coverage = coverage)
-  cond_alphas = susie_get_posterior_mean(susie_out)
+  cond_alphas = susieR::susie_get_posterior_mean(susie_out)
 
   return(list(susie.out = susie_out,
               cond_alphas = cond_alphas,
