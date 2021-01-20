@@ -22,9 +22,14 @@ knitr::opts_chunk$set(
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/hJAM)](https://CRAN.R-project.org/package=hJAM)[![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/hJAM)](https://CRAN.R-project.org/package=hJAM)
 <!-- CRAN badges: end -->
 
-hJAM is a hierarchical model which unifies the framework of Mendelian Randomization and Transcriptome-wide association studies.
+hJAM is a hierarchical model which unifies the framework of Mendelian Randomization and Transcriptome-wide association studies. This package contains the implementations of the methods that were proposed in two papers from our lab:
 
-## Installation
+* Jiang, L., Xu, S., Mancuso, N., Newcombe, P.J. & Conti, D.V. A Hierarchical Approach Using Marginal Summary Statistics for Multiple Intermediates in a Mendelian Randomization or Transcriptome Analysis. (Accepted by American Journal of Epidemiology).
+* Jiang, L., Conti, D.V. SHA-JAM: A Scalable Hierarchical Approach to Joint Analysis for Marginal Summary Statistics with Omics Data. (In preparation).
+
+Please cite if you find the `hJAM` package or any of the source code in this repository useful for your study.
+
+## Quick start with hJAM package
 
 You can install the published version of hJAM from CRAN with:
 
@@ -39,32 +44,6 @@ if (!require("devtools")) { install.packages("devtools") } else {}
 devtools::install_github("USCbiostats/hJAM")
 ```
 
-## Example
 
-This is a basic example of fitting hJAM model:
 
-```{r example}
-library(hJAM)
-# Download the data for data example 2 from the package
-data(MI)
-```
-## Data and functions import
 
-A quick look at the data in the example - 
-
-```{r data_check}
-MI.Amatrix[1:5, ]
-MI.betas.gwas[1:5]
-MI.SNPs_info[1:5, ]
-```
-
-```{r Amatrix}
-MI.cond_A = JAM_A(marginalA = MI.marginal.Amatrix, Geno = MI.Geno, N.Gx = c(339224, 659316), ridgeTerm = TRUE)
-MI.cond_A[1:5, ]
-MI.Amatrix[1:5, ]
-```
-
-```{r hjam_lnreg}
-hJAM::hJAM(betas.Gy = MI.betas.gwas, N.Gy = 459324, A = MI.Amatrix, 
-           Geno = MI.Geno, ridgeTerm = TRUE) # 459324 is the sample size of the UK Biobank GWAS of MI
-```
