@@ -69,3 +69,4 @@ SNPs_scatter_plot = function(alphas, betas.Gy, X.label = NULL){
   }
 }
 
+
