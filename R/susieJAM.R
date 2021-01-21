@@ -64,7 +64,7 @@ susieJAM_A = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
         if(length(alphas) > 1){
           i_alpha = susieJAM_alphas(marginalA = alphas, marginalA_se = alphas_se, raf.Gy = i_raf,
                                     Geno = i_Geno, N.Gx = 620, L.cs = 10, min_abs_corr = 0.5)
-          cond_A[i_row, i_A] = i_alpha$cond_alphas
+          cond_A[i_row, i_A] = i_alpha
         }else{
           cond_A[i_row, i_A] = alphas
         }
@@ -145,14 +145,13 @@ susieJAM_alphas = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
   Sj2 = alphas_se^2
   yTy.est = median(Dj*Sj2*(N.Gx-1)+Dj*alphas^2)
 
-  susie_out = susieR::susie_suff_stat(XtX = G0_t_G0, Xty = z,
+  res = susieR::susie_suff_stat(XtX = G0_t_G0, Xty = z,
                                       n = N.Gx, yty = yTy.est, L = L.cs,
                                       min_abs_corr = min_abs_corr, max_iter = max_iter,
                                       estimate_residual_variance = estimate_residual_variance,
                                       coverage = coverage)
-  cond_alphas = susieR::susie_get_posterior_mean(susie_out)
 
-  return(list(susie.out = susie_out,
-              cond_alphas = cond_alphas,
-              pip = susie_out$pip))
+  cond_alphas = colSums(res$alpha * res$mu)/res$X_column_scale_factors # posterior mean
+
+  return(cond_alphas)
 }
