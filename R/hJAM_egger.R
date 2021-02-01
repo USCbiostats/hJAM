@@ -91,8 +91,8 @@ hJAM_egger = function(betas.Gy, N.Gy, Geno, A, ridgeTerm = TRUE) {
     se.XY = glm.out$coef[-1,2]
     pvalues.XY = 2*pnorm(-abs(betas.XY/se.XY))
 
-    lower.ci = betas.XY+qnorm(0.05)*se.XY
-    upper.ci = betas.XY+qnorm(0.95)*se.XY
+    lower.ci = betas.XY+qnorm(0.025)*se.XY
+    upper.ci = betas.XY+qnorm(0.975)*se.XY
 
     betas.int = glm.out$coef[1,1]
     se.int = glm.out$coef[1,2]
