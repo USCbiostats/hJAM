@@ -9,7 +9,7 @@ SHAJAM(
   betas.Gy,
   betas_se.Gy = NULL,
   N.Gy,
-  raf.Gy = NULL,
+  eaf.Gy = NULL,
   Geno,
   A,
   L.cs = NULL,
@@ -26,7 +26,7 @@ SHAJAM(
 
 \item{N.Gy}{The sample size of the GWAS where you obtain the betas.Gy and betas_se.Gy}
 
-\item{raf.Gy}{The reference allele frequency of the SNPs in betas.Gy}
+\item{eaf.Gy}{The reference allele frequency of the SNPs in betas.Gy}
 
 \item{Geno}{The individual level data of the reference panel. Must have the same order of SNPs as in the betas.Gy.}
 

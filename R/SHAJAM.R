@@ -5,7 +5,7 @@
 #' @param betas.Gy The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)
 #' @param betas_se.Gy The standard errors of the betas
 #' @param N.Gy The sample size of the GWAS where you obtain the betas.Gy and betas_se.Gy
-#' @param raf.Gy The reference allele frequency of the SNPs in betas.Gy
+#' @param eaf.Gy The reference allele frequency of the SNPs in betas.Gy
 #' @param Geno The individual level data of the reference panel. Must have the same order of SNPs as in the betas.Gy.
 #' @param A The conditional A matrix.
 #' @param L.cs The largest number of credible set allowed in SHA-JAM. Required by SHA-JAM.
@@ -35,7 +35,7 @@
 #' @importFrom stats coef complete.cases median
 #' @import susieR
 
-SHAJAM = function(betas.Gy, betas_se.Gy = NULL, N.Gy, raf.Gy = NULL,
+SHAJAM = function(betas.Gy, betas_se.Gy = NULL, N.Gy, eaf.Gy = NULL,
                   Geno, A, L.cs = NULL, min_abs_corr = NULL, coverage=0.95,
                   estimate_residual_variance = TRUE,
                   max_iter = 500) {
@@ -64,10 +64,10 @@ SHAJAM = function(betas.Gy, betas_se.Gy = NULL, N.Gy, raf.Gy = NULL,
       stop("Please assign colnames to the A matrix input.\n")
     }
 
-    if(is.null(raf.Gy)){
+    if(is.null(eaf.Gy)){
       p_D = apply(Geno, 2, mean)/2
     }else{
-      p_D = raf.Gy[!zero.A.row]
+      p_D = eaf.Gy[!zero.A.row]
     }
 
     # Obtain the JAM variables: zL and L
