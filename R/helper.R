@@ -10,10 +10,8 @@
 #' @importFrom WGCNA cor
 #' @examples
 #' data(MI.Rdata)
-#' t = SNPs_heatmap(Geno = MI.Geno[, 1: 10])
-#' t
-#' t = SNPs_heatmap(Geno = MI.Geno[, 1: 10], show.variable = TRUE)
-#' t
+#' SNPs_heatmap(Geno = MI.Geno[, 1: 10])
+#' SNPs_heatmap(Geno = MI.Geno[, 1: 10], show.variable = TRUE)
 
 SNPs_heatmap = function(Geno, show.variables = FALSE){
   rho = WGCNA::cor(Geno)
