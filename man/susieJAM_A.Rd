@@ -8,7 +8,7 @@ susieJAM_A(
   marginalA,
   marginalA_se,
   N.Gx,
-  raf.Gy = NULL,
+  eaf.Gy = NULL,
   Geno,
   inclusion.indicator,
   L.cs,
@@ -25,7 +25,7 @@ susieJAM_A(
 
 \item{N.Gx}{the sample size of each Gx. It can be a scalar or a vector. If there are multiple X's from different Gx, it should be a vector including the sample size of each Gx. If all alphas are from the same Gx, it could be a scalar.}
 
-\item{raf.Gy}{the effect allele frequency of the SNPs in the Gx data.}
+\item{eaf.Gy}{the effect allele frequency of the SNPs in the Gx data.}
 
 \item{Geno}{the reference panel (Geno), such as 1000 Genome。}
 
@@ -50,7 +50,7 @@ The \code{susieJAM_A} function is to get the conditional A matrix by using margi
 \examples{
 data(GTEx.PrCa)
 susieJAM_A(marginalA = GTEx.PrCa.marginal.A[, 1:9],
-marginalA_se = GTEx.PrCa.marginal.A.se[, 1:9], raf.Gy = GTEx.PrCa.maf.gwas,
+marginalA_se = GTEx.PrCa.marginal.A.se[, 1:9], eaf.Gy = GTEx.PrCa.maf.gwas,
 Geno = GTEx.PrCa.Geno, inclusion.indicator = GTEx.PrCa.inclusion.indicator,
 N.Gx = 620, L.cs = 10, min_abs_corr = 0.5)
 }

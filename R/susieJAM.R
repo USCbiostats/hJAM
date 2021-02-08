@@ -5,7 +5,7 @@
 #' @param marginalA the marginal effects of SNPs on the exposures (Gx).
 #' @param marginalA_se the standard error of the marginal effects of SNPs on the exposures (Gx).
 #' @param N.Gx the sample size of each Gx. It can be a scalar or a vector. If there are multiple X's from different Gx, it should be a vector including the sample size of each Gx. If all alphas are from the same Gx, it could be a scalar.
-#' @param raf.Gy the effect allele frequency of the SNPs in the Gx data.
+#' @param eaf.Gy the effect allele frequency of the SNPs in the Gx data.
 #' @param Geno the reference panel (Geno), such as 1000 Genome。
 #' @param inclusion.indicator The matrix of inclusion indicator of SNPs for each intermediate. Included as 1; otherwise 0.
 #' @param L.cs A susie input parameter. Number of components (nonzero elements) in the SuSiE regression model. If L.cs is larger than the number of covariate (p), L.cs is set to p.
@@ -22,11 +22,11 @@
 #' @examples
 #' data(GTEx.PrCa)
 #' susieJAM_A(marginalA = GTEx.PrCa.marginal.A[, 1:9],
-#' marginalA_se = GTEx.PrCa.marginal.A.se[, 1:9], raf.Gy = GTEx.PrCa.maf.gwas,
+#' marginalA_se = GTEx.PrCa.marginal.A.se[, 1:9], eaf.Gy = GTEx.PrCa.maf.gwas,
 #' Geno = GTEx.PrCa.Geno, inclusion.indicator = GTEx.PrCa.inclusion.indicator,
 #' N.Gx = 620, L.cs = 10, min_abs_corr = 0.5)
 
-susieJAM_A = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
+susieJAM_A = function(marginalA, marginalA_se, N.Gx, eaf.Gy = NULL, Geno,
                       inclusion.indicator,
                       L.cs, min_abs_corr, max_iter, coverage,
                       estimate_residual_variance=TRUE){
@@ -58,11 +58,11 @@ susieJAM_A = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
         i_row = which(inclusion.indicator[, i_A] == 1)
         alphas = marginalA[i_row, i_A]
         alphas_se = marginalA_se[i_row, i_A]
-        i_raf = raf.Gy[i_row]
+        i_raf = eaf.Gy[i_row]
         i_Geno = Geno[, i_row]
 
         if(length(alphas) > 1){
-          i_alpha = susieJAM_alphas(marginalA = alphas, marginalA_se = alphas_se, raf.Gy = i_raf,
+          i_alpha = susieJAM_alphas(marginalA = alphas, marginalA_se = alphas_se, eaf.Gy = i_raf,
                                     Geno = i_Geno, N.Gx = 620, L.cs = 10, min_abs_corr = 0.5)
           cond_A[i_row, i_A] = i_alpha
         }else{
@@ -83,7 +83,7 @@ susieJAM_A = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
 #' @param marginalA_se the standard error of the marginal effects of SNPs on one outcome (Gx).
 #' @param Geno the reference panel (Geno), such as 1000 Genome. The reference data has to be centered.
 #' @param N.Gx the sample size of the Gx. It can be a scalar.
-#' @param raf.Gy The vector of the minor allele frequency or effect allele frequency in the GWAS.
+#' @param eaf.Gy The vector of the minor allele frequency or effect allele frequency in the GWAS.
 #' @param L.cs A susie input parameter. Number of components (nonzero elements) in the SuSiE regression model. If L.cs is larger than the number of covariate (p), L.cs is set to p.
 #' @param min_abs_corr A susie input parameter. Minimum of absolute value of correlation allowed in a credible set. The default, 0.5, corresponds to squared correlation of 0.25, which is a commonly used threshold for genotype data in genetics studies.
 #' @param max_iter Maximum number of iterations in SuSiE fitting.
@@ -97,10 +97,10 @@ susieJAM_A = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
 #' data(GTEx.PrCa)
 #' include.SNPs = which(GTEx.PrCa.inclusion.indicator[,1]==1)
 #' susieJAM_alphas(marginalA = GTEx.PrCa.marginal.A[include.SNPs, 1],
-#' marginalA_se = GTEx.PrCa.marginal.A.se[include.SNPs, 1], raf.Gy = GTEx.PrCa.maf.gwas[include.SNPs],
+#' marginalA_se = GTEx.PrCa.marginal.A.se[include.SNPs, 1], eaf.Gy = GTEx.PrCa.maf.gwas[include.SNPs],
 #' Geno = GTEx.PrCa.Geno[, include.SNPs], N.Gx = 620, L.cs = 10, min_abs_corr = 0.5)
 
-susieJAM_alphas = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
+susieJAM_alphas = function(marginalA, marginalA_se, N.Gx, eaf.Gy = NULL, Geno,
                            L.cs = 10, min_abs_corr = 0.6, max_iter = 100,
                            coverage = 0.95,
                            estimate_residual_variance = FALSE){
@@ -122,10 +122,10 @@ susieJAM_alphas = function(marginalA, marginalA_se, N.Gx, raf.Gy = NULL, Geno,
   Geno = Geno[, i_sd0]
   alphas = alphas[i_sd0]
   alphas_se = alphas_se[i_sd0]
-  i_raf = raf.Gy[i_sd0]
+  i_raf = eaf.Gy[i_sd0]
 
   # Get the JAM components
-  p_D = raf.Gy
+  p_D = eaf.Gy
   n0 = N.Gx*(1-p_D)^2
   n1 = N.Gx*2*p_D*(1-p_D)
   n2 = N.Gx*p_D^2

@@ -8,7 +8,7 @@ susieJAM_alphas(
   marginalA,
   marginalA_se,
   N.Gx,
-  raf.Gy = NULL,
+  eaf.Gy = NULL,
   Geno,
   L.cs = 10,
   min_abs_corr = 0.6,
@@ -24,7 +24,7 @@ susieJAM_alphas(
 
 \item{N.Gx}{the sample size of the Gx. It can be a scalar.}
 
-\item{raf.Gy}{The vector of the minor allele frequency or effect allele frequency in the GWAS.}
+\item{eaf.Gy}{The vector of the minor allele frequency or effect allele frequency in the GWAS.}
 
 \item{Geno}{the reference panel (Geno), such as 1000 Genome. The reference data has to be centered.}
 
@@ -46,7 +46,7 @@ If only one intermediate in the model, please use susieJAM_alphas instead of sus
 data(GTEx.PrCa)
 include.SNPs = which(GTEx.PrCa.inclusion.indicator[,1]==1)
 susieJAM_alphas(marginalA = GTEx.PrCa.marginal.A[include.SNPs, 1],
-marginalA_se = GTEx.PrCa.marginal.A.se[include.SNPs, 1], raf.Gy = GTEx.PrCa.maf.gwas[include.SNPs],
+marginalA_se = GTEx.PrCa.marginal.A.se[include.SNPs, 1], eaf.Gy = GTEx.PrCa.maf.gwas[include.SNPs],
 Geno = GTEx.PrCa.Geno[, include.SNPs], N.Gx = 620, L.cs = 10, min_abs_corr = 0.5)
 }
 \author{
