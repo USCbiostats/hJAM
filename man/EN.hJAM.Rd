@@ -7,7 +7,7 @@
 EN.hJAM(
   betas.Gy,
   N.Gy,
-  raf.Gy = NULL,
+  eaf.Gy = NULL,
   Geno,
   A,
   tune_glmnet = 0.5,
@@ -19,7 +19,7 @@ EN.hJAM(
 
 \item{N.Gy}{The sample size of the GWAS where you obtain the betas.Gy and betas_se.Gy}
 
-\item{raf.Gy}{The reference allele frequency of the SNPs in betas.Gy}
+\item{eaf.Gy}{The effect allele frequency of the SNPs in betas.Gy}
 
 \item{Geno}{The individual level data of the reference panel. Must have the same order of SNPs as in the betas.Gy.}
 
@@ -44,7 +44,7 @@ Function to implement regularized hJAM, including elastic net hJAM and lasso hJA
 }
 \examples{
 data(ENhJAM.SimulationSet)
-EN.hJAM(betas.Gy = Simulation.betas.gwas, N.Gy = 5000, raf.Gy = Simulation.maf.gwas,
+EN.hJAM(betas.Gy = Simulation.betas.gwas, N.Gy = 5000, eaf.Gy = Simulation.maf.gwas,
 Geno = Simulation.Geno, A = Simulation.Amatrix, ridgeTerm = FALSE)
 }
 \author{

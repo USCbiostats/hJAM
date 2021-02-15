@@ -3,7 +3,7 @@
 #'
 #' @param betas.Gy The betas in the paper: the marginal effects of SNPs on the phenotype (Gy)
 #' @param N.Gy The sample size of the GWAS where you obtain the betas.Gy and betas_se.Gy
-#' @param raf.Gy The reference allele frequency of the SNPs in betas.Gy
+#' @param eaf.Gy The effect allele frequency of the SNPs in betas.Gy
 #' @param Geno The individual level data of the reference panel. Must have the same order of SNPs as in the betas.Gy.
 #' @param A The conditional A matrix.
 #' @param tune_glmnet The \eqn{\alpha} used in the glmnet R package to tune the shrinkage parameter. Default is 0.5.
@@ -23,10 +23,10 @@
 #' @importFrom glmnet cv.glmnet
 #' @examples
 #' data(ENhJAM.SimulationSet)
-#' EN.hJAM(betas.Gy = Simulation.betas.gwas, N.Gy = 5000, raf.Gy = Simulation.maf.gwas,
+#' EN.hJAM(betas.Gy = Simulation.betas.gwas, N.Gy = 5000, eaf.Gy = Simulation.maf.gwas,
 #' Geno = Simulation.Geno, A = Simulation.Amatrix, ridgeTerm = FALSE)
 
-EN.hJAM = function(betas.Gy, N.Gy, raf.Gy = NULL,
+EN.hJAM = function(betas.Gy, N.Gy, eaf.Gy = NULL,
                    Geno, A, tune_glmnet = 0.5, ridgeTerm = FALSE){
 
   # Check the dimension of betas.Gy, Geno and A
@@ -52,10 +52,10 @@ EN.hJAM = function(betas.Gy, N.Gy, raf.Gy = NULL,
       stop("Please assign colnames to the A matrix input.\n")
     }
 
-    if(is.null(raf.Gy)){
+    if(is.null(eaf.Gy)){
       p_D = apply(Geno, 2, mean)/2
     }else{
-      p_D = raf.Gy[!zero.A.row]
+      p_D = eaf.Gy[!zero.A.row]
     }
 
     # Obtain the JAM variables: zL and L
