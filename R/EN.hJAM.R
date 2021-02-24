@@ -99,6 +99,7 @@ EN.hJAM = function(betas.Gy, N.Gy, eaf.Gy = NULL,
 
     out <- list(
       numSNP = nrow(X),
+      numX = ncol(X),
       Selected_variable_length = i.length,
       Selected_variable_index = i.XY,
       Selected_variable_name = colnames(A)[i.XY],
