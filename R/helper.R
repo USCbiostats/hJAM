@@ -3,6 +3,7 @@
 #'
 #' @param Geno The reference panel (Geno) of the SNPs that the user use in the analysis, such as 1000 Genome
 #' @param show.variables Select to show the variables name or not. Default set to be FALSE.
+#' @param x.axis.angel The angel for displaying the X axis. Default set to be 90.
 #' @author Lai Jiang
 #'
 #' @export
@@ -10,10 +11,9 @@
 #' @importFrom WGCNA cor
 #' @examples
 #' data(MI.Rdata)
-#' SNPs_heatmap(Geno = MI.Geno[, 1: 10])
-#' SNPs_heatmap(Geno = MI.Geno[, 1: 10], show.variable = TRUE)
+#' SNPs_heatmap(Geno = MI.Geno[, 1: 10], show.variable = TRUE, x.axis.angel = 90)
 
-SNPs_heatmap = function(Geno, show.variables = FALSE){
+SNPs_heatmap = function(Geno, show.variables = FALSE, x.axis.angel = 90){
   rho = WGCNA::cor(Geno)
   melted_cormat = reshape2::melt(rho)
   melted_cormat$r.text = paste0("r = ", round(melted_cormat$value, 3))
@@ -24,7 +24,7 @@ SNPs_heatmap = function(Geno, show.variables = FALSE){
                          midpoint = 0, limit = c(-1,1), space = "Lab",
                          name="Pearson\nCorrelation") +
     theme_classic() +
-    theme(axis.text.x = element_text(angle=90)) +
+    theme(axis.text.x = element_text(angle=x.axis.angel)) +
     coord_fixed() + xlab(" ") + ylab(" ")
 
   if(!show.variables){
@@ -49,8 +49,7 @@ SNPs_heatmap = function(Geno, show.variables = FALSE){
 #' @import ggplot2
 #' @examples
 #' data(MI)
-#' t = SNPs_scatter_plot(alphas = MI.Amatrix[, 1], betas.Gy = MI.betas.gwas, X.label = "BMI")
-#' t
+#' SNPs_scatter_plot(alphas = MI.Amatrix[, 1], betas.Gy = MI.betas.gwas, X.label = "BMI")
 
 SNPs_scatter_plot = function(alphas, betas.Gy, X.label = NULL){
   if(length(alphas) == length(betas.Gy)){
