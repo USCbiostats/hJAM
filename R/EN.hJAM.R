@@ -99,11 +99,11 @@ EN.hJAM = function(betas.Gy, N.Gy, eaf.Gy = NULL,
 
     out <- list(
       numSNP = nrow(X),
-      numX = ncol(X),
       Selected_variable_length = i.length,
       Selected_variable_index = i.XY,
       Selected_variable_name = colnames(A)[i.XY],
-      Coefficients = betas.XY)
+      Coefficients = betas.XY,
+      numX = ncol(X))
 
     class(out) <- "ENhJAM"
     return(out)
