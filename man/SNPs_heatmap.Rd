@@ -4,20 +4,21 @@
 \alias{SNPs_heatmap}
 \title{Heatmap for all the SNPs used in the analysis}
 \usage{
-SNPs_heatmap(Geno, show.variables = FALSE)
+SNPs_heatmap(Geno, show.variables = FALSE, x.axis.angel = 90)
 }
 \arguments{
 \item{Geno}{The reference panel (Geno) of the SNPs that the user use in the analysis, such as 1000 Genome}
 
 \item{show.variables}{Select to show the variables name or not. Default set to be FALSE.}
+
+\item{x.axis.angel}{The angel for displaying the X axis. Default set to be 90.}
 }
 \description{
 To generate the heatmap of all the SNPs that the user use in the analysis
 }
 \examples{
 data(MI.Rdata)
-SNPs_heatmap(Geno = MI.Geno[, 1: 10])
-SNPs_heatmap(Geno = MI.Geno[, 1: 10], show.variable = TRUE)
+SNPs_heatmap(Geno = MI.Geno[, 1: 10], show.variable = TRUE, x.axis.angel = 90)
 }
 \author{
 Lai Jiang

@@ -22,8 +22,7 @@ To generate the scatter plot of the SNPs vs. one intermediate that the user use 
 }
 \examples{
 data(MI)
-t = SNPs_scatter_plot(alphas = MI.Amatrix[, 1], betas.Gy = MI.betas.gwas, X.label = "BMI")
-t
+SNPs_scatter_plot(alphas = MI.Amatrix[, 1], betas.Gy = MI.betas.gwas, X.label = "BMI")
 }
 \author{
 Lai Jiang
