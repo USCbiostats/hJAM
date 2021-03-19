@@ -6,7 +6,8 @@
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/lailylajiang/hJAM/workflows/R-CMD-check/badge.svg)](https://github.com/lailylajiang/hJAM)
+status](https://github.com/lailylajiang/hJAM/workflows/R-CMD-check/badge.svg)](https://github.com/lailylajiang/hJAM) [![A USC IMAGE Project](https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg)](https://image.usc.edu)
+
 <!-- badges: end -->
 
 <!-- CRAN badges: start -->
