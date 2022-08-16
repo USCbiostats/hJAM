@@ -16,11 +16,14 @@
 #'
 #' @author Jiayi Shen
 #'
+#' @importFrom utils capture.output
+#' @importFrom Rmpfr mpfr
+#'
 #' @returns
 #'
 #' \describe{
-#'    \item{post_prob}{Posterior Pr(Model) for each SNPs in C_id.}
-#'    \item{R2_est}{R2 estimates of every one-SNP model (one for each SNPs in C_id).}
+#'    \item{post_prob}{Posterior Pr(Model) for each SNPs in `C_id`.}
+#'    \item{R2_est}{R2 estimates of every one-SNP model (one for each SNPs in `C_id`).}
 #'    \item{n_miss}{An integer vector of how many studies have missing values for each SNP.}
 #' }
 #'
@@ -117,6 +120,66 @@ mJAM_get_PrM <- function(GItGI,GIty,yty,yty_med,N_GWAS, C_id,prev_X_list = NULL,
   return(list(post_prob=post_prob,R2_est = R2_est, n_miss = length(missing_ethnic_idx)))
 }
 
+#' Get Pr(Model) based on Wald-type model probability
+#'
+#' @description Also apply weighting to get robust estimates of yty
+#'
+#' @param GItGI A list of transformed statistics from `get_XtX()` for each study.
+#' @param GIty A list of transformed statistics from `get_z()` for each study.
+#' @param yty A list of transformed statistics from `get_yty()` for each study.
+#' @param yty_med A numeric vector of median yty across all SNPs within each study.
+#' @param N_GWAS A numeric vector of GWAS sample size for each study.
+#' @param C_id An ingeter vector of IDs for the SNPs to be tested.
+#' @param prev_X_list A numeric vector of the ID(s) of previously selected index SNP(s).
+#' @param g The pre-specified `g` in `g`-prior formulation.
+#' @param rare_SNPs A numeric vector of ID(s) for rare SNP(s) which we do not apply weighting. Instead, we use the individual estimate of yty for these SNPs for robustness.
+#'
+#'
+#' @author Jiayi Shen
+#'
+#' @importFrom stats pnorm
+#'
+#' @returns A numeric vector of posterior Pr(Model) for each SNPs in `C_id`.
+#'
+#'
+
+mJAM_get_PrM_Wald <- function(GItGI, GIty, yty, yty_med, N_GWAS, C_id,prev_X_list = NULL, g = NULL, rare_SNPs = NULL){
+
+  ## C -> Y | previous index SNPs
+
+  ## Specify the prior information
+  if(is.null(g)){g <- sum(N_GWAS)}
+  numEthnic <- length(GItGI)
+
+  ## Calculate model-specific X'X and y'y
+  GItGI_C <- GIty_C <- yty_C <- w <- delta <- vector("list", numEthnic)
+  for(i in 1:numEthnic){
+    GItGI_C[[i]] <- GItGI[[i]][c(C_id,prev_X_list),c(C_id,prev_X_list)]
+    GIty_C[[i]] <- GIty[[i]][c(C_id,prev_X_list)]
+    ## robust yty estimation (v4.1)
+    delta[[i]] <- abs(yty[[i]][C_id] - yty_med[[i]])
+    if(C_id %in% rare_SNPs){
+      w[[i]] <- 1
+    }else{
+      w[[i]] <- yty_med[[i]]/(yty_med[[i]]+delta[[i]])
+    }
+    yty_C[[i]] <- w[[i]]*yty[[i]][C_id] + (1-w[[i]])*yty_med[[i]]
+  }
+
+  multi_GItGI_C <- Reduce("+", GItGI_C)
+  multi_GIty_C <- Reduce("+", GIty_C)
+  multi_yty_C <- Reduce("+", yty_C)
+
+  C_Y_s2 <- multi_yty_C - t(multi_GIty_C) %*% solve(multi_GItGI_C) %*% multi_GIty_C
+  C_Y_bhat <- solve(multi_GItGI_C) %*% multi_GIty_C
+  C_Y_post_var_scalar <- g*(C_Y_s2- t(C_Y_bhat) %*% multi_GItGI_C %*% (-C_Y_bhat)/(g+1))/(sum(N_GWAS)*(g+1))
+  C_Y_post_var <- as.numeric(C_Y_post_var_scalar)*solve(multi_GItGI_C)
+  C_Y_post_mean <- g/(g+1)*C_Y_bhat
+
+  post_prob <- 2*(0.5-pnorm(abs(C_Y_post_mean[1]/sqrt(C_Y_post_var[1,1])), lower.tail = F))
+
+  return(post_prob)
+}
 
 #' Get Pr(Mediation) based on causal mediation models
 #'

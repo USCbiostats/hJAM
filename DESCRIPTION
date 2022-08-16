@@ -25,6 +25,7 @@ Imports:
     dplyr,
     utils,
     tibble,
-    matrixcalc
+    matrixcalc,
+    Rmpfr
 Remotes:
     github::lailylajiang/susieR

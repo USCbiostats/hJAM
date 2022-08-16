@@ -28,6 +28,7 @@
 #' \item{Pvalue.Int}{The p value of the intercept with a type-I error equals 0.05.}
 #' }
 #'
+#'
 #' @export
 #'
 #' @references
@@ -89,17 +90,17 @@ hJAM_egger = function(betas.Gy, N.Gy, Geno, A, ridgeTerm = TRUE) {
     glm.out = summary(glm(zL ~ 0 + X, family = gaussian()))
     betas.XY = glm.out$coef[-1,1]
     se.XY = glm.out$coef[-1,2]
-    pvalues.XY = 2*pnorm(-abs(betas.XY/se.XY))
+    pvalues.XY = 2*stats::pnorm(-abs(betas.XY/se.XY))
 
-    lower.ci = betas.XY+qnorm(0.025)*se.XY
-    upper.ci = betas.XY+qnorm(0.975)*se.XY
+    lower.ci = betas.XY+stats::qnorm(0.025)*se.XY
+    upper.ci = betas.XY+stats::qnorm(0.975)*se.XY
 
     betas.int = glm.out$coef[1,1]
     se.int = glm.out$coef[1,2]
-    pvalues.int = 2*pnorm(-abs(betas.int/se.int))
+    pvalues.int = 2*stats::pnorm(-abs(betas.int/se.int))
 
-    lower.ci.int = betas.int+qnorm(0.025)*se.int
-    upper.ci.int = betas.int+qnorm(0.975)*se.int
+    lower.ci.int = betas.int+stats::qnorm(0.025)*se.int
+    upper.ci.int = betas.int+stats::qnorm(0.975)*se.int
 
     if(is.null(colnames(A))){
       if(!is.null(dim(A))){
