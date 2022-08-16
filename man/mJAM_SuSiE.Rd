@@ -28,7 +28,7 @@ mJAM_SuSiE(
 
 \item{EAFs}{A list of effect allele frequencies from each study/population.}
 
-\item{N_GWAS}{Sample sizes in all original GWAS studies.}
+\item{N_GWAS}{A vector of sample sizes in all original GWAS studies.}
 
 \item{X_ref}{A list of matrices with individual-level SNP dosage data in each study/population.}
 

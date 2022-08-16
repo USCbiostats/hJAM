@@ -6,7 +6,7 @@
 #' @param marginal.betas A list of marginal effect estimates from each study/population. The length of the list should be equal to the number of studies.
 #' @param marginal.se A list of marginal standard error of `marginal.betas` from each study/population.
 #' @param EAFs A list of effect allele frequencies from each study/population.
-#' @param N_GWAS Sample sizes in all original GWAS studies.
+#' @param N_GWAS A vector of sample sizes in all original GWAS studies.
 #' @param X_ref A list of matrices with individual-level SNP dosage data in each study/population.
 #' @param SNP_names A character vector of the names of the SNPs. Note that the order of SNP names should be the same as `EAFs`, `X_ref`, `marginal.betas` and `marginal.se`.
 #' @param logORToBeta If `TRUE`, transform the marginal logOR estimates in `marginal.betas` to marginal linear effects.
