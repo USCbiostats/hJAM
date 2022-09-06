@@ -19,6 +19,7 @@
 #' @return A matrix with conditional estimates which are converted from marginal estimates using the susie JAM model.
 #' @export
 #' @importFrom stats sd
+#' @importFrom stats cor
 #' @examples
 #' data(GTEx.PrCa)
 #' susieJAM_A(marginalA = GTEx.PrCa.marginal.A[, 1:9],
@@ -139,7 +140,7 @@ susieJAM_alphas = function(marginalA, marginalA_se, N.Gx, eaf.Gy = NULL, Geno,
   Geno = Geno[complete.cases(Geno), ]
   Dj = 2*p_D*(1-p_D)*N.Gx
   D_sqrt = diag(sqrt(Dj))
-  rho_Geno = WGCNA::cor(Geno)
+  rho_Geno = cor(Geno)
   G0_t_G0 = D_sqrt %*% rho_Geno %*% D_sqrt
 
   Sj2 = alphas_se^2

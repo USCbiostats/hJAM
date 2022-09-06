@@ -8,13 +8,13 @@
 #'
 #' @export
 #' @importFrom reshape2 melt
-#' @importFrom WGCNA cor
+#' @importFrom stats cor
 #' @examples
 #' data(MI.Rdata)
 #' SNPs_heatmap(Geno = MI.Geno[, 1: 10], show.variable = TRUE, x.axis.angel = 90)
 
 SNPs_heatmap = function(Geno, show.variables = FALSE, x.axis.angel = 90){
-  rho = WGCNA::cor(Geno)
+  rho = cor(Geno)
   melted_cormat = reshape2::melt(rho)
   melted_cormat$r.text = paste0("r = ", round(melted_cormat$value, 3))
 
