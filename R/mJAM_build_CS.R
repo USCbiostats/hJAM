@@ -248,6 +248,7 @@ mJAM_get_PrMed <- function(GItGI, GIty,yty, yty_med, N_GWAS, g = NULL,C_id, X_id
     multi_GItGI_C <-  multi_GItGI_C + ridgeValue*diag(dim(multi_GItGI_C)[2])
     message("multi_GItGI_C is singular. Ridge term added.")
   }
+  ## s2 = (n-k-1)\hat{\sigma}^2 where \hat{\sigma}^2 is the estimated residual variance
   C_Y_s2 <- multi_yty_C - t(multi_GIty_C) %*% solve(multi_GItGI_C) %*% multi_GIty_C
   C_Y_bhat <- solve(multi_GItGI_C) %*% multi_GIty_C
   C_Y_post_var_scalar <- g*(C_Y_s2- t(C_Y_bhat) %*% multi_GItGI_C %*% (-C_Y_bhat)/(g+1))/(sum_GWAS*(g+1))
