@@ -276,8 +276,12 @@ mJAM_Forward <- function(N_GWAS, X_ref,
       finalp =  final_condp_selected$condp
     }
 
-    MULTI_index <- tibble(SNP = selected_ids, cond_log10p = condp_list/log(10),
-                          final_log10p = finalp/log(10), pcut = condp_cut)
+    MULTI_index <- tibble(SNP = selected_ids, 
+                          b_joint = final_condp_selected$b_joint, 
+                          b_joint_var = diag(final_condp_selected$b_joint_var),
+                          cond_log10p = condp_list/log(10),
+                          final_log10p = finalp/log(10), 
+                          pcut = condp_cut)
   }else{
     message("No index SNP selected in this region.")
     MULTI_index = NULL

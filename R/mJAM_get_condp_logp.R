@@ -6,6 +6,7 @@
 #' @param yty A list of transformed statistics from `get_yty()` for each study.
 #' @param yty_med A numeric vector of median yty across all SNPs within each study.
 #' @param N_GWAS A numeric vector of GWAS sample size for each study.
+#' @param g Hyperparameter in g-prior. If `NULL`, it will be set to `sum(N_GWAS)`.
 #' @param selected_id A numeric vector of IDs of previously selected index SNP(s).
 #' @param use_median_yty_ethnic A numeric vector of study index in which median_yty is used for all SNPs in `selected_id`.
 #' @param rare_id A numeric vector of IDs for rare SNP(s) which we do not apply weighting. Instead, we use the individual estimate of yty for these SNPs for robustness.
@@ -26,7 +27,10 @@
 #' }
 #'
 
-mJAM_get_condp = function(GItGI, GIty, yty, yty_med, N_GWAS, selected_id, use_median_yty_ethnic = NULL, rare_id = NULL){
+mJAM_get_condp = function(GItGI, GIty, yty, yty_med, N_GWAS, g=NULL,selected_id, use_median_yty_ethnic = NULL, rare_id = NULL){
+
+  ## --- Specify g
+  if(is.null(g)){g <- sum(N_GWAS)}
 
   ## --- Specify which SNPs to include
   numSNPs <- length(GIty[[1]])
@@ -95,25 +99,45 @@ mJAM_get_condp = function(GItGI, GIty, yty, yty_med, N_GWAS, selected_id, use_me
     susie_in_Xty <- Reduce("+", GIty_sub)
     susie_in_yty <- Reduce("+", yty_sub)
 
-    ## --- Calculate multi-ethnic R-squared
+    ## --- Calculate joint estimates and conditional p-val
     if(is.null(dim(susie_in_XtX))){
-      b_joint <- susie_in_Xty / susie_in_XtX
-      resid_var <- max(0,(susie_in_yty - susie_in_Xty*b_joint)/(sum_GWAS - length(testing_ids)))
-      b_joint_var <- resid_var/susie_in_XtX
-      condp[in_id] <- ifelse(resid_var==0, NA, Rmpfr::pnorm(abs(b_joint/sqrt(b_joint_var)), lower.tail = F, log.p = T)+log(2))
+      ## --- g-prior posterior mean and var
+      b_global_hat <- susie_in_Xty / susie_in_XtX
+      b_joint <- (g/(g+1))*b_global_hat
+      s2 <- max(0, susie_in_yty - t(susie_in_Xty) %*% solve(susie_in_XtX) %*% susie_in_Xty)
+      post_var_scalar <- g*(s2- t(b_global_hat) %*% susie_in_XtX %*% (-b_global_hat)/(g+1))/(sum_GWAS*(g+1))
+      b_joint_var <- as.numeric(post_var_scalar)*solve(susie_in_XtX)
+      ## --- frequentist joint effect and var
+      # b_joint <- susie_in_Xty / susie_in_XtX
+      # resid_var <- max(0,(susie_in_yty - susie_in_Xty*b_joint)/(sum_GWAS - length(testing_ids)))
+      # b_joint_var <- resid_var/susie_in_XtX
+      condp[in_id] <- ifelse(s2==0, NA, Rmpfr::pnorm(abs(b_joint/sqrt(b_joint_var)), lower.tail = F, log.p = T)+log(2))
       effect_est[in_id] <- b_joint
       se_est[in_id] <- sqrt(b_joint_var)
       condp_mx[in_id,1] <- b_joint
       condp_mx[in_id,2] <- sqrt(b_joint_var)
-      condp_mx[in_id,3] <- ifelse(resid_var==0, NA, Rmpfr::pnorm(abs(b_joint/sqrt(b_joint_var)), lower.tail = F, log.p = T)+log(2))
+      condp_mx[in_id,3] <- ifelse(s2==0, NA, Rmpfr::pnorm(abs(b_joint/sqrt(b_joint_var)), lower.tail = F, log.p = T)+log(2))
     }else{
-      b_joint <- solve(susie_in_XtX) %*% susie_in_Xty
-      resid_var <- matrix(0,nrow = length(testing_ids), ncol = length(testing_ids))
+      ## --- frequentist joint effect and var
+      # b_joint <- solve(susie_in_XtX) %*% susie_in_Xty
+      # resid_var <- matrix(0,nrow = length(testing_ids), ncol = length(testing_ids))
+      # for(id in 1:length(testing_ids)){
+      #   resid_var[id,id] <- max(0,(susie_in_yty[id] - t(susie_in_Xty)%*%b_joint)/(sum_GWAS[id] - length(testing_ids)))
+      # }
+      # b_joint_var <- resid_var*solve(susie_in_XtX)
+
+      ## --- g-prior posterior mean and var
+      b_global_hat <- solve(susie_in_XtX) %*% susie_in_Xty
+      b_joint <- (g/(g+1))*b_global_hat
+      post_var_scalar <- matrix(0,nrow = length(testing_ids), ncol = length(testing_ids))
       for(id in 1:length(testing_ids)){
-        resid_var[id,id] <- max(0,(susie_in_yty[id] - t(susie_in_Xty)%*%b_joint)/(sum_GWAS[id] - length(testing_ids)))
+        s2 <-  max(0, susie_in_yty[id] - t(susie_in_Xty) %*% solve(susie_in_XtX) %*% susie_in_Xty)
+        const = -t(b_global_hat) %*% susie_in_XtX %*% (-b_global_hat)/(g+1)
+        post_var_scalar[id,id] <- g*(s2+const)/(sum_GWAS[id]*(g+1))
       }
-      b_joint_var <- resid_var*solve(susie_in_XtX)
-      condp[in_id] <- ifelse(resid_var[1,1]==0, NA, Rmpfr::pnorm(abs(b_joint[1]/sqrt(b_joint_var[1,1])), lower.tail = F, log.p = T)+log(2))
+      b_joint_var <- as.numeric(post_var_scalar)*solve(susie_in_XtX)
+
+      condp[in_id] <- ifelse(post_var_scalar[1,1]==0, NA, Rmpfr::pnorm(abs(b_joint[1]/sqrt(b_joint_var[1,1])), lower.tail = F, log.p = T)+log(2))
       effect_est[in_id] <- b_joint[1,1]
       se_est[in_id] <- sqrt(b_joint_var[1,1])
       D <- diag(diag(susie_in_XtX))
@@ -146,6 +170,7 @@ mJAM_get_condp = function(GItGI, GIty, yty, yty_med, N_GWAS, selected_id, use_me
 #' @param yty A list of transformed statistics from `get_yty()` for each study.
 #' @param yty_med A numeric vector of median yty across all SNPs within each study.
 #' @param N_GWAS A numeric vector of GWAS sample size for each study.
+#' @param g Hyperparameter in g-prior. If `NULL`, it will be set to `sum(N_GWAS)`.
 #' @param selected_id A numeric vector of IDs of previously selected index SNP(s).
 #' @param use_median_yty_ethnic A numeric vector of study index in which median_yty is used for all SNPs in `selected_id`.
 #' @param rare_SNPs A character vector for rare SNP(s) which we do not apply weighting. Instead, we use the individual estimate of yty for these SNPs for robustness.
@@ -164,8 +189,11 @@ mJAM_get_condp = function(GItGI, GIty, yty, yty_med, N_GWAS, selected_id, use_me
 #'
 
 
-mJAM_get_condp_selected = function(GItGI, GIty, yty,yty_med,N_GWAS, selected_id,
+mJAM_get_condp_selected = function(GItGI, GIty, yty,yty_med,N_GWAS, g=NULL,selected_id,
                                    use_median_yty_ethnic = NULL, rare_SNPs = NULL){
+
+  ## --- Specify g
+  if(is.null(g)){g <- sum(N_GWAS)}
 
   ## --- Check whether selected_id has missingness in any studies
   numEthnic <- length(N_GWAS)
@@ -216,24 +244,38 @@ mJAM_get_condp_selected = function(GItGI, GIty, yty,yty_med,N_GWAS, selected_id,
   susie_in_Xty <- Reduce("+", GIty_sub)
   susie_in_yty <- Reduce("+", yty_sub)
 
-  ## --- Calculate multi-ethnic R-squared
+  ## --- Calculate joint estimates and conditional p-val
   if(is.null(dim(susie_in_XtX))){
-    b_joint <- susie_in_Xty / susie_in_XtX
-    resid_var <- max(0,(susie_in_yty - susie_in_Xty*b_joint)/(sum_GWAS - length(selected_id)))
-    b_joint_var <- resid_var/susie_in_XtX
-    sqrt(b_joint_var)
-    condp_selected <- ifelse(resid_var==0, NA, Rmpfr::pnorm(abs(b_joint/sqrt(b_joint_var)), lower.tail = F, log.p = T)+ log(2))
+    # b_joint <- susie_in_Xty / susie_in_XtX
+    # resid_var <- max(0,(susie_in_yty - susie_in_Xty*b_joint)/(sum_GWAS - length(selected_id)))
+    # b_joint_var <- resid_var/susie_in_XtX
+
+    ## --- g-prior posterior mean and var
+    b_global_hat <- susie_in_Xty / susie_in_XtX
+    b_joint <- (g/(g+1))*b_global_hat
+    s2 <- max(0, susie_in_yty - t(susie_in_Xty) %*% solve(susie_in_XtX) %*% susie_in_Xty)
+    post_var_scalar <- g*(s2- t(b_global_hat) %*% susie_in_XtX %*% (-b_global_hat)/(g+1))/(sum_GWAS*(g+1))
+    b_joint_var <- as.numeric(post_var_scalar)*solve(susie_in_XtX)
+    condp_selected <- ifelse(s2==0, NA, Rmpfr::pnorm(abs(b_joint/sqrt(b_joint_var)), lower.tail = F, log.p = T)+ log(2))
   }else{
     # b_joint <- solve(susie_in_XtX) %*% susie_in_Xty
-    # resid_var <- max(0,(susie_in_yty - t(susie_in_Xty)%*%b_joint)/(sum_GWAS - length(selected_id)))
+    # resid_var <- matrix(0,nrow = length(testing_ids), ncol = length(testing_ids))
+    # for(id in 1:length(testing_ids)){
+    #   resid_var[id,id] <- max(0,(susie_in_yty[id] - t(susie_in_Xty)%*%b_joint)/(sum_GWAS[id] - length(testing_ids)))
+    # }
     # b_joint_var <- resid_var*solve(susie_in_XtX)
-    # condp_selected <- 2*pnorm(abs(b_joint/sqrt(diag(b_joint_var))), lower.tail = F)
-    b_joint <- solve(susie_in_XtX) %*% susie_in_Xty
-    resid_var <- matrix(0,nrow = length(testing_ids), ncol = length(testing_ids))
+
+    ## --- g-prior posterior mean and var
+    b_global_hat <- solve(susie_in_XtX) %*% susie_in_Xty
+    b_joint <- (g/(g+1))*b_global_hat
+    post_var_scalar <- matrix(0,nrow = length(testing_ids), ncol = length(testing_ids))
     for(id in 1:length(testing_ids)){
-      resid_var[id,id] <- max(0,(susie_in_yty[id] - t(susie_in_Xty)%*%b_joint)/(sum_GWAS[id] - length(testing_ids)))
+      s2 <-  max(0, susie_in_yty[id] - t(susie_in_Xty) %*% solve(susie_in_XtX) %*% susie_in_Xty)
+      const = -t(b_global_hat) %*% susie_in_XtX %*% (-b_global_hat)/(g+1)
+      post_var_scalar[id,id] <- g*(s2+const)/(sum_GWAS[id]*(g+1))
     }
-    b_joint_var <- resid_var*solve(susie_in_XtX)
+    b_joint_var <- as.numeric(post_var_scalar)*solve(susie_in_XtX)
+
     sqrt_diag_b_joint_var <- ifelse(diag(b_joint_var)==0, NA, sqrt(diag(b_joint_var)))
     condp_selected <- Rmpfr::pnorm(abs(b_joint/sqrt_diag_b_joint_var), lower.tail = F, log.p = T)+ log(2)
   }

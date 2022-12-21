@@ -10,6 +10,7 @@ mJAM_get_condp_selected(
   yty,
   yty_med,
   N_GWAS,
+  g = NULL,
   selected_id,
   use_median_yty_ethnic = NULL,
   rare_SNPs = NULL
@@ -25,6 +26,8 @@ mJAM_get_condp_selected(
 \item{yty_med}{A numeric vector of median yty across all SNPs within each study.}
 
 \item{N_GWAS}{A numeric vector of GWAS sample size for each study.}
+
+\item{g}{Hyperparameter in g-prior. If `NULL`, it will be set to `sum(N_GWAS)`.}
 
 \item{selected_id}{A numeric vector of IDs of previously selected index SNP(s).}
 
