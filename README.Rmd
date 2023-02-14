@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-# hJAM
+# JAM: Joint Analysis of Marginal Summary Statistics
 
 <!-- badges: start -->
 [![R build status](https://github.com/lailylajiang/hJAM/workflows/R-CMD-check/badge.svg)](https://github.com/lailylajiang/hJAM)
@@ -24,11 +24,17 @@ knitr::opts_chunk$set(
 
 ## About 
 
-In this package, we provide three methods that are developed for estimating (and selecting) the causal effect of intermediates on the outcome using the genetic variants as instrumental variables. 
+In this package, we provide three methods that utilizes GWAS summary statistics to perform post-GWAS analysis, including Mendelian Randomization, TWAS, and multi-population fine-mapping.  
+
+## hJAM and SHAJAM
 
 The hJAM (`hJAM`) is a hierarchical model which unifies the framework of Mendelian Randomization and Transcriptome-wide association studies. The hJAM-Egger (`hJAM_egger`) is a natural extension on hJAM that uses an intercept term to account for the pleiotropy effect of the SNPs on the outcome. The SHA-JAM (`SHAJAM`) is applicable for high-throughput experiment data, such as omics data.
 
 Additionally, we provide implementations to construct the weight matrix. The JAM framework (`JAM_A`) is used to convert the marginal summary statistics into conditional ones by using the correlation matrix of the SNPs from a reference data. The SuSiE JAM (`susieJAM_A`) is used to select the SNPs for one intermediate using the marginal summary statistics from GWAS or other study summary data. It can also be used for fine-mapping problems.
+
+
+## mJAM
+mJAM is for multi-population fine-mapping using GWAS summary statistics and credible set construction. A tutorial to get started with mJAM can be found [here](https://jiayi-s.github.io/more_on_mJAM/). 
 
 ## Citing this work
 
