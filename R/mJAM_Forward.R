@@ -7,6 +7,7 @@
 #' @param Marg_Result A data frame with marginal summary statistics from all studies. Col1: SNP name; Col2: Effect sizes from study #1; Col3: Std Errors of effect sizes from study #1; ...
 #' @param EAF_Result A data frame with effect allele frequency (EAF) from all studies. Col1: SNP name; Col2: EAF from study #1; Col3: EAF from study #2; ...
 #' @param condp_cut Threshold of conditional p-value to be considered as significant. No default specified. Usually recommend 5e-8.
+#' @param index_snps User-defined index SNP(s), if any. Default is `NULL` which means mJAM-Forward will automatically select index variants.
 #' @param within_pop_threshold Threshold of absolute correlation with selected index SNP(s) within a single population. If a SNP's correlation with any selected index SNP is greater than this threshold in at least one population, it will be excluded from subsequent rounds of index SNP selection.
 #' @param across_pop_threshold Threshold of absolute correlation with selected index SNP(s) across all populations. If a SNP's correlation with any selected index SNP is greater than this threshold in all populations, it will be excluded from subsequent rounds of index SNP selection.
 #' @param coverage The required coverage of credible sets. Default is 0.95.
@@ -32,10 +33,23 @@
 #'
 
 
+# N_GWAS = c(5000, 5000, 5000)
+# X_ref = list(RefDosage_P1,RefDosage_P2,RefDosage_P3)
+# Marg_Result = MargBeta
+# EAF_Result = EAF
+# condp_cut = 0.05/50
+# index_snps = c("rs2")
+# within_pop_threshold = 0.50
+# across_pop_threshold = 0.20
+# coverage = 0.95
+# Pr_Med_cut = 0
+# filter_rare = FALSE
+# rare_freq = NULL
 
 mJAM_Forward <- function(N_GWAS, X_ref,
                          Marg_Result, EAF_Result,
                          condp_cut = NULL,
+                         index_snps = NULL,
                          within_pop_threshold = 0.50,
                          across_pop_threshold = 0.20,
                          coverage = 0.95,
@@ -45,6 +59,12 @@ mJAM_Forward <- function(N_GWAS, X_ref,
   ## Set parameters
   N_SNP <- numSNPs <- nrow(Marg_Result)
   if(is.null(condp_cut)){condp_cut <- 0.05/N_SNP}
+
+  ## Check index_snps is in marker names
+  if(!is.null(index_snps) && sum(!(index_snps %in% Marg_Result$SNP))>0){
+    not_in_index_snps = index_snps[!(index_snps %in% Marg_Result$SNP)]
+    error(paste0(paste0(not_in_index_snps, collapse = ","), "not found in Marg_Result."))
+  }
 
   ## if filter_rare, then remove rare SNPs
   if(filter_rare == TRUE){
@@ -205,11 +225,18 @@ mJAM_Forward <- function(N_GWAS, X_ref,
                feMeta_log10p = signif(feMeta_logp/log(10),4))
     }
 
-    if(newFS_RES$condp_min > log(condp_cut)) {break}
 
-    curr_index_snp <- subset_EUR[newFS_RES$which_condp_min]
+    ## determine the index SNP of current round
+    if(is.null(index_snps)){
+      if((newFS_RES$condp_min>log(condp_cut))) {break}
+      curr_index_snp <- subset_EUR[newFS_RES$which_condp_min]
+    }else{
+      if(iter_count >= length(index_snps)) {break}
+      curr_index_snp <- index_snps[iter_count+1]
+    }
+
     selected_ids <- c(selected_ids, curr_index_snp)
-    condp_list <- c(condp_list, newFS_RES$condp_min)
+    condp_list <- c(condp_list, newFS_RES$condp[match(curr_index_snp, subset_EUR)])
     message(paste("No.", iter_count+1,"selected index SNP:", curr_index_snp))
 
     ## step 2: construct credible sets based on the selected SNP
@@ -276,11 +303,12 @@ mJAM_Forward <- function(N_GWAS, X_ref,
       finalp =  final_condp_selected$condp
     }
 
-    MULTI_index <- tibble(SNP = selected_ids, 
-                          b_joint = final_condp_selected$b_joint, 
-                          b_joint_var = diag(final_condp_selected$b_joint_var),
+    MULTI_index <- tibble(SNP = selected_ids,
+                          b_joint = final_condp_selected$b_joint,
+                          b_joint_var = ifelse(length(selected_ids)==1, final_condp_selected$b_joint_var,
+                                               diag(final_condp_selected$b_joint_var)),
                           cond_log10p = condp_list/log(10),
-                          final_log10p = finalp/log(10), 
+                          final_log10p = finalp/log(10),
                           pcut = condp_cut)
   }else{
     message("No index SNP selected in this region.")
