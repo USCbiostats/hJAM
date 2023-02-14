@@ -10,6 +10,7 @@ mJAM_Forward(
   Marg_Result,
   EAF_Result,
   condp_cut = NULL,
+  index_snps = NULL,
   within_pop_threshold = 0.5,
   across_pop_threshold = 0.2,
   coverage = 0.95,
@@ -28,6 +29,8 @@ mJAM_Forward(
 \item{EAF_Result}{A data frame with effect allele frequency (EAF) from all studies. Col1: SNP name; Col2: EAF from study #1; Col3: EAF from study #2; ...}
 
 \item{condp_cut}{Threshold of conditional p-value to be considered as significant. No default specified. Usually recommend 5e-8.}
+
+\item{index_snps}{User-defined index SNP(s), if any. Default is `NULL` which means mJAM-Forward will automatically select index variants.}
 
 \item{within_pop_threshold}{Threshold of absolute correlation with selected index SNP(s) within a single population. If a SNP's correlation with any selected index SNP is greater than this threshold in at least one population, it will be excluded from subsequent rounds of index SNP selection.}
 
