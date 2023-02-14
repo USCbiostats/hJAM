@@ -310,6 +310,14 @@ mJAM_Forward <- function(N_GWAS, X_ref,
                           cond_log10p = condp_list/log(10),
                           final_log10p = finalp/log(10),
                           pcut = condp_cut)
+
+    ## simplify CS output table
+    all_CS <- all_CS %>%
+      select(c(index_SNP, CS_SNP, Post_Model_Prob_Ratio2, Post_Med_Prob2, SD_Post_CS_Prob, CumSum_Porb, CS_in)) %>%
+      rename(Post_Model_Prob = Post_Model_Prob_Ratio2,
+             Post_Med_Prob = Post_Med_Prob2,
+             CumSum_Prob = CumSum_Porb)
+
   }else{
     message("No index SNP selected in this region.")
     MULTI_index = NULL
