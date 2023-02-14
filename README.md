@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# JAM: Joint Analysis of Marginal Summary Statistics
+# JAM: Joint Analysis of Marginal summary statistics
 
 <!-- badges: start -->
 
@@ -16,48 +16,59 @@ status](https://github.com/lailylajiang/hJAM/workflows/R-CMD-check/badge.svg)](h
 
 ## About
 
-In this package, we provide three methods that utilizes GWAS summary
-statistics to perform post-GWAS analysis, including Mendelian
+In this package, we provide three `JAM`-family methods that utilize GWAS
+summary statistics to perform post-GWAS analysis, including Mendelian
 Randomization, TWAS, and multi-population fine-mapping.
 
-## hJAM and SHAJAM
+## hJAM
 
-The hJAM (`hJAM`) is a hierarchical model which unifies the framework of
+hJAM (`hJAM`) is a hierarchical model which unifies the framework of
 Mendelian Randomization and Transcriptome-wide association studies. The
 hJAM-Egger (`hJAM_egger`) is a natural extension on hJAM that uses an
 intercept term to account for the pleiotropy effect of the SNPs on the
-outcome. The SHA-JAM (`SHAJAM`) is applicable for high-throughput
-experiment data, such as omics data.
+outcome.
 
-Additionally, we provide implementations to construct the weight matrix.
-The JAM framework (`JAM_A`) is used to convert the marginal summary
-statistics into conditional ones by using the correlation matrix of the
-SNPs from a reference data. The SuSiE JAM (`susieJAM_A`) is used to
-select the SNPs for one intermediate using the marginal summary
-statistics from GWAS or other study summary data. It can also be used
-for fine-mapping problems.
+Additionally, we provide implementations to construct the weight matrix
+`A` in hJAM. `JAM_A` converts the marginal summary statistics into
+conditional ones by using the correlation matrix of the SNPs from a
+reference data. `susieJAM_A` selects SNPs for one intermediate using the
+marginal summary statistics from GWAS or other study summary data.
+
+## SHA-JAM
+
+SHA-JAM (`SHAJAM`) is a scalable version of `hJAM` that handles
+high-dimensional intermediates. SHA-JAM performs model selection from
+highly correlated intermediates through SuSiE: Sum of Single Effect
+Model (`SHAJAM`) or elastic-net (`EN.hJAM`).
 
 ## mJAM
 
 mJAM is for multi-population fine-mapping using GWAS summary statistics
-and credible set construction. A tutorial to get started with mJAM can
-be found [here](https://jiayi-s.github.io/more_on_mJAM/).
+and credible set construction. We provide two implementations of mJAM:
+one through SuSiE (`mJAM_SuSiE`) and another one through forward
+selection (`mJAM_Forward`). `mJAM_Forward` also provides the flexiblity
+of constructing credible sets for using user-defined index SNPs. A
+tutorial to get started with mJAM can be found
+[here](https://jiayi-s.github.io/more_on_mJAM/).
 
 ## Citing this work
 
-If you find the `hJAM`, `hJAM_egger`, and/or `JAM_A` useful, please
-cite:
+- **hJAM**: Jiang, L., Xu, S., Mancuso, N., Newcombe, P. J., &
+  Conti, D. V. (2021). A Hierarchical Approach Using Marginal Summary
+  Statistics for Multiple Intermediates in a Mendelian Randomization or
+  Transcriptome Analysis. *American journal of epidemiology*, 190(6),
+  1148–1158. <https://doi.org/10.1093/aje/kwaa287>
 
-- Jiang, L., Xu, S., Mancuso, N., Newcombe, P.J. & Conti, D.V. A
-  Hierarchical Approach Using Marginal Summary Statistics for Multiple
-  Intermediates in a Mendelian Randomization or Transcriptome Analysis.
-  (Accepted by American Journal of Epidemiology).
+- **SHA-JAM**: Jiang, L., Conti, D.V. SHA-JAM: A Scalable Hierarchical
+  Approach to Joint Analysis for Marginal Summary Statistics with Omics
+  Data. (In preparation).
 
-If you find the `SHAJAM` and/or `susieJAM_A` useful, please cite:
-
-- Jiang, L., Conti, D.V. SHA-JAM: A Scalable Hierarchical Approach to
-  Joint Analysis for Marginal Summary Statistics with Omics Data. (In
-  preparation; preprint will be ready in Feburary, 2021).
+- **mJAM**: Shen, J., Jiang, L., Wang, K., Wang, A., Chen, F., Newcombe,
+  P.J., Haiman, C.A., & Conti, D.V. Fine-Mapping and Credible Set
+  Construction using a Multi-population Joint Analysis of Marginal
+  Summary Statistics from Genome-wide Association Studies.
+  ([Preprint](https://www.biorxiv.org/content/10.1101/2022.12.22.521659v1)
+  available)
 
 ## Quick start with hJAM package
 
@@ -67,8 +78,10 @@ You can install the published version of hJAM from CRAN with:
 install.packages("hJAM")
 ```
 
-Or you can install the development version from
-[GitHub](https://github.com/USCbiostats/hJAM) with:
+Currently we are working on improving `hJAM` package and adding
+genome-wide implementation of mJAM. If you want to use the most updated
+version of this package, we recommend installing the development version
+from [GitHub](https://github.com/USCbiostats/hJAM) with:
 
 ``` r
 if (!require("devtools")) { install.packages("devtools") } else {}
