@@ -267,7 +267,7 @@ mJAM_Forward <- function(N_GWAS, X_ref,
     }
     subset_EUR <- union(subset_EUR, selected_ids)
     subset_EUR <- has_dosage_SNP[has_dosage_SNP%in%subset_EUR]
-    message(paste(length(unique(pruned_snps)), "SNPs got pruned.", length(subset_EUR), "SNPs left."))
+    message(paste(length(unique(pruned_snps))-length(unique(selected_ids)), "SNPs got pruned.", length(subset_EUR), "SNPs left."))
 
     if(length(subset_EUR)>1){
       for(e in 1:numEthnic){
