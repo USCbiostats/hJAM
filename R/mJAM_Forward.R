@@ -57,7 +57,7 @@ mJAM_Forward <- function(N_GWAS, X_ref,
                          filter_rare = FALSE,
                          rare_freq = NULL){
   ## Set parameters
-  N_SNP <- numSNPs <- nrow(Marg_Result)
+  N_SNP <- numSNPs <- numSNPs_wo_rare <- nrow(Marg_Result)
   if(is.null(condp_cut)){condp_cut <- 0.05/N_SNP}
 
   ## Check index_snps is in marker names
@@ -83,9 +83,11 @@ mJAM_Forward <- function(N_GWAS, X_ref,
         Marg_Result = Marg_Result[-rare_filter_id,]
         EAF_Result = EAF_Result[-rare_filter_id,]
         for(i in 1:length(X_ref)){X_ref[[i]] = X_ref[[i]][,-rare_filter_id]}
+        numSNPs_wo_rare = numSNPs - length(rare_filter_id)
       }
     }
   }
+
 
   if(typeof(filter_rare)!="logical"){
     stop("Please specify filter_rare to be either TRUE or FALSE.")
@@ -132,7 +134,7 @@ mJAM_Forward <- function(N_GWAS, X_ref,
       ## --- Get Dosage_cor with complete SNP
       temp_Dosage_cor <- cor(X_ref[[i]][,-temp_missing_snp_idx])^2
       ## --- Fill in missing SNPs with zeros
-      Dosage_cor[[i]] <- diag(1, nrow = numSNPs, ncol = numSNPs)
+      Dosage_cor[[i]] <- diag(1, nrow = numSNPs_wo_rare, ncol = numSNPs_wo_rare)
       Dosage_cor[[i]][-temp_missing_snp_idx, -temp_missing_snp_idx] <- temp_Dosage_cor
     }else{
       Dosage_cor[[i]] <- cor(X_ref[[i]])^2
@@ -156,9 +158,9 @@ mJAM_Forward <- function(N_GWAS, X_ref,
       ##
       # yty[[i]] <- get_yty(maf = temp_MAFs, N_outcome = N_GWAS[i], betas = temp.marginal.betas, betas.se = temp.marginal.se)
       ## --- Fill in missing SNPs with zeros
-      GItGI[[i]] <- matrix(0, nrow = numSNPs, ncol = numSNPs)
+      GItGI[[i]] <- matrix(0, nrow = numSNPs_wo_rare, ncol = numSNPs_wo_rare)
       GItGI[[i]][-temp_missing_snp_idx, -temp_missing_snp_idx] <- temp_GItGI
-      GIty[[i]] <- rep(0, numSNPs)
+      GIty[[i]] <- rep(0, numSNPs_wo_rare)
       GIty[[i]][-temp_missing_snp_idx] <- temp.GIty
     }else{
       GItGI[[i]] <- get_XtX(N_outcome = N_GWAS[i], Gl = X_ref[[i]],
@@ -196,7 +198,7 @@ mJAM_Forward <- function(N_GWAS, X_ref,
   while(iter_count >= 0){
     ## step 1: select top SNPs in the remaining list
     ## selected_id should be the ID in subset_EUR
-    if(length(unique(pruned_snps))==N_SNP){break}
+    if(length(unique(pruned_snps))==numSNPs_wo_rare){break}
     if(iter_count == 0){Input_id = NULL}else{Input_id = match(selected_ids, subset_EUR)}
 
     ## get the id of rare SNPs in remaining SNPs
