@@ -105,8 +105,9 @@ mJAM_Forward <- function(N_GWAS, X_ref,
     feMeta_w[[pop]] <- 1/Marg_Result[,2*pop+1]^2
     feMeta_w_x_beta[[pop]] <- feMeta_w[[pop]]*Marg_Result[,2*pop]
   }
-  feMeta_se <- sqrt(1/Reduce(`+`,feMeta_w))
-  feMeta_mean <- Reduce(`+`,feMeta_w_x_beta)/Reduce(`+`,feMeta_w)
+  feMeta_se <- sqrt(1/rowSums(do.call(cbind, feMeta_w), na.rm = TRUE))
+  feMeta_mean <- rowSums(do.call(cbind, feMeta_w_x_beta), na.rm = TRUE)/rowSums(do.call(cbind, feMeta_w), na.rm = TRUE)
+
 
   ## --- Check missing data
   numEthnic <- length(Input_MarglogOR)
