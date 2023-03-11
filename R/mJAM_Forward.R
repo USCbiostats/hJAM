@@ -8,8 +8,8 @@
 #' @param EAF_Result A data frame with effect allele frequency (EAF) from all studies. Col1: SNP name; Col2: EAF from study #1; Col3: EAF from study #2; ...
 #' @param condp_cut Threshold of conditional p-value to be considered as significant. No default specified. Usually recommend 5e-8.
 #' @param index_snps User-defined index SNP(s), if any. Default is `NULL` which means mJAM-Forward will automatically select index variants.
-#' @param within_pop_threshold Threshold of absolute correlation with selected index SNP(s) within a single population. If a SNP's correlation with any selected index SNP is greater than this threshold in at least one population, it will be excluded from subsequent rounds of index SNP selection.
-#' @param across_pop_threshold Threshold of absolute correlation with selected index SNP(s) across all populations. If a SNP's correlation with any selected index SNP is greater than this threshold in all populations, it will be excluded from subsequent rounds of index SNP selection.
+#' @param within_pop_threshold Threshold of r2 with selected index SNP(s) within a single population. If a SNP's correlation with any selected index SNP is greater than this threshold in at least one population, it will be excluded from subsequent rounds of index SNP selection.
+#' @param across_pop_threshold Threshold of r2 with selected index SNP(s) across all populations. If a SNP's correlation with any selected index SNP is greater than this threshold in all populations, it will be excluded from subsequent rounds of index SNP selection.
 #' @param coverage The required coverage of credible sets. Default is 0.95.
 #' @param Pr_Med_cut Cut off of mJAM posterior mediation probability (P(Med)) during credible set construction. Low P(Med) may indicate low correlation between the candidate SNP and the index SNP. Any candidate credible set SNPs with P(Med) < Pr_Med_cut will be not be considered for credible set. Default is 0.
 #' @param filter_rare A logical variable indicating whether to filter rare SNPs before the analysis. Default is `FALSE.` If `TRUE`, then please specify `rare_freq`.

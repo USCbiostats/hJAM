@@ -5,8 +5,8 @@
 #' @param target Target SNP ID.
 #' @param testing IDs of SNPs to be tested.
 #' @param R a list of correlation matrix of all SNPs.
-#' @param within_thre threshold of absolute correlation with selected index SNP(s) within a single population. If a SNP's correlation with any selected index SNP is greater than this threshold in at least one population, it will be excluded from subsequent rounds of index SNP selection.
-#' @param across_thre threshold of absolute correlation with selected index SNP(s) across all populations. If a SNP's correlation with any selected index SNP is greater than this threshold in all populations, it will be excluded from subsequent rounds of index SNP selection.
+#' @param within_thre threshold of r2 with selected index SNP(s) within a single population. If a SNP's correlation with any selected index SNP is greater than this threshold in at least one population, it will be excluded from subsequent rounds of index SNP selection.
+#' @param across_thre threshold of r2 with selected index SNP(s) across all populations. If a SNP's correlation with any selected index SNP is greater than this threshold in all populations, it will be excluded from subsequent rounds of index SNP selection.
 #'
 #' @author Jiayi Shen
 #'
