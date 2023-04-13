@@ -66,7 +66,19 @@ mJAM_Forward <- function(N_GWAS, X_ref,
     error(paste0(paste0(not_in_index_snps, collapse = ","), "not found in Marg_Result."))
   }
 
+  ## Check whether columns of X_ref, EAF_Results and Marg_Result are aligned.
+  if(!all(sapply(X_ref, function(x) identical(colnames(x), colnames(X_ref[[1]]))))){
+    error("Columns of X_ref are not aligned with each other. \n
+        Please make sure SNPs are sorted in the exact order.")
+  }
+  if(!identical(Marg_Result$SNP, EAF_Result$SNP, X_ref[[1]])){
+    error("Rows in Marg_Result/EAF_Result are not aligned to X_ref in the exact order.")
+  }
+
   ## if filter_rare, then remove rare SNPs
+  if(typeof(filter_rare)!="logical"){
+    stop("Please specify filter_rare to be either TRUE or FALSE.")
+  }
   if(filter_rare == TRUE){
     ## check rare frequency cutoff
     if(is.null(rare_freq)){
@@ -74,10 +86,18 @@ mJAM_Forward <- function(N_GWAS, X_ref,
     }else if(length(rare_freq)!=length(X_ref)){
       stop("Length of rare_freq does not match with the number of populations")
     }else{
-      ## filter SNPs whose MAF < rare_freq in "ALL" population
       rare_freq_matrix = matrix(rep(rare_freq,numSNPs), byrow = TRUE, nrow = numSNPs, ncol = length(rare_freq))
-      rare_freq_true = abs(EAF_Result[,2:ncol(EAF_Result)]-0.5)>0.5-rare_freq_matrix
-      rare_filter_id = which(rowMeans(rare_freq_true,na.rm=T)==1)
+      ## filter SNPs whose summary stat MAF < rare_freq in "ALL" population
+      rare_freq_true1 = abs(EAF_Result[,2:ncol(EAF_Result)]-0.5)>0.5-rare_freq_matrix
+      rare_filter_id1 = which(rowMeans(rare_freq_true1,na.rm=T)==1)
+      ## filter SNPs whose reference MAF < rare_freq in "ALL" population
+      reference_EAF = matrix(NA, nrow = numSNPs, ncol = length(X_ref))
+      for(k in 1:length(X_ref)){
+        reference_EAF[,k] <- colMeans(X_ref[[k]],na.rm=T)/2
+      }
+      rare_freq_true2 = abs(reference_EAF-0.5)>0.5-rare_freq_matrix
+      rare_filter_id2 = which(rowMeans(rare_freq_true2,na.rm=T)==1)
+      rare_filter_id = union(rare_filter_id1, rare_filter_id2)
       if(length(rare_filter_id)>0){
         ## filter Marg_Result and EAF_Result and X_ref
         Marg_Result = Marg_Result[-rare_filter_id,]
@@ -86,11 +106,6 @@ mJAM_Forward <- function(N_GWAS, X_ref,
         numSNPs_wo_rare = numSNPs - length(rare_filter_id)
       }
     }
-  }
-
-
-  if(typeof(filter_rare)!="logical"){
-    stop("Please specify filter_rare to be either TRUE or FALSE.")
   }
 
   Original_Input_Dosage <- X_ref
