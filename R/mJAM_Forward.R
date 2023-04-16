@@ -192,9 +192,17 @@ mJAM_Forward <- function(N_GWAS, X_ref,
     colnames(GItGI[[i]]) <- rownames(GItGI[[i]]) <- Marg_Result[,1]
     names(GIty[[i]]) <- names(yty[[i]]) <- Marg_Result[,1]
   }
+
   ## Identify rare variants
-  rare_pct <- rowMeans(abs(EAF_Result[,2:ncol(EAF_Result)]-0.5)>0.48)
-  rare_SNPs <- Marg_Result[which(rare_pct>=0.5),1]
+  rare_pct_sumstats <- rowMeans(abs(EAF_Result[,2:ncol(EAF_Result)]-0.5)>0.48|is.na(EAF_Result[,2:ncol(EAF_Result)]))
+  rare_SNPs_sumstats <- Marg_Result[which(rare_pct_sumstats>=0.5),1]
+  reference_EAF = matrix(NA, nrow = numSNPs_wo_rare, ncol = length(X_ref))
+  for(k in 1:length(X_ref)){
+    reference_EAF[,k] <- colMeans(X_ref[[k]],na.rm=T)/2
+  }
+  rare_pct_dosage <- rowMeans(abs(reference_EAF-0.5)>0.48|is.na(reference_EAF))
+  rare_SNPs_dosage <- Marg_Result[which(rare_pct_dosage>=0.5),1]
+  rare_SNPs <- union(rare_SNPs_sumstats, rare_SNPs_dosage)
   if(length(rare_SNPs)==0){rare_SNPs <- NULL}
 
   ## Run Forward selection
