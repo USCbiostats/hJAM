@@ -484,7 +484,7 @@ mJAM_build_CS <- function(X_id, prev_X_list = NULL,All_id, PrCS_weights = "Pr(M_
            EmpiricalCut = min(CumSum_Porb[CumSum_Porb >= coverage], na.rm = T),
            duplicated_one = duplicated(CumSum_Porb),
            CS_in = ((CumSum_Porb <= EmpiricalCut) & !duplicated_one))%>%
-    select(-duplicated_one)
+    dplyr::select(-duplicated_one)
 
   temp_CS_set <- Post_Med_Prob_df %>%
     rename(CS_SNP = SNP_names) %>%

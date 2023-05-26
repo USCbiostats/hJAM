@@ -147,11 +147,15 @@ mJAM_Forward <- function(N_GWAS, X_ref,
     if (nrow(missing_tbl) > 0 && i%in%missing_tbl$missing_ethnic_idx){
       ## --- Get missing SNP index
       temp_missing_snp_idx <- filter(missing_tbl, missing_ethnic_idx == i) %>% pull(missing_snp_idx)
-      ## --- Get Dosage_cor with complete SNP
-      temp_Dosage_cor <- cor(X_ref[[i]][,-temp_missing_snp_idx])^2
-      ## --- Fill in missing SNPs with zeros
-      Dosage_cor[[i]] <- diag(1, nrow = numSNPs_wo_rare, ncol = numSNPs_wo_rare)
-      Dosage_cor[[i]][-temp_missing_snp_idx, -temp_missing_snp_idx] <- temp_Dosage_cor
+      if(length(temp_missing_snp_idx)<ncol(X_ref[[i]])-1){
+        ## --- Get Dosage_cor with complete SNP
+        temp_Dosage_cor <- cor(X_ref[[i]][,-temp_missing_snp_idx])^2
+        ## --- Fill in missing SNPs with zeros
+        Dosage_cor[[i]] <- diag(1, nrow = numSNPs_wo_rare, ncol = numSNPs_wo_rare)
+        Dosage_cor[[i]][-temp_missing_snp_idx, -temp_missing_snp_idx] <- temp_Dosage_cor
+      }else{
+        Dosage_cor[[i]] <- diag(1, nrow = numSNPs_wo_rare, ncol = numSNPs_wo_rare)
+      }
     }else{
       Dosage_cor[[i]] <- cor(X_ref[[i]])^2
     }
@@ -339,7 +343,7 @@ mJAM_Forward <- function(N_GWAS, X_ref,
 
     ## simplify CS output table
     all_CS <- all_CS %>%
-      select(c(index_SNP, CS_SNP, Post_Model_Prob_Ratio2, Post_Med_Prob2, SD_Post_CS_Prob, CumSum_Porb, CS_in)) %>%
+      dplyr::select(c(index_SNP, CS_SNP, Post_Model_Prob_Ratio2, Post_Med_Prob2, SD_Post_CS_Prob, CumSum_Porb, CS_in)) %>%
       rename(Post_Model_Prob = Post_Model_Prob_Ratio2,
              Post_Med_Prob = Post_Med_Prob2,
              CumSum_Prob = CumSum_Porb)
