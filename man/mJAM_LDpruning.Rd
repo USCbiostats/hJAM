@@ -13,9 +13,9 @@ mJAM_LDpruning(target, testing, R, within_thre = 0.95, across_thre = 0.8)
 
 \item{R}{a list of correlation matrix of all SNPs.}
 
-\item{within_thre}{threshold of absolute correlation with selected index SNP(s) within a single population. If a SNP's correlation with any selected index SNP is greater than this threshold in at least one population, it will be excluded from subsequent rounds of index SNP selection.}
+\item{within_thre}{threshold of r2 with selected index SNP(s) within a single population. If a SNP's correlation with any selected index SNP is greater than this threshold in at least one population, it will be excluded from subsequent rounds of index SNP selection.}
 
-\item{across_thre}{threshold of absolute correlation with selected index SNP(s) across all populations. If a SNP's correlation with any selected index SNP is greater than this threshold in all populations, it will be excluded from subsequent rounds of index SNP selection.}
+\item{across_thre}{threshold of r2 with selected index SNP(s) across all populations. If a SNP's correlation with any selected index SNP is greater than this threshold in all populations, it will be excluded from subsequent rounds of index SNP selection.}
 }
 \value{
 \describe{

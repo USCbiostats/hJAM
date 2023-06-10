@@ -8,7 +8,7 @@ Maintainer: Lai Jiang <jian848@usc.edu>
 Description: Provides functions to implement a hierarchical approach which is designed to perform joint analysis of summary statistics using the framework of Mendelian Randomization or transcriptome analysis. Reference: Lai Jiang, Shujing Xu, Nicholas Mancuso, Paul J. Newcombe, David V. Conti (2020). "A Hierarchical Approach Using Marginal Summary Statistics for Multiple Intermediates in a Mendelian Randomization or Transcriptome Analysis." <bioRxiv><doi:10.1101/2020.02.03.924241>.
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Suggests: 
     knitr,
     rmarkdown

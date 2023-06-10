@@ -32,9 +32,9 @@ mJAM_Forward(
 
 \item{index_snps}{User-defined index SNP(s), if any. Default is `NULL` which means mJAM-Forward will automatically select index variants.}
 
-\item{within_pop_threshold}{Threshold of absolute correlation with selected index SNP(s) within a single population. If a SNP's correlation with any selected index SNP is greater than this threshold in at least one population, it will be excluded from subsequent rounds of index SNP selection.}
+\item{within_pop_threshold}{Threshold of r2 with selected index SNP(s) within a single population. If a SNP's correlation with any selected index SNP is greater than this threshold in at least one population, it will be excluded from subsequent rounds of index SNP selection.}
 
-\item{across_pop_threshold}{Threshold of absolute correlation with selected index SNP(s) across all populations. If a SNP's correlation with any selected index SNP is greater than this threshold in all populations, it will be excluded from subsequent rounds of index SNP selection.}
+\item{across_pop_threshold}{Threshold of r2 with selected index SNP(s) across all populations. If a SNP's correlation with any selected index SNP is greater than this threshold in all populations, it will be excluded from subsequent rounds of index SNP selection.}
 
 \item{coverage}{The required coverage of credible sets. Default is 0.95.}
 

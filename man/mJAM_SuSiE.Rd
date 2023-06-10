@@ -5,15 +5,12 @@
 \title{Run mJAM with SuSiE}
 \usage{
 mJAM_SuSiE(
-  marginal.betas = NULL,
-  marginal.se = NULL,
-  EAFs,
+  Marg_Result = NULL,
+  EAF_Result = NULL,
   N_GWAS,
   X_ref,
-  SNP_names = NULL,
-  logORToBeta = FALSE,
-  p_cases = NULL,
-  replace_missing = TRUE,
+  filter_rare = FALSE,
+  rare_freq = NULL,
   SuSiE_num_comp = 10,
   SuSiE_coverage = 0.95,
   SuSiE_min_abs_corr = 0.5,
@@ -22,23 +19,17 @@ mJAM_SuSiE(
 )
 }
 \arguments{
-\item{marginal.betas}{A list of marginal effect estimates from each study/population. The length of the list should be equal to the number of studies.}
+\item{Marg_Result}{A data frame with marginal summary statistics from all studies. Col1: SNP name; Col2: Effect sizes from study #1; Col3: Std Errors of effect sizes from study #1; ...}
 
-\item{marginal.se}{A list of marginal standard error of `marginal.betas` from each study/population.}
-
-\item{EAFs}{A list of effect allele frequencies from each study/population.}
+\item{EAF_Result}{A data frame with effect allele frequency (EAF) from all studies. Col1: SNP name; Col2: EAF from study #1; Col3: EAF from study #2; ...}
 
 \item{N_GWAS}{A vector of sample sizes in all original GWAS studies.}
 
 \item{X_ref}{A list of matrices with individual-level SNP dosage data in each study/population.}
 
-\item{SNP_names}{A character vector of the names of the SNPs. Note that the order of SNP names should be the same as `EAFs`, `X_ref`, `marginal.betas` and `marginal.se`.}
+\item{filter_rare}{A logical variable indicating whether to filter rare SNPs before the analysis. Default is `FALSE.` If `TRUE`, then please specify `rare_freq`.}
 
-\item{logORToBeta}{If `TRUE`, transform the marginal logOR estimates in `marginal.betas` to marginal linear effects.}
-
-\item{p_cases}{(Required if `logORToBeta == TRUE`) The proportion of cases in each study/population, use `c()` to combine.}
-
-\item{replace_missing}{If `TRUE`, then replace missing SNPs with zeros in the summary statistics of the missing study(s). Default is TRUE.}
+\item{rare_freq}{A vector of frequencies between 0 and 0.5 to specify the minor allele frequency cut-off if you want to filter rare SNPs before the analysis. Please also set `filter_rare` to be TRUE. For example, if there are 3 populations, then rare_freq = c(0.01, 0, 0.01) means SNPs with MAF < 0.01 in pop 1 and MAF < 0.01 in pop 3 will be removed from analysis.}
 
 \item{SuSiE_num_comp}{SuSiE argument. The maximum number of causal SNPs that you want to select. Default is 10.}
 
