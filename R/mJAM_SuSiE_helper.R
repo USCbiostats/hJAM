@@ -61,8 +61,10 @@ susie_get_posterior_sd_v2 <- function (res, prior_tol = 1e-09)
 #'    \item{CS_SNP_id}{The names of individual SNPs selected in this credible set.}
 #' }
 
-mJAM_SuSiE_get_cs <- function(susie_fit, SNP_names,
+mJAM_SuSiE_get_cs <- function(susie_fit,susie_pip,
                               coverage = 0.95){
+
+  SNP_names <- rownames(susie_pip)
 
   # cs_output <- susieR::susie_get_cs(susie_fit, coverage = coverage)
   cs_output <- susie_fit$sets
@@ -78,18 +80,21 @@ mJAM_SuSiE_get_cs <- function(susie_fit, SNP_names,
                              CS_size = integer(),index_SNP_id = integer(),
                              CS_SNP_id = integer())
     for(r in 1:length(cs_output$cs)){
+      ## identify index SNP
+      temp_index_id <- rownames(susie_pip[cs_output$cs[[r]],])[which.max(susie_pip[cs_output$cs[[r]],]$pip)]
+      ## pull CS SNPs
       temp_cs_summary <- data.frame(index = names(cs_output$cs)[r],
                                     coverage = cs_output$coverage[r],
                                     CS_size = length(cs_output$cs[[r]]),
-                                    index_SNP_id = cs_output$cs_index[r],
+                                    index_SNP = temp_index_id,
                                     CS_SNP_id = cs_output$cs[[r]]
       )
+      ## concat
       cs_summary <- rbind(cs_summary,temp_cs_summary)
     }
     cs_summary <- cs_summary %>%
-      left_join(data.frame(index_SNP_id = 1:length(SNP_names), index_SNP = SNP_names), by = "index_SNP_id") %>%
       left_join(data.frame(CS_SNP_id = 1:length(SNP_names), CS_SNP = SNP_names), by = "CS_SNP_id") %>%
-      dplyr::select(-c(index_SNP_id,CS_SNP_id))
+      dplyr::select(-c(CS_SNP_id))
 
   }
 
