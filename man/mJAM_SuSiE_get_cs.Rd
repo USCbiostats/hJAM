@@ -4,12 +4,10 @@
 \alias{mJAM_SuSiE_get_cs}
 \title{Get and tidy SuSiE credible sets}
 \usage{
-mJAM_SuSiE_get_cs(susie_fit, SNP_names, coverage = 0.95)
+mJAM_SuSiE_get_cs(mjam_susie_res, coverage = 0.95)
 }
 \arguments{
-\item{susie_fit}{A SuSiE fit object}
-
-\item{SNP_names}{A character vector of the names of the SNPs. Note that the order of SNP names should be the same as `EAFs`, `X_ref`, `marginal.betas` and `marginal.se` in `mJAM_SuSiE()`.}
+\item{mjam_susie_res}{The mJAM-SuSiE result returned from `mJAM_SuSiE()`}
 
 \item{coverage}{A number between 0 and 1 specifying the “coverage” of the estimated confidence sets.}
 }

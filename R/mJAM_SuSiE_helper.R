@@ -43,8 +43,7 @@ susie_get_posterior_sd_v2 <- function (res, prior_tol = 1e-09)
 
 #' Get and tidy SuSiE credible sets
 #'
-#' @param susie_fit A SuSiE fit object
-#' @param SNP_names A character vector of the names of the SNPs. Note that the order of SNP names should be the same as `EAFs`, `X_ref`, `marginal.betas` and `marginal.se` in `mJAM_SuSiE()`.
+#' @param mjam_susie_res The mJAM-SuSiE result returned from `mJAM_SuSiE()`
 #' @param coverage A number between 0 and 1 specifying the “coverage” of the estimated confidence sets.
 #'
 #' @author Jiayi Shen
@@ -61,8 +60,11 @@ susie_get_posterior_sd_v2 <- function (res, prior_tol = 1e-09)
 #'    \item{CS_SNP_id}{The names of individual SNPs selected in this credible set.}
 #' }
 
-mJAM_SuSiE_get_cs <- function(susie_fit,susie_pip,
+mJAM_SuSiE_get_cs <- function(mjam_susie_res,
                               coverage = 0.95){
+
+  susie_fit <- mjam_susie_res$fit
+  susie_pip <- mjam_susie_res$summary
 
   SNP_names <- rownames(susie_pip)
 
@@ -76,17 +78,15 @@ mJAM_SuSiE_get_cs <- function(susie_fit,susie_pip,
                              CS_SNP = "None Selected"
     )
   }else{
-    cs_summary <- data.frame(index = character(),coverage = double(),
-                             CS_size = integer(),index_SNP_id = integer(),
-                             CS_SNP_id = integer())
+    cs_summary <- NULL
     for(r in 1:length(cs_output$cs)){
       ## identify index SNP
-      temp_index_id <- rownames(susie_pip[cs_output$cs[[r]],])[which.max(susie_pip[cs_output$cs[[r]],]$pip)]
-      ## pull CS SNPs
+      temp_index <- rownames(susie_pip[cs_output$cs[[r]],])[which.max(susie_pip[cs_output$cs[[r]],]$pip)]
+      ## pull CS SNP ids
       temp_cs_summary <- data.frame(index = names(cs_output$cs)[r],
                                     coverage = cs_output$coverage[r],
                                     CS_size = length(cs_output$cs[[r]]),
-                                    index_SNP = temp_index_id,
+                                    index_SNP = temp_index,
                                     CS_SNP_id = cs_output$cs[[r]]
       )
       ## concat
