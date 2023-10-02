@@ -71,8 +71,11 @@ mJAM_Forward <- function(N_GWAS, X_ref,
     error("Columns of X_ref are not aligned with each other. \n
         Please make sure SNPs are sorted in the exact order.")
   }
-  if(!identical(Marg_Result$SNP, EAF_Result$SNP, X_ref[[1]])){
-    error("Rows in Marg_Result/EAF_Result are not aligned to X_ref in the exact order.")
+  if(!identical(Marg_Result$SNP, EAF_Result$SNP)){
+    error("Rows in Marg_Result are not aligned to EAF_Result in the exact order.")
+  }
+  if(!identical(Marg_Result$SNP, colnames(X_ref[[1]]))){
+    error("Rows in Marg_Result are not aligned to X_ref in the exact order.")
   }
 
   ## if filter_rare, then remove rare SNPs
