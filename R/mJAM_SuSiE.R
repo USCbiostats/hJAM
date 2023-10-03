@@ -58,12 +58,16 @@ mJAM_SuSiE <- function(Marg_Result = NULL,
 
   ## Check whether columns of X_ref, EAF_Results and Marg_Result are aligned.
   if(!all(sapply(X_ref, function(x) identical(colnames(x), colnames(X_ref[[1]]))))){
-    error("Columns of X_ref are not aligned with each other. \n
+    stop("Columns of X_ref are not aligned with each other. \n
         Please make sure SNPs are sorted in the exact order.")
   }
-  if(!identical(Marg_Result$SNP, EAF_Result$SNP, X_ref[[1]])){
-    error("Rows in Marg_Result/EAF_Result are not aligned to X_ref in the exact order.")
+  if(!identical(Marg_Result$SNP, EAF_Result$SNP)){
+    stop("Rows in Marg_Result are not aligned to EAF_Result in the exact order.")
   }
+  if(!identical(Marg_Result$SNP, colnames(X_ref[[1]]))){
+    stop("Rows in Marg_Result are not aligned to X_ref in the exact order.")
+  }
+
 
   ## if filter_rare, then remove rare SNPs
   if(typeof(filter_rare)!="logical"){

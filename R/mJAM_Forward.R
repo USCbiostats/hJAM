@@ -63,19 +63,19 @@ mJAM_Forward <- function(N_GWAS, X_ref,
   ## Check index_snps is in marker names
   if(!is.null(index_snps) && sum(!(index_snps %in% Marg_Result$SNP))>0){
     not_in_index_snps = index_snps[!(index_snps %in% Marg_Result$SNP)]
-    error(paste0(paste0(not_in_index_snps, collapse = ","), "not found in Marg_Result."))
+    stop(paste0(paste0(not_in_index_snps, collapse = ","), "not found in Marg_Result."))
   }
 
   ## Check whether columns of X_ref, EAF_Results and Marg_Result are aligned.
   if(!all(sapply(X_ref, function(x) identical(colnames(x), colnames(X_ref[[1]]))))){
-    error("Columns of X_ref are not aligned with each other. \n
+    stop("Columns of X_ref are not aligned with each other. \n
         Please make sure SNPs are sorted in the exact order.")
   }
   if(!identical(Marg_Result$SNP, EAF_Result$SNP)){
-    error("Rows in Marg_Result are not aligned to EAF_Result in the exact order.")
+    stop("Rows in Marg_Result are not aligned to EAF_Result in the exact order.")
   }
   if(!identical(Marg_Result$SNP, colnames(X_ref[[1]]))){
-    error("Rows in Marg_Result are not aligned to X_ref in the exact order.")
+    stop("Rows in Marg_Result are not aligned to X_ref in the exact order.")
   }
 
   ## if filter_rare, then remove rare SNPs
