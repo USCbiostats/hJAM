@@ -87,9 +87,9 @@ get_yty <- function(maf, N_outcome, betas, betas.se){
   Dj <- 2*maf*(1-maf)*N_outcome
   Sj2 <- betas.se^2
   yTy.all <- Dj*Sj2*(N_outcome-1)+Dj*betas^2
-  yTy.est <- median(Dj*Sj2*(N_outcome-1)+Dj*betas^2, na.rm = TRUE)
   # yTy.all[is.na(yTy.all)] <- median(Dj*Sj2*(N_outcome-1)+Dj*betas^2, na.rm = TRUE)
   yTy.all[is.na(yTy.all)] <-  0
+  yTy.est <- median(yTy.all, na.rm = TRUE)
 
   return(list(yTy.est = yTy.est, yTy.all = yTy.all))
 }
