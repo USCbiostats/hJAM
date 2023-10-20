@@ -243,7 +243,7 @@ mJAM_get_PrMed <- function(GItGI, GIty,yty, yty_med, N_GWAS, g = NULL,C_id, X_id
   multi_GIty_C <- Reduce("+", GIty_C)
   multi_yty_C <- Reduce("+", yty_C)
 
-  if((!is.null(dim(multi_GItGI_C))) && matrixcalc::is.singular.matrix(multi_GItGI_C)){
+  if((!is.null(dim(multi_GItGI_C))) && matrixcalc::is.singular.matrix(round(multi_GItGI_C,1))){
     ridgeValue <-  min(1,min(diag(multi_GItGI_C)*.001))
     multi_GItGI_C <-  multi_GItGI_C + ridgeValue*diag(dim(multi_GItGI_C)[2])
     message("multi_GItGI_C is singular. Ridge term added.")
@@ -284,7 +284,7 @@ mJAM_get_PrMed <- function(GItGI, GIty,yty, yty_med, N_GWAS, g = NULL,C_id, X_id
   multi_GIty_CX <- Reduce("+", GIty_CX)
   multi_yty_CX <- Reduce("+", yty_CX)
 
-  if((!is.null(dim(multi_GItGI_CX))) && matrixcalc::is.singular.matrix(multi_GItGI_CX)){
+  if((!is.null(dim(multi_GItGI_CX))) && matrixcalc::is.singular.matrix(round(multi_GItGI_CX,1))){
     ridgeValue <-  min(1,min(diag(multi_GItGI_CX)*.001))
     multi_GItGI_CX <-  multi_GItGI_CX + ridgeValue*diag(dim(multi_GItGI_CX)[2])
     message("multi_GItGI_CX is singular. Ridge term added.")

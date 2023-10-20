@@ -46,6 +46,18 @@
 # filter_rare = FALSE
 # rare_freq = NULL
 
+# N_GWAS = N
+# X_ref = ref.region
+# Marg_Result = betase.region
+# EAF_Result = eaf.region
+# condp_cut = gwas.sig.cutoff
+# index_snps = force.include
+# within_pop_threshold = 0.10
+# across_pop_threshold = 0.10
+# coverage = 0.99
+# filter_rare = TRUE
+# rare_freq = rep(0.01, length(ref.region))
+
 mJAM_Forward <- function(N_GWAS, X_ref,
                          Marg_Result, EAF_Result,
                          condp_cut = NULL,
