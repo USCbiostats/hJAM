@@ -27,7 +27,9 @@
 #' }
 #'
 
-mJAM_get_condp = function(GItGI, GIty, yty, yty_med, N_GWAS, g=NULL,selected_id, use_median_yty_ethnic = NULL, rare_id = NULL){
+mJAM_get_condp = function(GItGI, GIty, yty, yty_med, N_GWAS, g=NULL, selected_id,
+                          use_robust_var_est = FALSE,
+                          use_median_yty_ethnic = NULL, rare_id = NULL){
 
   ## --- Specify g
   if(is.null(g)){g <- sum(N_GWAS)}
@@ -67,15 +69,13 @@ mJAM_get_condp = function(GItGI, GIty, yty, yty_med, N_GWAS, g=NULL,selected_id,
       yty_ind[[i]] <- yty[[i]][testing_ids]
       yty_median[[i]] <- rep(yty_med[[i]], length(testing_ids))
       delta[[i]] <- abs(yty_ind[[i]] - yty_median[[i]])
-      # if(i==4){
-      #   w[[i]] <- yty_median[[i]]/(yty_median[[i]]+delta[[i]])
-      # }else{
-      #   w[[i]] <- 0
-      # }
-      # w[[i]] <- yty_median[[i]]/(yty_median[[i]]+delta[[i]])
       w[[i]] <- yty_median[[i]]/(yty_median[[i]]+delta[[i]])
       w[[i]][which(testing_ids %in% rare_id)] <- 1
-      yty_sub[[i]] <- w[[i]]*yty_ind[[i]] + (1-w[[i]])*yty_median[[i]]
+      if(use_robust_var_est){
+        yty_sub[[i]] <- w[[i]]*yty_ind[[i]] + (1-w[[i]])*yty_median[[i]]
+      }else{
+        yty_sub[[i]] <- yty_ind[[i]]
+      }
     }
 
 
@@ -190,6 +190,7 @@ mJAM_get_condp = function(GItGI, GIty, yty, yty_med, N_GWAS, g=NULL,selected_id,
 
 
 mJAM_get_condp_selected = function(GItGI, GIty, yty,yty_med,N_GWAS, g=NULL,selected_id,
+                                   use_robust_var_est = FALSE,
                                    use_median_yty_ethnic = NULL, rare_SNPs = NULL){
 
   ## --- Specify g
@@ -222,7 +223,11 @@ mJAM_get_condp_selected = function(GItGI, GIty, yty,yty_med,N_GWAS, g=NULL,selec
     delta[[i]] <- abs(yty_ind[[i]] - yty_median[[i]])
     w[[i]] <- yty_median[[i]]/(yty_median[[i]]+delta[[i]])
     w[[i]][which(testing_ids %in% rare_SNPs)] <- 1
-    yty_sub[[i]] <- w[[i]]*yty_ind[[i]] + (1-w[[i]])*yty_median[[i]]
+    if(use_robust_var_est){
+      yty_sub[[i]] <- w[[i]]*yty_ind[[i]] + (1-w[[i]])*yty_median[[i]]
+    }else{
+      yty_sub[[i]] <- yty_ind[[i]]
+    }
   }
 
   ## replace yty estimate with median in ethnic groups with large variability in yty estimates
