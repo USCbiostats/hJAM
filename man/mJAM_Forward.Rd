@@ -17,7 +17,7 @@ mJAM_Forward(
   Pr_Med_cut = 0,
   filter_rare = FALSE,
   rare_freq = NULL,
-  filter_unstable_est = TRUE
+  filter_unstable_est = FALSE
 )
 
 mJAM_Forward(
@@ -33,7 +33,7 @@ mJAM_Forward(
   Pr_Med_cut = 0,
   filter_rare = FALSE,
   rare_freq = NULL,
-  filter_unstable_est = TRUE
+  filter_unstable_est = FALSE
 )
 }
 \arguments{
