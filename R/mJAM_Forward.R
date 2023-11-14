@@ -54,9 +54,11 @@
 # index_snps = force.include
 # within_pop_threshold = 0.10
 # across_pop_threshold = 0.10
+# Pr_Med_cut = 0
 # coverage = 0.99
 # filter_rare = TRUE
 # rare_freq = rep(0.01, length(ref.region))
+# filter_unstable_est = TRUE
 
 mJAM_Forward <- function(N_GWAS, X_ref,
                          Marg_Result, EAF_Result,
@@ -67,7 +69,8 @@ mJAM_Forward <- function(N_GWAS, X_ref,
                          coverage = 0.95,
                          Pr_Med_cut = 0,
                          filter_rare = FALSE,
-                         rare_freq = NULL){
+                         rare_freq = NULL,
+                         filter_unstable_est = FALSE){
   ## Set parameters
   N_SNP <- numSNPs <- numSNPs_wo_rare <- nrow(Marg_Result)
   if(is.null(condp_cut)){condp_cut <- 0.05/N_SNP}
@@ -238,6 +241,48 @@ mJAM_Forward <- function(N_GWAS, X_ref,
   GIty_curr <- GIty
   yty_curr <- yty
 
+  ## --- Flag unstable estimates
+  ## get the mJAM marginal estimates
+  if(sum(rare_SNPs %in% Marg_Result$SNP)>0){
+    rare_id = match(rare_SNPs, Marg_Result$SNP)
+    rare_id = rare_id[!is.na(rare_id)]
+  }else{
+    rare_id = NULL
+  }
+  newFS_RES <- mJAM_get_condp(GItGI = GItGI, GIty = GIty, yty = yty,
+                              yty_med = yty_med, N_GWAS = N_GWAS, selected_id = NULL,
+                              use_median_yty_ethnic = NULL, rare_id = rare_id)
+  ## output mJAM marginal p and meta marginal p
+  marginal_est <- tibble(SNP = Marg_Result$SNP,
+                         mJAM_effect = signif(newFS_RES$effect_est, digits = 3),
+                         feMeta_effect = feMeta_mean,
+                         mJAM_se = signif(newFS_RES$se_est, digits = 3),
+                         feMeta_se = feMeta_se) %>%
+    mutate(mJAM_logp = Rmpfr::pnorm(abs(mJAM_effect/mJAM_se),lower.tail = F,log.p = T)+log(2),
+           feMeta_logp = Rmpfr::pnorm(abs(feMeta_effect/feMeta_se),lower.tail = F,log.p = T)+log(2)) %>%
+    mutate(mJAM_log10p = signif(mJAM_logp/log(10), 4),
+           feMeta_log10p = signif(feMeta_logp/log(10),4)) %>%
+    mutate(unstable_est = (abs(mJAM_log10p - feMeta_log10p)>2)&(abs(mJAM_effect - feMeta_effect)/abs(feMeta_effect)>0.5))
+
+  if(filter_unstable_est){
+    unstable_SNPs = marginal_est %>% filter(unstable_est) %>% pull(SNP)
+    ## remove unstable SNPs from analysis
+    if(length(unstable_SNPs)>0){
+      cat("Removed", length(unstable_SNPs), "SNPs with unstable estimates.\n")
+      Marg_Result <- Marg_Result %>% filter(!(SNP %in% unstable_SNPs))
+      subset_EUR <- has_dosage_SNP <- Marg_Result$SNP
+      for(e in 1:numEthnic){
+        GItGI_curr[[e]] <- GItGI[[e]][subset_EUR, subset_EUR]
+        GIty_curr[[e]] <- GIty[[e]][subset_EUR]
+        yty_curr[[e]] <- yty[[e]][subset_EUR]
+        colnames(GItGI_curr[[e]]) <- rownames(GItGI_curr[[e]]) <- subset_EUR
+        names(GIty_curr[[e]]) <- names(yty_curr[[e]]) <- subset_EUR
+        Dosage_cor[[e]] <- Dosage_cor[[e]][has_dosage_SNP,has_dosage_SNP]
+      }
+    }
+  }
+
+
   while(iter_count >= 0){
     ## step 1: select top SNPs in the remaining list
     ## selected_id should be the ID in subset_EUR
@@ -256,20 +301,6 @@ mJAM_Forward <- function(N_GWAS, X_ref,
     newFS_RES <- mJAM_get_condp(GItGI = GItGI_curr, GIty = GIty_curr, yty = yty_curr,
                                 yty_med = yty_med, N_GWAS = N_GWAS, selected_id = Input_id,
                                 use_median_yty_ethnic = NULL, rare_id = rare_id)
-
-    ## output mJAM marginal p and meta marginal p
-    if(iter_count == 0){
-      marginal_est <- tibble(SNP = subset_EUR,
-                             mJAM_effect = signif(newFS_RES$effect_est, digits = 3),
-                             feMeta_effect = feMeta_mean,
-                             mJAM_se = signif(newFS_RES$se_est, digits = 3),
-                             feMeta_se = feMeta_se) %>%
-        mutate(mJAM_logp = Rmpfr::pnorm(abs(mJAM_effect/mJAM_se),lower.tail = F,log.p = T)+log(2),
-               feMeta_logp = Rmpfr::pnorm(abs(feMeta_effect/feMeta_se),lower.tail = F,log.p = T)+log(2)) %>%
-        mutate(mJAM_log10p = signif(mJAM_logp/log(10), 4),
-               feMeta_log10p = signif(feMeta_logp/log(10),4))
-    }
-
 
     ## determine the index SNP of current round
     if(is.null(index_snps)){
