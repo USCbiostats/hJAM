@@ -12,6 +12,7 @@ mJAM_get_condp_selected(
   N_GWAS,
   g = NULL,
   selected_id,
+  use_robust_var_est = FALSE,
   use_median_yty_ethnic = NULL,
   rare_SNPs = NULL
 )
@@ -30,6 +31,8 @@ mJAM_get_condp_selected(
 \item{g}{Hyperparameter in g-prior. If `NULL`, it will be set to `sum(N_GWAS)`.}
 
 \item{selected_id}{A numeric vector of IDs of previously selected index SNP(s).}
+
+\item{use_robust_var_est}{whether to use linear combination of median yty and individual yty.}
 
 \item{use_median_yty_ethnic}{A numeric vector of study index in which median_yty is used for all SNPs in `selected_id`.}
 
