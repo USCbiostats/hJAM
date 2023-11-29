@@ -15,6 +15,7 @@
 #' @param filter_rare A logical variable indicating whether to filter rare SNPs before the analysis. Default is `FALSE.` If `TRUE`, then please specify `rare_freq`.
 #' @param rare_freq A vector of frequencies between 0 and 0.5 to specify the minor allele frequency cut-off if you want to filter rare SNPs before the analysis. Please also set `filter_rare` to be TRUE. For example, if there are 3 populations, then rare_freq = c(0.01, 0, 0.01) means SNPs with MAF < 0.01 in pop 1 and MAF < 0.01 in pop 3 will be removed from analysis.
 #' @param filter_unstable_est whether to filter variants with inconsistent estimate between mJAM and meta-analysis.
+#' @param use_robust_var_est whether to use the robust estimate of residual variance (weighting between median and individual estimates).
 #' @import tibble
 #' @import dplyr
 #'
@@ -70,7 +71,8 @@ mJAM_Forward <- function(N_GWAS, X_ref,
                          Pr_Med_cut = 0,
                          filter_rare = FALSE,
                          rare_freq = NULL,
-                         filter_unstable_est = FALSE){
+                         filter_unstable_est = FALSE,
+                         use_robust_var_est = FALSE){
   ## Set parameters
   N_SNP <- numSNPs <- numSNPs_wo_rare <- nrow(Marg_Result)
   if(is.null(condp_cut)){condp_cut <- 0.05/N_SNP}
@@ -251,6 +253,7 @@ mJAM_Forward <- function(N_GWAS, X_ref,
   }
   newFS_RES <- mJAM_get_condp(GItGI = GItGI, GIty = GIty, yty = yty,
                               yty_med = yty_med, N_GWAS = N_GWAS, selected_id = NULL,
+                              use_robust_var_est = use_robust_var_est,
                               use_median_yty_ethnic = NULL, rare_id = rare_id)
   ## output mJAM marginal p and meta marginal p
   marginal_est <- tibble(SNP = Marg_Result$SNP,
@@ -300,6 +303,7 @@ mJAM_Forward <- function(N_GWAS, X_ref,
     ## get the conditional p-values of all remaining SNPs
     newFS_RES <- mJAM_get_condp(GItGI = GItGI_curr, GIty = GIty_curr, yty = yty_curr,
                                 yty_med = yty_med, N_GWAS = N_GWAS, selected_id = Input_id,
+                                use_robust_var_est = use_robust_var_est,
                                 use_median_yty_ethnic = NULL, rare_id = rare_id)
 
     ## determine the index SNP of current round
@@ -371,6 +375,7 @@ mJAM_Forward <- function(N_GWAS, X_ref,
     final_condp_selected <- mJAM_get_condp_selected(GItGI = GItGI, GIty = GIty, yty = yty,
                                                     N_GWAS = N_GWAS,yty_med = yty_med,
                                                     selected_id = selected_ids,
+                                                    use_robust_var_est = use_robust_var_est,
                                                     rare_SNPs = rare_SNPs)
 
     if(length(selected_ids)>1){

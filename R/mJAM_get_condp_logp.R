@@ -174,7 +174,7 @@ mJAM_get_condp = function(GItGI, GIty, yty, yty_med, N_GWAS, g=NULL, selected_id
 #' @param selected_id A numeric vector of IDs of previously selected index SNP(s).
 #' @param use_median_yty_ethnic A numeric vector of study index in which median_yty is used for all SNPs in `selected_id`.
 #' @param rare_SNPs A character vector for rare SNP(s) which we do not apply weighting. Instead, we use the individual estimate of yty for these SNPs for robustness.
-#' @param use_robust_var_est whether to use linear combination of median yty and individual yty.
+#' @param use_robust_var_est whether to use linear combination of median yty and individual yty. (only for mJAM-Forward)
 #'
 #' @author Jiayi Shen
 #'

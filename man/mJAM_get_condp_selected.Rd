@@ -32,7 +32,7 @@ mJAM_get_condp_selected(
 
 \item{selected_id}{A numeric vector of IDs of previously selected index SNP(s).}
 
-\item{use_robust_var_est}{whether to use linear combination of median yty and individual yty.}
+\item{use_robust_var_est}{whether to use linear combination of median yty and individual yty. (only for mJAM-Forward)}
 
 \item{use_median_yty_ethnic}{A numeric vector of study index in which median_yty is used for all SNPs in `selected_id`.}
 
