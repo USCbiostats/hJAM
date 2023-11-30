@@ -12,6 +12,7 @@
 #' @param prev_X_list A numeric vector of the ID(s) of previously selected index SNP(s).
 #' @param g The pre-specified `g` in `g`-prior formulation.
 #' @param rare_SNPs A numeric vector of ID(s) for rare SNP(s) which we do not apply weighting. Instead, we use the individual estimate of yty for these SNPs for robustness.
+#' @param use_robust_var_est whether to use linear combination of median yty and individual yty.
 #'
 #'
 #' @author Jiayi Shen
@@ -28,7 +29,8 @@
 #' }
 #'
 
-mJAM_get_PrM <- function(GItGI,GIty,yty,yty_med,N_GWAS, C_id,prev_X_list = NULL, g = NULL,rare_SNPs = NULL){
+mJAM_get_PrM <- function(GItGI,GIty,yty,yty_med,N_GWAS, C_id,prev_X_list = NULL, g = NULL,rare_SNPs = NULL,
+                         use_robust_var_est = FALSE){
 
   numEthnic <- length(GItGI)
   if(is.null(g)){g <- sum(N_GWAS)}
@@ -58,9 +60,14 @@ mJAM_get_PrM <- function(GItGI,GIty,yty,yty_med,N_GWAS, C_id,prev_X_list = NULL,
       }else{
         w[[i]] <- yty_med[[i]]/(yty_med[[i]]+delta[[i]])
       }
-      yty_C[[i]] <- w[[i]]*yty[[i]][C_id] + (1-w[[i]])*yty_med[[i]]
-      # yty_C[[i]] <- yty_med[[i]] # (v4.1a)
-      # yty_C[[i]] <-yty[[i]][C_id] # (v4.1c)
+      if(use_robust_var_est){
+        yty_C[[i]] <- w[[i]]*yty[[i]][C_id] + (1-w[[i]])*yty_med[[i]]
+      }else{
+        yty_C[[i]] <-yty[[i]][C_id] # (v4.1c)
+        # yty_C[[i]] <- yty_med[[i]] # (v4.1a)
+      }
+
+
     }
     susie_in_XtX <- Reduce("+", GItGI_C)
     susie_in_Xty <- Reduce("+", GIty_C)
@@ -120,6 +127,8 @@ mJAM_get_PrM <- function(GItGI,GIty,yty,yty_med,N_GWAS, C_id,prev_X_list = NULL,
   return(list(post_prob=post_prob,R2_est = R2_est, n_miss = length(missing_ethnic_idx)))
 }
 
+
+
 #' Get Pr(Model) based on Wald-type model probability
 #'
 #' @description Also apply weighting to get robust estimates of yty
@@ -133,6 +142,7 @@ mJAM_get_PrM <- function(GItGI,GIty,yty,yty_med,N_GWAS, C_id,prev_X_list = NULL,
 #' @param prev_X_list A numeric vector of the ID(s) of previously selected index SNP(s).
 #' @param g The pre-specified `g` in `g`-prior formulation.
 #' @param rare_SNPs A numeric vector of ID(s) for rare SNP(s) which we do not apply weighting. Instead, we use the individual estimate of yty for these SNPs for robustness.
+#' @param use_robust_var_est whether to use linear combination of median yty and individual yty.
 #'
 #'
 #' @author Jiayi Shen
@@ -143,7 +153,8 @@ mJAM_get_PrM <- function(GItGI,GIty,yty,yty_med,N_GWAS, C_id,prev_X_list = NULL,
 #'
 #'
 
-mJAM_get_PrM_Wald <- function(GItGI, GIty, yty, yty_med, N_GWAS, C_id,prev_X_list = NULL, g = NULL, rare_SNPs = NULL){
+mJAM_get_PrM_Wald <- function(GItGI, GIty, yty, yty_med, N_GWAS, C_id,prev_X_list = NULL, g = NULL, rare_SNPs = NULL,
+                              use_robust_var_est = FALSE){
 
   ## C -> Y | previous index SNPs
 
@@ -163,7 +174,12 @@ mJAM_get_PrM_Wald <- function(GItGI, GIty, yty, yty_med, N_GWAS, C_id,prev_X_lis
     }else{
       w[[i]] <- yty_med[[i]]/(yty_med[[i]]+delta[[i]])
     }
-    yty_C[[i]] <- w[[i]]*yty[[i]][C_id] + (1-w[[i]])*yty_med[[i]]
+    if(use_robust_var_est){
+      yty_C[[i]] <- w[[i]]*yty[[i]][C_id] + (1-w[[i]])*yty_med[[i]]
+    }else{
+      yty_C[[i]] <-yty[[i]][C_id] # (v4.1c)
+      # yty_C[[i]] <- yty_med[[i]] # (v4.1a)
+    }
   }
 
   multi_GItGI_C <- Reduce("+", GItGI_C)
@@ -319,6 +335,7 @@ mJAM_get_PrMed <- function(GItGI, GIty,yty, yty_med, N_GWAS, g = NULL,C_id, X_id
 #' @param N_GWAS A vector of sample sizes in all original GWAS studies.
 #' @param rare_SNPs A numeric vector of ID(s) for rare SNP(s) which we do not apply weighting. Instead, we use the individual estimate of yty for these SNPs for robustness.
 #' @param Pr_Med_cut The cutoff for Pr(Mediation); SNPs with Pr(Mediation) smaller than this cutoff will be assigned a Pr(CS) = 0 and thus not included in the credible set for the current index
+#' @param use_robust_var_est whether to use linear combination of median yty and individual yty.
 #'
 #'
 #' @author Jiayi Shen
@@ -341,7 +358,8 @@ mJAM_get_PrMed <- function(GItGI, GIty,yty, yty_med, N_GWAS, g = NULL,C_id, X_id
 #' }
 #'
 mJAM_build_CS <- function(X_id, prev_X_list = NULL,All_id, PrCS_weights = "Pr(M_C)", coverage = 0.95,
-                          GItGI_curr, GIty_curr, yty_curr, yty_med, N_GWAS,rare_SNPs = NULL, Pr_Med_cut = 0.1){
+                          GItGI_curr, GIty_curr, yty_curr, yty_med, N_GWAS,rare_SNPs = NULL, Pr_Med_cut = 0.1,
+                          use_robust_var_est = FALSE){
 
   ###############################################################################################
   ## --- Initiate all variables
@@ -360,7 +378,8 @@ mJAM_build_CS <- function(X_id, prev_X_list = NULL,All_id, PrCS_weights = "Pr(M_
                                  yty = yty_curr, yty_med = yty_med,
                                  N_GWAS = N_GWAS, C_id = X_id,
                                  prev_X_list = prev_X_list, g = sum(N_GWAS),
-                                 rare_SNPs = rare_SNPs)
+                                 rare_SNPs = rare_SNPs,
+                                 use_robust_var_est = use_robust_var_est)
     Post_Model_Prob[X_id] <- Post_CS_Prob[X_id] <- sum_Post_CS_Porb <- Index_Model_Prob <- temp_PrM_res$post_prob
     Post_Model_Prob_Ratio[X_id] <- 1
   }
@@ -368,7 +387,8 @@ mJAM_build_CS <- function(X_id, prev_X_list = NULL,All_id, PrCS_weights = "Pr(M_
     Post_Model_Prob[X_id] <- Post_CS_Prob[X_id] <- sum_Post_CS_Porb <- Index_Model_Prob <-
       mJAM_get_PrM_Wald(GItGI = GItGI_curr, GIty = GIty_curr, yty = yty_curr, yty_med = yty_med,
                         N_GWAS = N_GWAS, C_id = X_id, rare_SNPs = rare_SNPs,
-                        prev_X_list = prev_X_list, g = sum(N_GWAS))
+                        prev_X_list = prev_X_list, g = sum(N_GWAS),
+                        use_robust_var_est = use_robust_var_est)
     Post_Model_Prob_Ratio[X_id] <- 1
   }
 
@@ -388,13 +408,15 @@ mJAM_build_CS <- function(X_id, prev_X_list = NULL,All_id, PrCS_weights = "Pr(M_
                                    yty = yty_curr, yty_med = yty_med,
                                    N_GWAS = N_GWAS, C_id = C_id,
                                    prev_X_list = prev_X_list, g = sum(N_GWAS),
-                                   rare_SNPs = rare_SNPs)
+                                   rare_SNPs = rare_SNPs,
+                                   use_robust_var_est = use_robust_var_est)
       temp_r2 <- temp_PrM_res$post_prob
     }
     if(PrCS_weights == "Pr(Wald)"){
       temp_r2 <- mJAM_get_PrM_Wald(GItGI = GItGI_curr, GIty = GIty_curr, N_GWAS = N_GWAS,
                                    yty = yty_curr, yty_med = yty_med, rare_SNPs = rare_SNPs,
-                                   C_id = C_id, prev_X_list = prev_X_list, g = sum(N_GWAS))
+                                   C_id = C_id, prev_X_list = prev_X_list, g = sum(N_GWAS),
+                                   use_robust_var_est = use_robust_var_est)
     }
     Post_Model_Prob[C_id] <- temp_r2
     Post_Model_Prob_Ratio[C_id] <- as.double(temp_r2 / Index_Model_Prob)
@@ -416,7 +438,7 @@ mJAM_build_CS <- function(X_id, prev_X_list = NULL,All_id, PrCS_weights = "Pr(M_
       mJAM_get_PrM_Wald(GItGI = GItGI_curr, GIty = GIty_curr,
                         yty = yty_curr, yty_med = yty_med, rare_SNPs = rare_SNPs,
                         N_GWAS = N_GWAS, C_id = X_id, prev_X_list = prev_X_list,
-                        g = sum(N_GWAS))
+                        g = sum(N_GWAS), use_robust_var_est = use_robust_var_est)
     Std_CS_Prob[X_id] <- Post_Model_Prob[X_id]/sum_Post_CS_Porb
   }
   if(PrCS_weights == "Pr(M_C)"){
@@ -425,12 +447,13 @@ mJAM_build_CS <- function(X_id, prev_X_list = NULL,All_id, PrCS_weights = "Pr(M_
       mJAM_get_PrM(GItGI = GItGI_curr, GIty = GIty_curr,
                    yty = yty_curr, yty_med = yty_med, rare_SNPs = rare_SNPs,
                    N_GWAS = N_GWAS, C_id = X_id, prev_X_list = prev_X_list,
-                   g = sum(N_GWAS))$post_prob
+                   g = sum(N_GWAS), use_robust_var_est = use_robust_var_est)$post_prob
     Std_CS_Prob[X_id] <-
       as.numeric(mJAM_get_PrM(GItGI = GItGI_curr, GIty = GIty_curr,
                               yty = yty_curr, yty_med = yty_med,rare_SNPs = rare_SNPs,
                               N_GWAS = N_GWAS, C_id = X_id, prev_X_list = prev_X_list,
-                              g = sum(N_GWAS))$post_prob/sum_Post_CS_Porb)
+                              g = sum(N_GWAS),
+                              use_robust_var_est = use_robust_var_est)$post_prob/sum_Post_CS_Porb)
   }
 
   for(C_id in Testing_id){
@@ -439,13 +462,13 @@ mJAM_build_CS <- function(X_id, prev_X_list = NULL,All_id, PrCS_weights = "Pr(M_
       temp_r2 <-  mJAM_get_PrM_Wald(GItGI = GItGI_curr, GIty = GIty_curr,
                                     yty = yty_curr, yty_med = yty_med, rare_SNPs = rare_SNPs,
                                     N_GWAS = N_GWAS, C_id = C_id, prev_X_list = prev_X_list,
-                                    g = sum(N_GWAS))
+                                    g = sum(N_GWAS), use_robust_var_est = use_robust_var_est)
     }
     if(PrCS_weights == "Pr(M_C)"){
       temp_r2 <- mJAM_get_PrM(GItGI = GItGI_curr, GIty = GIty_curr,
                               yty = yty_curr, yty_med = yty_med, rare_SNPs = rare_SNPs,
                               N_GWAS = N_GWAS, C_id = C_id, prev_X_list = prev_X_list,
-                              g = sum(N_GWAS))$post_prob
+                              g = sum(N_GWAS), use_robust_var_est=use_robust_var_est)$post_prob
     }
 
     Post_Model_Prob[C_id] <- temp_r2

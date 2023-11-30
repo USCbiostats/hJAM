@@ -13,7 +13,8 @@ mJAM_get_PrM(
   C_id,
   prev_X_list = NULL,
   g = NULL,
-  rare_SNPs = NULL
+  rare_SNPs = NULL,
+  use_robust_var_est = FALSE
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ mJAM_get_PrM(
 \item{g}{The pre-specified `g` in `g`-prior formulation.}
 
 \item{rare_SNPs}{A numeric vector of ID(s) for rare SNP(s) which we do not apply weighting. Instead, we use the individual estimate of yty for these SNPs for robustness.}
+
+\item{use_robust_var_est}{whether to use linear combination of median yty and individual yty.}
 }
 \value{
 \describe{

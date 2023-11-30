@@ -328,7 +328,8 @@ mJAM_Forward <- function(N_GWAS, X_ref,
                              GItGI_curr = GItGI_curr, GIty_curr = GIty_curr,
                              yty_curr = yty_curr, yty_med = yty_med,
                              N_GWAS = N_GWAS, rare_SNPs = rare_SNPs,
-                             Pr_Med_cut = Pr_Med_cut)
+                             Pr_Med_cut = Pr_Med_cut,
+                             use_robust_var_est = use_robust_var_est)
 
     ## step 3: prune out CS SNPs and SNPs in LD with index SNP; subset input statistics
     curr_CS_snp <- filter(curr_CS, CS_in == T) %>% pull(CS_SNP)

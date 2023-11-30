@@ -16,7 +16,8 @@ mJAM_build_CS(
   yty_med,
   N_GWAS,
   rare_SNPs = NULL,
-  Pr_Med_cut = 0.1
+  Pr_Med_cut = 0.1,
+  use_robust_var_est = FALSE
 )
 }
 \arguments{
@@ -43,6 +44,8 @@ mJAM_build_CS(
 \item{rare_SNPs}{A numeric vector of ID(s) for rare SNP(s) which we do not apply weighting. Instead, we use the individual estimate of yty for these SNPs for robustness.}
 
 \item{Pr_Med_cut}{The cutoff for Pr(Mediation); SNPs with Pr(Mediation) smaller than this cutoff will be assigned a Pr(CS) = 0 and thus not included in the credible set for the current index}
+
+\item{use_robust_var_est}{whether to use linear combination of median yty and individual yty.}
 }
 \value{
 A table with the following columns:
