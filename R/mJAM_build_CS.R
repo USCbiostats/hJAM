@@ -313,6 +313,7 @@ mJAM_get_PrMed <- function(GItGI, GIty,yty, yty_med, N_GWAS, g = NULL,C_id, X_id
 
   med_test_stat <- (C_Y_post_mean[1] - CX_Y_post_mean[2])/sqrt(C_Y_post_var[1,1] + CX_Y_post_var[2,2])
   Post_Med_Prob <- 2*(0.5-pnorm(abs(med_test_stat), lower.tail = F))
+  # Post_Med_Prob <- pchisq(med_test_stat^2, df = 1,lower.tail = TRUE) # equivalent to a chi-sq with df=1
 
   return(list(Post_Med_Prob = Post_Med_Prob,
               Med_Effect_Size = C_Y_post_mean[1] - CX_Y_post_mean[2],
